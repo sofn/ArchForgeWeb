@@ -6,6 +6,7 @@ node_modules
 .next/
 out/
 dist/
+.turbo/
 *.tsbuildinfo
 
 # local env files
