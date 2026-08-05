@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { login as apiLogin, logout as apiLogout, getProfile } from "@/lib/api";
 
 interface AuthUser {
@@ -33,6 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
+  const t = useTranslations("auth");
 
   useEffect(() => {
     const t = localStorage.getItem("token");
@@ -67,6 +69,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const res = await apiLogin(username, password);
     setToken(res.accessToken);
     localStorage.setItem("token", res.accessToken);
+    if (res.tokenName) {
+      localStorage.setItem("tokenName", res.tokenName);
+    }
+    if (res.refreshToken) {
+      localStorage.setItem("refreshToken", res.refreshToken);
+    }
     setUser({
       userId: res.userId,
       username: res.username,
@@ -81,13 +89,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setToken(null);
     setUser(null);
     localStorage.removeItem("token");
+    localStorage.removeItem("tokenName");
+    localStorage.removeItem("refreshToken");
     router.push("/login");
   };
 
   if (isLoading && !isPublicPath(pathname)) {
     return (
       <div className="flex h-screen items-center justify-center text-muted-foreground">
-        加载中...
+        {t("loading")}
       </div>
     );
   }

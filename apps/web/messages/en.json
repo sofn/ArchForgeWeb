@@ -1,0 +1,113 @@
+{
+  "metadata": {
+    "title": "ArchForgeWeb - C-end Demo",
+    "description": "A C-end demo site powered by the ArchForge backend."
+  },
+  "nav": {
+    "home": "Home",
+    "articles": "Articles",
+    "write": "Write",
+    "notifications": "Notifications",
+    "profile": "Profile",
+    "login": "Login",
+    "logout": "Logout"
+  },
+  "locale": {
+    "switch": "Switch language"
+  },
+  "auth": {
+    "loading": "Loading..."
+  },
+  "home": {
+    "greeting_morning": "Good morning",
+    "greeting_afternoon": "Good afternoon",
+    "greeting_evening": "Good evening",
+    "guest": "Guest",
+    "welcome": "Welcome to the ArchForgeWeb dashboard",
+    "metrics_title": "Metrics",
+    "refresh": "Refresh",
+    "userTotal": "Total Users",
+    "onlineNow": "Online Now",
+    "todayLogin": "Today Logins",
+    "todayOperation": "Today Operations",
+    "quickLinks_title": "Quick Links",
+    "notifications": "Notifications",
+    "allArticles": "All Articles",
+    "write": "Write Article",
+    "profile": "Profile",
+    "latestNotices": "Latest Notices",
+    "noNotices": "No notices",
+    "latestLogs": "Recent Logs",
+    "noLogs": "No logs"
+  },
+  "login": {
+    "title": "Login to ArchForgeWeb",
+    "username": "Username",
+    "password": "Password",
+    "submit": "Login",
+    "submitting": "Logging in...",
+    "error_missing": "Please enter username and password",
+    "error_failed": "Login failed"
+  },
+  "profile": {
+    "title": "Profile",
+    "changePassword": "Change Password",
+    "myArticles": "My Articles",
+    "logout": "Logout"
+  },
+  "changePassword": {
+    "title": "Change Password",
+    "oldPassword": "Old Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm New Password",
+    "error_short": "New password must be at least 6 characters",
+    "error_mismatch": "New passwords do not match",
+    "success": "Password changed",
+    "cancel": "Cancel",
+    "save": "Save",
+    "error_failed": "Change failed"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "systemNotices": "System Notices",
+    "noNotices": "No notices",
+    "operationLogs": "Operation Logs",
+    "noLogs": "No logs"
+  },
+  "articles": {
+    "title": "All Articles",
+    "all": "All",
+    "publishTime": "Published at",
+    "myArticles": {
+      "title": "My Articles",
+      "write": "Write Article",
+      "empty": "No articles yet, go write one",
+      "previous": "Previous",
+      "next": "Next"
+    }
+  },
+  "write": {
+    "title": "Write Article",
+    "title_label": "Title",
+    "title_placeholder": "Article title",
+    "category": "Category",
+    "category_placeholder": "Please select",
+    "summary": "Summary",
+    "summary_placeholder": "Optional",
+    "cover": "Cover Image",
+    "content": "Content (Markdown)",
+    "content_placeholder": "Supports Markdown syntax",
+    "insertImage": "Insert Image",
+    "submit": "Publish",
+    "submitting": "Publishing...",
+    "cancel": "Cancel",
+    "error_required": "Please fill in title, category and content",
+    "error_upload": "Image upload failed",
+    "error_insert": "Image insert failed",
+    "error_publish": "Publish failed"
+  },
+  "errors": {
+    "request_failed": "Request failed",
+    "upload_failed": "Upload failed"
+  }
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,17 +16,18 @@ export default function ChangePasswordPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const router = useRouter();
+  const t = useTranslations("changePassword");
 
   const handle = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setSuccess(false);
     if (newPassword.length < 6) {
-      setError("新密码至少 6 位");
+      setError(t("error_short"));
       return;
     }
     if (newPassword !== confirmPassword) {
-      setError("两次输入的新密码不一致");
+      setError(t("error_mismatch"));
       return;
     }
     try {
@@ -35,7 +37,7 @@ export default function ChangePasswordPage() {
       setNewPassword("");
       setConfirmPassword("");
     } catch (err: any) {
-      setError(err.message || "修改失败");
+      setError(err.message || t("error_failed"));
     }
   };
 
@@ -43,30 +45,30 @@ export default function ChangePasswordPage() {
     <div className="mx-auto max-w-sm">
       <Card>
         <CardHeader>
-          <CardTitle>修改密码</CardTitle>
+          <CardTitle>{t("title")}</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handle} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="old">旧密码</Label>
+              <Label htmlFor="old">{t("oldPassword")}</Label>
               <Input id="old" type="password" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="new">新密码</Label>
+              <Label htmlFor="new">{t("newPassword")}</Label>
               <Input id="new" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="confirm">确认新密码</Label>
+              <Label htmlFor="confirm">{t("confirmPassword")}</Label>
               <Input id="confirm" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
             </div>
             {error && <p className="text-sm text-red-600">{error}</p>}
-            {success && <p className="text-sm text-green-600">修改成功</p>}
+            {success && <p className="text-sm text-green-600">{t("success")}</p>}
             <div className="flex gap-2">
               <Button type="button" variant="outline" onClick={() => router.push("/profile")}>
-                取消
+                {t("cancel")}
               </Button>
               <Button type="submit" className="flex-1">
-                保存
+                {t("save")}
               </Button>
             </div>
           </form>

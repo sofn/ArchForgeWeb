@@ -1,0 +1,113 @@
+{
+  "metadata": {
+    "title": "ArchForgeWeb - C 端示例",
+    "description": "基于 ArchForge 后端的 C 端站点。"
+  },
+  "nav": {
+    "home": "首页",
+    "articles": "文章",
+    "write": "写文章",
+    "notifications": "通知",
+    "profile": "我的",
+    "login": "登录",
+    "logout": "退出"
+  },
+  "locale": {
+    "switch": "切换语言"
+  },
+  "auth": {
+    "loading": "加载中..."
+  },
+  "home": {
+    "greeting_morning": "早上好",
+    "greeting_afternoon": "下午好",
+    "greeting_evening": "晚上好",
+    "guest": "访客",
+    "welcome": "欢迎来到 ArchForgeWeb C 端仪表盘",
+    "metrics_title": "运营指标",
+    "refresh": "刷新",
+    "userTotal": "用户总数",
+    "onlineNow": "在线人数",
+    "todayLogin": "今日登录",
+    "todayOperation": "今日操作",
+    "quickLinks_title": "快捷入口",
+    "notifications": "通知中心",
+    "allArticles": "全部文章",
+    "write": "写文章",
+    "profile": "个人中心",
+    "latestNotices": "最新通知",
+    "noNotices": "暂无通知",
+    "latestLogs": "最近操作日志",
+    "noLogs": "暂无日志"
+  },
+  "login": {
+    "title": "登录 ArchForgeWeb",
+    "username": "用户名",
+    "password": "密码",
+    "submit": "登录",
+    "submitting": "登录中...",
+    "error_missing": "请输入用户名和密码",
+    "error_failed": "登录失败"
+  },
+  "profile": {
+    "title": "个人中心",
+    "changePassword": "修改密码",
+    "myArticles": "我的文章",
+    "logout": "退出登录"
+  },
+  "changePassword": {
+    "title": "修改密码",
+    "oldPassword": "旧密码",
+    "newPassword": "新密码",
+    "confirmPassword": "确认新密码",
+    "error_short": "新密码至少 6 位",
+    "error_mismatch": "两次输入的新密码不一致",
+    "success": "修改成功",
+    "cancel": "取消",
+    "save": "保存",
+    "error_failed": "修改失败"
+  },
+  "notifications": {
+    "title": "通知中心",
+    "systemNotices": "系统通知",
+    "noNotices": "暂无通知",
+    "operationLogs": "操作日志",
+    "noLogs": "暂无日志"
+  },
+  "articles": {
+    "title": "全部文章",
+    "all": "全部",
+    "publishTime": "发布时间",
+    "myArticles": {
+      "title": "我的文章",
+      "write": "写文章",
+      "empty": "暂无文章，去写一篇吧",
+      "previous": "上一页",
+      "next": "下一页"
+    }
+  },
+  "write": {
+    "title": "写文章",
+    "title_label": "标题",
+    "title_placeholder": "文章标题",
+    "category": "分类",
+    "category_placeholder": "请选择",
+    "summary": "摘要",
+    "summary_placeholder": "选填",
+    "cover": "封面图",
+    "content": "正文（Markdown）",
+    "content_placeholder": "支持 Markdown 语法",
+    "insertImage": "插入图片",
+    "submit": "发布",
+    "submitting": "发布中...",
+    "cancel": "取消",
+    "error_required": "请填写标题、分类和内容",
+    "error_upload": "图片上传失败",
+    "error_insert": "图片插入失败",
+    "error_publish": "发布失败"
+  },
+  "errors": {
+    "request_failed": "请求失败",
+    "upload_failed": "上传失败"
+  }
+}

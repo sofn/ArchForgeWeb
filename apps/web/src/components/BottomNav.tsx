@@ -2,17 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Home, FileText, User, PenLine } from "lucide-react";
-
-const tabs = [
-  { href: "/", label: "首页", icon: Home },
-  { href: "/articles", label: "文章", icon: FileText },
-  { href: "/write", label: "写文章", icon: PenLine },
-  { href: "/profile", label: "我的", icon: User }
-];
 
 export function BottomNav() {
   const pathname = usePathname();
+  const t = useTranslations("nav");
+
+  const tabs = [
+    { href: "/", label: t("home"), icon: Home },
+    { href: "/articles", label: t("articles"), icon: FileText },
+    { href: "/write", label: t("write"), icon: PenLine },
+    { href: "/profile", label: t("profile"), icon: User }
+  ];
+
   if (pathname === "/login") return null;
 
   return (

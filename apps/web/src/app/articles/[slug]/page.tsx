@@ -1,7 +1,9 @@
 export const dynamic = "force-dynamic";
 
+import { getTranslations } from "next-intl/server";
 import { getArticle } from "@/lib/api";
 import { Markdown } from "@/components/Markdown";
+import { getLocale } from "@/lib/getLocale";
 import Link from "next/link";
 import { formatDateTime } from "@/lib/api";
 import { notFound } from "next/navigation";
@@ -12,6 +14,8 @@ interface ArticlePageProps {
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
+  const locale = await getLocale();
+  const t = await getTranslations({ locale, namespace: "articles" });
   let article;
   try {
     article = await getArticle(slug);
@@ -28,7 +32,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         {article.categoryName}
       </Link>
       <h1 className="mt-2 text-3xl font-bold md:text-4xl">{article.title}</h1>
-      <p className="mt-2 text-sm text-muted-foreground">发布时间：{formatDateTime(article.publishTime)}</p>
+      <p className="mt-2 text-sm text-muted-foreground">{t("publishTime")}：{formatDateTime(article.publishTime)}</p>
       {article.coverImageUrl ? (
         <img src={article.coverImageUrl} alt={article.title} className="mt-6 w-full rounded-xl object-cover" />
       ) : null}

@@ -19,6 +19,8 @@ export interface WebLoginResponse {
   nickname?: string;
   avatar?: string;
   accessToken: string;
+  tokenName?: string;
+  refreshToken?: string;
   expires: string;
 }
 
@@ -111,15 +113,21 @@ function getToken(): string {
   return localStorage.getItem("token") || "";
 }
 
+function getTokenName(): string {
+  if (typeof window === "undefined") return "Authorization";
+  return localStorage.getItem("tokenName") || "Authorization";
+}
+
 async function fetchApi<T>(path: string, options?: RequestInit): Promise<T> {
   const token = getToken();
+  const tokenName = getTokenName();
   const headers: Record<string, string> = { "Content-Type": "application/json" };
-  if (token) headers["Authorization"] = `Bearer ${token}`;
+  if (token) headers[tokenName] = `Bearer ${token}`;
   const res = await fetch(`${API_BASE}${path}`, {
     ...options,
     headers: { ...headers, ...options?.headers }
   });
-  let message = `请求失败: ${res.status}`;
+  let message = `Request failed: ${res.status}`;
   if (!res.ok) {
     try {
       const err = await res.json();
@@ -131,7 +139,7 @@ async function fetchApi<T>(path: string, options?: RequestInit): Promise<T> {
   }
   const json: ApiResponse<T> & { detail?: string } = await res.json();
   if (json.code !== 0) {
-    throw new Error(json.message || json.detail || "请求失败");
+    throw new Error(json.message || json.detail || "Request failed");
   }
   return json.data;
 }
@@ -208,10 +216,11 @@ export async function createArticle(data: WebArticleCreateRequest): Promise<numb
 
 export async function uploadImage(file: File): Promise<FileUploadResponse> {
   const token = getToken();
+  const tokenName = getTokenName();
   const form = new FormData();
   form.append("file", file);
   const headers: Record<string, string> = {};
-  if (token) headers["Authorization"] = `Bearer ${token}`;
+  if (token) headers[tokenName] = `Bearer ${token}`;
   const res = await fetch(`${API_BASE}/web/file/upload`, {
     method: "POST",
     headers,
@@ -219,7 +228,7 @@ export async function uploadImage(file: File): Promise<FileUploadResponse> {
   });
   const json: ApiResponse<FileUploadResponse> & { detail?: string } = await res.json();
   if (!res.ok || json.code !== 0) {
-    throw new Error(json.message || json.detail || "上传失败");
+    throw new Error(json.message || json.detail || "Upload failed");
   }
   return json.data;
 }
@@ -230,7 +239,7 @@ export function getFileUrl(fileId?: number | null): string {
 
 export function formatDateTime(iso?: string): string {
   if (!iso) return "";
-  return new Date(iso).toLocaleString("zh-CN", {
+  return new Date(iso).toLocaleString(undefined, {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",

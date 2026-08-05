@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +21,7 @@ export default function WritePage() {
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
+  const t = useTranslations("write");
 
   useEffect(() => {
     getCategories().then(setCategories);
@@ -34,7 +36,7 @@ export default function WritePage() {
       setCoverPreview(res.url);
       setError("");
     } catch (err: any) {
-      setError(err.message || "图片上传失败");
+      setError(err.message || t("error_upload"));
     }
   };
 
@@ -47,7 +49,7 @@ export default function WritePage() {
       setContent((c) => c + markdown);
       setError("");
     } catch (err: any) {
-      setError(err.message || "图片插入失败");
+      setError(err.message || t("error_insert"));
     }
   };
 
@@ -55,7 +57,7 @@ export default function WritePage() {
     e.preventDefault();
     setError("");
     if (!title || !categoryId || !content) {
-      setError("请填写标题、分类和内容");
+      setError(t("error_required"));
       return;
     }
     setSubmitting(true);
@@ -69,7 +71,7 @@ export default function WritePage() {
       });
       router.push("/articles/me");
     } catch (err: any) {
-      setError(err.message || "发布失败");
+      setError(err.message || t("error_publish"));
     } finally {
       setSubmitting(false);
     }
@@ -79,52 +81,52 @@ export default function WritePage() {
     <div className="mx-auto max-w-3xl">
       <Card>
         <CardHeader>
-          <CardTitle>写文章</CardTitle>
+          <CardTitle>{t("title")}</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="title">标题</Label>
-              <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="文章标题" />
+              <Label htmlFor="title">{t("title_label")}</Label>
+              <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t("title_placeholder")} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="category">分类</Label>
+              <Label htmlFor="category">{t("category")}</Label>
               <select
                 id="category"
                 value={categoryId}
                 onChange={(e) => setCategoryId(e.target.value)}
                 className="flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
               >
-                <option value="">请选择</option>
+                <option value="">{t("category_placeholder")}</option>
                 {categories.map((c) => (
                   <option key={c.id} value={c.id}>{c.name}</option>
                 ))}
               </select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="summary">摘要</Label>
-              <Textarea id="summary" value={summary} onChange={(e) => setSummary(e.target.value)} placeholder="选填" rows={2} />
+              <Label htmlFor="summary">{t("summary")}</Label>
+              <Textarea id="summary" value={summary} onChange={(e) => setSummary(e.target.value)} placeholder={t("summary_placeholder")} rows={2} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="cover">封面图</Label>
+              <Label htmlFor="cover">{t("cover")}</Label>
               <Input id="cover" type="file" accept="image/*" onChange={handleImage} />
               {coverPreview && <img src={coverPreview} alt="cover" className="mt-2 h-32 rounded-lg object-cover" />}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="content">正文（Markdown）</Label>
-              <Textarea id="content" value={content} onChange={(e) => setContent(e.target.value)} rows={12} placeholder="支持 Markdown 语法" />
+              <Label htmlFor="content">{t("content")}</Label>
+              <Textarea id="content" value={content} onChange={(e) => setContent(e.target.value)} rows={12} placeholder={t("content_placeholder")} />
               <Label className="inline-flex cursor-pointer items-center gap-2 text-sm text-primary">
                 <Input type="file" accept="image/*" className="hidden" onChange={handleInsertImage} />
-                插入图片
+                {t("insertImage")}
               </Label>
             </div>
             {error && <p className="text-sm text-red-600">{error}</p>}
             <div className="flex gap-2">
               <Button type="button" variant="outline" onClick={() => router.push("/")}>
-                取消
+                {t("cancel")}
               </Button>
               <Button type="submit" className="flex-1" disabled={submitting}>
-                {submitting ? "发布中..." : "发布"}
+                {submitting ? t("submitting") : t("submit")}
               </Button>
             </div>
           </form>

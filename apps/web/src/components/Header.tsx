@@ -3,22 +3,25 @@
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/components/providers/AuthProvider";
-
-const links = [
-  { href: "/", label: "首页" },
-  { href: "/articles", label: "文章" },
-  { href: "/write", label: "写文章" },
-  { href: "/notifications", label: "通知" },
-  { href: "/profile", label: "我的" }
-];
+import { LocaleSwitcher } from "@/components/LocaleSwitcher";
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const { user, logout } = useAuth();
   const pathname = usePathname();
+  const t = useTranslations("nav");
+
+  const links = [
+    { href: "/", label: t("home") },
+    { href: "/articles", label: t("articles") },
+    { href: "/write", label: t("write") },
+    { href: "/notifications", label: t("notifications") },
+    { href: "/profile", label: t("profile") }
+  ];
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-white/80 backdrop-blur">
@@ -36,10 +39,11 @@ export function Header() {
               {link.label}
             </Link>
           ))}
+          <LocaleSwitcher />
           {user ? (
-            <Button variant="ghost" onClick={logout}>退出</Button>
+            <Button variant="ghost" onClick={logout}>{t("logout")}</Button>
           ) : (
-            <Link href="/login" className="text-foreground hover:text-primary">登录</Link>
+            <Link href="/login" className="text-foreground hover:text-primary">{t("login")}</Link>
           )}
         </nav>
         <Button
@@ -47,7 +51,7 @@ export function Header() {
           size="icon"
           className="md:hidden"
           onClick={() => setOpen(!open)}
-          aria-label="切换菜单"
+          aria-label="Toggle menu"
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </Button>
@@ -64,9 +68,12 @@ export function Header() {
               {link.label}
             </Link>
           ))}
+          <div className="block text-foreground">
+            <LocaleSwitcher />
+          </div>
           {user && (
             <button onClick={() => { setOpen(false); logout(); }} className="block text-foreground">
-              退出
+              {t("logout")}
             </button>
           )}
         </div>

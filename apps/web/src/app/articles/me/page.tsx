@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { ArticleCard } from "@/components/ArticleCard";
 import { getMyArticles, WebArticleSummary } from "@/lib/api";
@@ -13,6 +14,7 @@ export default function MyArticlesPage() {
   const [total, setTotal] = useState(0);
   const pageSize = 12;
   const router = useRouter();
+  const t = useTranslations("articles.myArticles");
 
   useEffect(() => {
     getMyArticles(page, pageSize).then((r) => {
@@ -24,13 +26,13 @@ export default function MyArticlesPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">我的文章</h1>
-        <Button onClick={() => router.push("/write")}>写文章</Button>
+        <h1 className="text-2xl font-bold">{t("title")}</h1>
+        <Button onClick={() => router.push("/write")}>{t("write")}</Button>
       </div>
       {articles.length === 0 ? (
         <Card>
           <CardContent className="py-12 text-center text-muted-foreground">
-            暂无文章，去写一篇吧
+            {t("empty")}
           </CardContent>
         </Card>
       ) : (
@@ -42,10 +44,10 @@ export default function MyArticlesPage() {
       )}
       <div className="flex justify-center gap-2">
         <Button variant="outline" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
-          上一页
+          {t("previous")}
         </Button>
         <Button variant="outline" disabled={page * pageSize >= total} onClick={() => setPage((p) => p + 1)}>
-          下一页
+          {t("next")}
         </Button>
       </div>
     </div>

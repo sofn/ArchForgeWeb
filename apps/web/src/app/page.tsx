@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -35,6 +36,7 @@ export default function HomePage() {
   const [notices, setNotices] = useState<WebNoticeResponse[]>([]);
   const [logs, setLogs] = useState<WebOperationLogResponse[]>([]);
   const [loading, setLoading] = useState(false);
+  const t = useTranslations("home");
 
   const load = async () => {
     setLoading(true);
@@ -54,50 +56,50 @@ export default function HomePage() {
 
   const greeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return "早上好";
-    if (hour < 18) return "下午好";
-    return "晚上好";
+    if (hour < 12) return t("greeting_morning");
+    if (hour < 18) return t("greeting_afternoon");
+    return t("greeting_evening");
   };
 
   return (
     <div className="space-y-8">
       <section className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-10 text-white md:px-12">
         <h1 className="text-3xl font-bold md:text-4xl">
-          {greeting()}，{user?.nickname || user?.username || "访客"}
+          {greeting()}，{user?.nickname || user?.username || t("guest")}
         </h1>
-        <p className="mt-2 text-white/90">欢迎来到 ArchForgeWeb C 端仪表盘</p>
+        <p className="mt-2 text-white/90">{t("welcome")}</p>
       </section>
 
       <section>
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xl font-semibold">运营指标</h2>
+          <h2 className="text-xl font-semibold">{t("metrics_title")}</h2>
           <Button variant="outline" size="sm" onClick={load} disabled={loading}>
             <RefreshCw className={`mr-2 h-4 w-4 ${loading ? "animate-spin" : ""}`} />
-            刷新
+            {t("refresh")}
           </Button>
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <MetricCard title="用户总数" value={metrics?.userTotal} isLoading={loading} />
-          <MetricCard title="在线人数" value={metrics?.onlineNow} isLoading={loading} />
-          <MetricCard title="今日登录" value={metrics?.todayLogin} isLoading={loading} />
-          <MetricCard title="今日操作" value={metrics?.todayOperation} isLoading={loading} />
+          <MetricCard title={t("userTotal")} value={metrics?.userTotal} isLoading={loading} />
+          <MetricCard title={t("onlineNow")} value={metrics?.onlineNow} isLoading={loading} />
+          <MetricCard title={t("todayLogin")} value={metrics?.todayLogin} isLoading={loading} />
+          <MetricCard title={t("todayOperation")} value={metrics?.todayOperation} isLoading={loading} />
         </div>
       </section>
 
       <section>
-        <h2 className="mb-4 text-xl font-semibold">快捷入口</h2>
+        <h2 className="mb-4 text-xl font-semibold">{t("quickLinks_title")}</h2>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           <Link href="/notifications" className="flex items-center gap-3 rounded-xl border border-border bg-white p-4 hover:border-primary hover:text-primary">
-            <Bell className="h-5 w-5" /> <span>通知中心</span>
+            <Bell className="h-5 w-5" /> <span>{t("notifications")}</span>
           </Link>
           <Link href="/articles" className="flex items-center gap-3 rounded-xl border border-border bg-white p-4 hover:border-primary hover:text-primary">
-            <FileText className="h-5 w-5" /> <span>全部文章</span>
+            <FileText className="h-5 w-5" /> <span>{t("allArticles")}</span>
           </Link>
           <Link href="/write" className="flex items-center gap-3 rounded-xl border border-border bg-white p-4 hover:border-primary hover:text-primary">
-            <PenLine className="h-5 w-5" /> <span>写文章</span>
+            <PenLine className="h-5 w-5" /> <span>{t("write")}</span>
           </Link>
           <Link href="/profile" className="flex items-center gap-3 rounded-xl border border-border bg-white p-4 hover:border-primary hover:text-primary">
-            <User className="h-5 w-5" /> <span>个人中心</span>
+            <User className="h-5 w-5" /> <span>{t("profile")}</span>
           </Link>
         </div>
       </section>
@@ -105,7 +107,7 @@ export default function HomePage() {
       <section className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>最新通知</CardTitle>
+            <CardTitle>{t("latestNotices")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {notices.slice(0, 5).map((n) => (
@@ -114,12 +116,12 @@ export default function HomePage() {
                 <div className="text-xs text-muted-foreground">{formatDateTime(n.createTime)}</div>
               </div>
             ))}
-            {notices.length === 0 && <p className="text-sm text-muted-foreground">暂无通知</p>}
+            {notices.length === 0 && <p className="text-sm text-muted-foreground">{t("noNotices")}</p>}
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>最近操作日志</CardTitle>
+            <CardTitle>{t("latestLogs")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {logs.slice(0, 5).map((l) => (
@@ -128,7 +130,7 @@ export default function HomePage() {
                 <div className="text-xs text-muted-foreground">{l.username} · {formatDateTime(l.operatingTime)}</div>
               </div>
             ))}
-            {logs.length === 0 && <p className="text-sm text-muted-foreground">暂无日志</p>}
+            {logs.length === 0 && <p className="text-sm text-muted-foreground">{t("noLogs")}</p>}
           </CardContent>
         </Card>
       </section>

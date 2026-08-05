@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,10 +9,11 @@ import { Lock, FileText, LogOut } from "lucide-react";
 
 export default function ProfilePage() {
   const { user, logout } = useAuth();
+  const t = useTranslations("profile");
 
   return (
     <div className="mx-auto max-w-md space-y-6">
-      <h1 className="text-2xl font-bold">个人中心</h1>
+      <h1 className="text-2xl font-bold">{t("title")}</h1>
       <Card>
         <CardHeader className="flex flex-row items-center gap-4">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground">
@@ -27,16 +29,16 @@ export default function ProfilePage() {
             href="/change-password"
             className="flex items-center gap-3 rounded-lg border p-3 hover:border-primary"
           >
-            <Lock className="h-5 w-5" /> 修改密码
+            <Lock className="h-5 w-5" /> {t("changePassword")}
           </Link>
           <Link
             href="/articles/me"
             className="flex items-center gap-3 rounded-lg border p-3 hover:border-primary"
           >
-            <FileText className="h-5 w-5" /> 我的文章
+            <FileText className="h-5 w-5" /> {t("myArticles")}
           </Link>
           <Button variant="outline" onClick={logout} className="w-full justify-start gap-3">
-            <LogOut className="h-5 w-5" /> 退出登录
+            <LogOut className="h-5 w-5" /> {t("logout")}
           </Button>
         </CardContent>
       </Card>
