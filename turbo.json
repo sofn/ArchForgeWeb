@@ -10,6 +10,18 @@
       "persistent": true
     },
     "typecheck": {},
-    "lint": {}
+    "lint": {},
+    "test:e2e": {
+      "cache": false,
+      "persistent": false
+    },
+    "storybook": {
+      "cache": false,
+      "persistent": true
+    },
+    "build-storybook": {
+      "dependsOn": ["^build"],
+      "outputs": ["storybook-static/**"]
+    }
   }
 }

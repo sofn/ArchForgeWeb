@@ -8,6 +8,12 @@ out/
 dist/
 .turbo/
 *.tsbuildinfo
+storybook-static/
+
+# test outputs
+test-results/
+playwright-report/
+playwright/.cache/
 
 # local env files
 .env*.local
