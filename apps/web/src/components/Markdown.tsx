@@ -4,7 +4,48 @@ import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
+import { isAllowedImageUrl } from "@/lib/image";
 import "highlight.js/styles/github.css";
+
+function MarkdownImage({ src, alt }: { src?: string; alt?: string }) {
+  const imageSrc = typeof src === "string" ? src : "";
+  const imageAlt = typeof alt === "string" ? alt : "";
+
+  if (!imageSrc) return null;
+
+  if (isAllowedImageUrl(imageSrc)) {
+    return (
+      <span className="relative my-4 block min-h-[200px] w-full">
+        <Image
+          src={imageSrc}
+          alt={imageAlt}
+          fill
+          sizes="(max-width: 768px) 100vw, 800px"
+          className="rounded-lg object-contain"
+          loading="lazy"
+          decoding="async"
+          referrerPolicy="no-referrer"
+        />
+      </span>
+    );
+  }
+
+  return (
+    <span className="relative my-4 block min-h-[200px] w-full">
+      <Image
+        src={imageSrc}
+        alt={imageAlt}
+        fill
+        sizes="(max-width: 768px) 100vw, 800px"
+        className="rounded-lg object-contain"
+        loading="lazy"
+        decoding="async"
+        referrerPolicy="no-referrer"
+        unoptimized
+      />
+    </span>
+  );
+}
 
 export function Markdown({ content }: { content: string }) {
   return (
@@ -15,21 +56,7 @@ export function Markdown({ content }: { content: string }) {
         img: ({ src, alt }) => {
           const imageSrc = typeof src === "string" ? src : "";
           const imageAlt = typeof alt === "string" ? alt : "";
-          return (
-            <span className="relative my-4 block min-h-[200px] w-full">
-              <Image
-                src={imageSrc}
-                alt={imageAlt}
-                fill
-                sizes="(max-width: 768px) 100vw, 800px"
-                className="rounded-lg object-contain"
-                loading="lazy"
-                decoding="async"
-                referrerPolicy="no-referrer"
-                unoptimized
-              />
-            </span>
-          );
+          return <MarkdownImage src={imageSrc} alt={imageAlt} />;
         },
         h1: ({ children }) => <h1 className="mt-8 mb-4 text-3xl font-bold">{children}</h1>,
         h2: ({ children }) => <h2 className="mt-6 mb-3 text-2xl font-semibold">{children}</h2>,

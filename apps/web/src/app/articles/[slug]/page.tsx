@@ -44,7 +44,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             fill
             sizes="(max-width: 768px) 100vw, 800px"
             className="object-cover"
-            unoptimized
             priority
           />
         </div>

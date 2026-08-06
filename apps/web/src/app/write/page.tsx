@@ -156,7 +156,6 @@ export default function WritePage() {
                     fill
                     sizes="256px"
                     className="object-cover"
-                    unoptimized
                   />
                 </div>
               )}

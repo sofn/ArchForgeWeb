@@ -26,7 +26,6 @@ const apiRemotePattern = getApiRemotePattern();
 
 const nextConfig: NextConfig = {
   images: {
-    unoptimized: true,
     remotePatterns: apiRemotePattern ? [apiRemotePattern] : [],
   },
   experimental: {
