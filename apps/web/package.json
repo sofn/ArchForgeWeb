@@ -2,11 +2,15 @@
   "name": "@archforge/web",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.19.0",
+    "pnpm": ">=9.0.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
@@ -29,6 +33,8 @@
     "tailwind-merge": "3.6.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.6",
+    "@eslint/js": "^10.0.1",
     "@playwright/test": "1.61.1",
     "@storybook/addon-essentials": "8.6.18",
     "@storybook/addon-interactions": "8.6.18",
@@ -39,10 +45,13 @@
     "@types/node": "26.1.2",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
     "postcss": "8.5.25",
     "storybook": "8.6.18",
     "tailwindcss": "4.3.3",
-    "typescript": "7.0.2",
+    "typescript": "5.8.3",
     "vite": "5.4.21"
   }
 }

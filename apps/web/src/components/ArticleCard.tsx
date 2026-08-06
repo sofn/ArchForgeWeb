@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { WebArticleSummary, formatDateTime } from "@/lib/api";
@@ -7,11 +8,14 @@ export function ArticleCard({ article }: { article: WebArticleSummary }) {
     <Link href={`/articles/${encodeURIComponent(article.slug)}`} className="block group">
       <Card className="h-full transition-shadow hover:shadow-md overflow-hidden">
         {article.coverImageUrl ? (
-          <div className="aspect-video w-full overflow-hidden">
-            <img
+          <div className="relative aspect-video w-full overflow-hidden">
+            <Image
               src={article.coverImageUrl}
               alt={article.title}
-              className="h-full w-full object-cover transition-transform group-hover:scale-105"
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover transition-transform group-hover:scale-105"
+              unoptimized
             />
           </div>
         ) : null}

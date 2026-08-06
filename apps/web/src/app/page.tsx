@@ -35,11 +35,10 @@ export default function HomePage() {
   const [metrics, setMetrics] = useState<WebDashboardMetricsResponse | null>(null);
   const [notices, setNotices] = useState<WebNoticeResponse[]>([]);
   const [logs, setLogs] = useState<WebOperationLogResponse[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const t = useTranslations("home");
 
-  const load = async () => {
-    setLoading(true);
+  const fetchData = async () => {
     try {
       const [m, n, l] = await Promise.all([getMetrics(), getNotices(), getOperationLogs()]);
       setMetrics(m);
@@ -50,8 +49,13 @@ export default function HomePage() {
     }
   };
 
+  const load = () => {
+    setLoading(true);
+    fetchData();
+  };
+
   useEffect(() => {
-    load();
+    fetchData();
   }, []);
 
   const greeting = () => {

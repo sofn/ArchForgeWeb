@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { getArticle } from "@/lib/api";
 import { Markdown } from "@/components/Markdown";
@@ -34,7 +35,17 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <h1 className="mt-2 text-3xl font-bold md:text-4xl">{article.title}</h1>
       <p className="mt-2 text-sm text-muted-foreground">{t("publishTime")}：{formatDateTime(article.publishTime)}</p>
       {article.coverImageUrl ? (
-        <img src={article.coverImageUrl} alt={article.title} className="mt-6 w-full rounded-xl object-cover" />
+        <div className="relative mt-6 aspect-video w-full overflow-hidden rounded-xl">
+          <Image
+            src={article.coverImageUrl}
+            alt={article.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 800px"
+            className="object-cover"
+            unoptimized
+            priority
+          />
+        </div>
       ) : null}
       {article.summary ? (
         <p className="mt-6 rounded-lg border-l-4 border-primary bg-slate-100 p-4 text-slate-700">

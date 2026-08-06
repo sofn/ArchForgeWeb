@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { login as apiLogin, logout as apiLogout, getProfile } from "@/lib/api";
+import { login as apiLogin, logout as apiLogout, getProfile, setAuthCookies, clearAuthCookies } from "@/lib/api";
 
 interface AuthUser {
   userId: number;
@@ -28,36 +28,41 @@ function isPublicPath(path: string) {
   return path === "/login" || path === "/articles" || isPublicArticleDetail;
 }
 
+function readStoredToken(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem("token");
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(readStoredToken());
   const [user, setUser] = useState<AuthUser | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(Boolean(readStoredToken()));
   const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations("auth");
 
   useEffect(() => {
-    const t = localStorage.getItem("token");
-    if (t) {
-      setToken(t);
-      getProfile()
-        .then((profile) => {
-          setUser({
-            userId: profile.userId,
-            username: profile.username,
-            nickname: profile.nickname,
-            avatar: profile.avatar
-          });
-        })
-        .catch(() => {
-          localStorage.removeItem("token");
-          setToken(null);
-        })
-        .finally(() => setIsLoading(false));
-    } else {
+    if (!token) {
       setIsLoading(false);
+      return;
     }
-  }, []);
+    getProfile()
+      .then((profile) => {
+        setUser({
+          userId: profile.userId,
+          username: profile.username,
+          nickname: profile.nickname,
+          avatar: profile.avatar
+        });
+      })
+      .catch(() => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("tokenName");
+        localStorage.removeItem("refreshToken");
+        setToken(null);
+      })
+      .finally(() => setIsLoading(false));
+  }, [token]);
 
   useEffect(() => {
     if (!isLoading && !token && !isPublicPath(pathname)) {
@@ -67,14 +72,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (username: string, password: string) => {
     const res = await apiLogin(username, password);
+    const tokenName = res.tokenName || "Authorization";
     setToken(res.accessToken);
     localStorage.setItem("token", res.accessToken);
-    if (res.tokenName) {
-      localStorage.setItem("tokenName", res.tokenName);
-    }
+    localStorage.setItem("tokenName", tokenName);
     if (res.refreshToken) {
       localStorage.setItem("refreshToken", res.refreshToken);
     }
+    setAuthCookies(res.accessToken, tokenName);
     setUser({
       userId: res.userId,
       username: res.username,
@@ -84,13 +89,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     router.push("/");
   };
 
-  const logout = () => {
-    apiLogout().catch(() => {});
+  const logout = async () => {
+    try {
+      await apiLogout();
+    } catch {
+      // ignore backend errors, still clear local state
+    }
     setToken(null);
     setUser(null);
     localStorage.removeItem("token");
     localStorage.removeItem("tokenName");
     localStorage.removeItem("refreshToken");
+    clearAuthCookies();
     router.push("/login");
   };
 

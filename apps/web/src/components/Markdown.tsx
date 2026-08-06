@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
@@ -11,9 +12,22 @@ export function Markdown({ content }: { content: string }) {
       remarkPlugins={[remarkGfm]}
       rehypePlugins={[rehypeHighlight]}
       components={{
-        img: ({ src, alt, ...props }) => (
-          <img src={src} alt={alt} className="my-4 max-w-full rounded-lg" {...props} />
-        ),
+        img: ({ src, alt }) => {
+          const imageSrc = typeof src === "string" ? src : "";
+          const imageAlt = typeof alt === "string" ? alt : "";
+          return (
+            <span className="relative my-4 block min-h-[200px] w-full">
+              <Image
+                src={imageSrc}
+                alt={imageAlt}
+                fill
+                sizes="(max-width: 768px) 100vw, 800px"
+                className="rounded-lg object-contain"
+                unoptimized
+              />
+            </span>
+          );
+        },
         h1: ({ children }) => <h1 className="mb-4 mt-8 text-3xl font-bold">{children}</h1>,
         h2: ({ children }) => <h2 className="mb-3 mt-6 text-2xl font-semibold">{children}</h2>,
         h3: ({ children }) => <h3 className="mb-2 mt-5 text-xl font-semibold">{children}</h3>,

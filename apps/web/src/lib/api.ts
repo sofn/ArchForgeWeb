@@ -108,23 +108,52 @@ export interface FileUploadResponse {
   name: string;
 }
 
+function getCookie(name: string): string | null {
+  if (typeof document === "undefined") return null;
+  const entry = document.cookie.split("; ").find((row) => row.startsWith(`${name}=`));
+  return entry ? decodeURIComponent(entry.split("=")[1]) : null;
+}
+
 function getToken(): string {
   if (typeof window === "undefined") return "";
-  return localStorage.getItem("token") || "";
+  return localStorage.getItem("token") || getCookie("token") || "";
 }
 
 function getTokenName(): string {
   if (typeof window === "undefined") return "Authorization";
-  return localStorage.getItem("tokenName") || "Authorization";
+  return localStorage.getItem("tokenName") || getCookie("tokenName") || "Authorization";
+}
+
+export function setAuthCookies(token: string, tokenName: string) {
+  if (typeof document === "undefined") return;
+  const secure = window.location.protocol === "https:" ? "; Secure" : "";
+  document.cookie = `token=${encodeURIComponent(token)}; path=/; SameSite=Lax${secure}`;
+  if (tokenName) {
+    document.cookie = `tokenName=${encodeURIComponent(tokenName)}; path=/; SameSite=Lax${secure}`;
+  }
+}
+
+export function clearAuthCookies() {
+  if (typeof document === "undefined") return;
+  document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax";
+  document.cookie = "tokenName=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax";
+}
+
+function buildAuthHeader(token: string, tokenName: string): string {
+  if (tokenName.toLowerCase() === "authorization") {
+    return `Bearer ${token}`;
+  }
+  return token;
 }
 
 async function fetchApi<T>(path: string, options?: RequestInit): Promise<T> {
   const token = getToken();
   const tokenName = getTokenName();
   const headers: Record<string, string> = { "Content-Type": "application/json" };
-  if (token) headers[tokenName] = `Bearer ${token}`;
+  if (token) headers[tokenName] = buildAuthHeader(token, tokenName);
   const res = await fetch(`${API_BASE}${path}`, {
     ...options,
+    credentials: "include",
     headers: { ...headers, ...options?.headers }
   });
   let message = `Request failed: ${res.status}`;
@@ -220,9 +249,10 @@ export async function uploadImage(file: File): Promise<FileUploadResponse> {
   const form = new FormData();
   form.append("file", file);
   const headers: Record<string, string> = {};
-  if (token) headers[tokenName] = `Bearer ${token}`;
+  if (token) headers[tokenName] = buildAuthHeader(token, tokenName);
   const res = await fetch(`${API_BASE}/web/file/upload`, {
     method: "POST",
+    credentials: "include",
     headers,
     body: form
   });

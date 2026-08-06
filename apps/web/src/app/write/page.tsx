@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
@@ -110,7 +111,11 @@ export default function WritePage() {
             <div className="space-y-2">
               <Label htmlFor="cover">{t("cover")}</Label>
               <Input id="cover" type="file" accept="image/*" onChange={handleImage} />
-              {coverPreview && <img src={coverPreview} alt="cover" className="mt-2 h-32 rounded-lg object-cover" />}
+              {coverPreview && (
+                <div className="relative mt-2 h-32 w-64 overflow-hidden rounded-lg">
+                  <Image src={coverPreview} alt="cover" fill sizes="256px" className="object-cover" unoptimized />
+                </div>
+              )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="content">{t("content")}</Label>
