@@ -198,7 +198,7 @@ async function doRefresh(): Promise<void> {
   if (data.refreshToken) {
     localStorage.setItem("refreshToken", data.refreshToken);
   }
-  setAuthCookies(data.accessToken, tokenName);
+  setAuthCookies(data.accessToken, tokenName, data.refreshToken);
 }
 
 async function refreshAccessToken(): Promise<void> {
@@ -271,8 +271,11 @@ export async function login(username: string, password: string): Promise<WebLogi
   });
 }
 
-export async function logout(): Promise<boolean> {
-  return fetchApi<boolean>("/web/logout", { method: "POST" });
+export async function logout(refreshToken?: string | null): Promise<boolean> {
+  return fetchApi<boolean>("/web/logout", {
+    method: "POST",
+    body: JSON.stringify(refreshToken ? { refreshToken } : {}),
+  });
 }
 
 export async function getProfile(): Promise<WebUserProfileResponse> {

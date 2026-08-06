@@ -111,8 +111,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = async () => {
+    const refreshToken =
+      (typeof window !== "undefined" && localStorage.getItem("refreshToken")) || getCookie("refreshToken");
     try {
-      await apiLogout();
+      await apiLogout(refreshToken);
     } catch {
       // ignore backend errors, still clear local state
     }
