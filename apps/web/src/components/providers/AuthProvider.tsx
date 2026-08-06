@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { login as apiLogin, logout as apiLogout, getProfile, setAuthCookies, clearAuthCookies } from "@/lib/api";
+import { login as apiLogin, logout as apiLogout, getProfile, getCookie, setAuthCookies, clearAuthCookies } from "@/lib/api";
 
 interface AuthUser {
   userId: number;
@@ -30,7 +30,7 @@ function isPublicPath(path: string) {
 
 function readStoredToken(): string | null {
   if (typeof window === "undefined") return null;
-  return localStorage.getItem("token");
+  return localStorage.getItem("token") || getCookie("token");
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {

@@ -108,7 +108,7 @@ export interface FileUploadResponse {
   name: string;
 }
 
-function getCookie(name: string): string | null {
+export function getCookie(name: string): string | null {
   if (typeof document === "undefined") return null;
   const entry = document.cookie.split("; ").find((row) => row.startsWith(`${name}=`));
   return entry ? decodeURIComponent(entry.split("=")[1]) : null;
