@@ -36,8 +36,8 @@ export default function ChangePasswordPage() {
       setOldPassword("");
       setNewPassword("");
       setConfirmPassword("");
-    } catch (err: any) {
-      setError(err.message || t("error_failed"));
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : t("error_failed"));
     }
   };
 
@@ -53,7 +53,9 @@ export default function ChangePasswordPage() {
               <Label htmlFor="old">{t("oldPassword")}</Label>
               <Input
                 id="old"
+                name="old-password"
                 type="password"
+                autoComplete="current-password"
                 value={oldPassword}
                 onChange={(e) => setOldPassword(e.target.value)}
               />
@@ -62,7 +64,9 @@ export default function ChangePasswordPage() {
               <Label htmlFor="new">{t("newPassword")}</Label>
               <Input
                 id="new"
+                name="new-password"
                 type="password"
+                autoComplete="new-password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
               />
@@ -71,7 +75,9 @@ export default function ChangePasswordPage() {
               <Label htmlFor="confirm">{t("confirmPassword")}</Label>
               <Input
                 id="confirm"
+                name="confirm-password"
                 type="password"
+                autoComplete="new-password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />

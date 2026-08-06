@@ -8,8 +8,8 @@ import {
   getOperationLogs,
   WebNoticeResponse,
   WebOperationLogResponse,
-  formatDateTime,
 } from "@/lib/api";
+import { formatDateTime } from "@/lib/date";
 
 export default function NotificationsPage() {
   const [notices, setNotices] = useState<WebNoticeResponse[]>([]);

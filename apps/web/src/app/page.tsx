@@ -12,8 +12,8 @@ import {
   WebDashboardMetricsResponse,
   WebNoticeResponse,
   WebOperationLogResponse,
-  formatDateTime,
 } from "@/lib/api";
+import { formatDateTime } from "@/lib/date";
 import { RefreshCw, Bell, FileText, PenLine, User } from "lucide-react";
 import Link from "next/link";
 

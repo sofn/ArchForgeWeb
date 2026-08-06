@@ -23,6 +23,9 @@ export function Markdown({ content }: { content: string }) {
                 fill
                 sizes="(max-width: 768px) 100vw, 800px"
                 className="rounded-lg object-contain"
+                loading="lazy"
+                decoding="async"
+                referrerPolicy="no-referrer"
                 unoptimized
               />
             </span>

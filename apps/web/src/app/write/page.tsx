@@ -28,29 +28,53 @@ export default function WritePage() {
     getCategories().then(setCategories);
   }, []);
 
+  const MAX_IMAGE_SIZE = 10 * 1024 * 1024;
+  const ALLOWED_IMAGE_TYPES = new Set([
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/gif",
+    "image/bmp",
+    "image/svg+xml",
+  ]);
+
+  const validateImageFile = (file: File): boolean => {
+    if (file.size > MAX_IMAGE_SIZE) {
+      setError(t("error_file_too_large"));
+      return false;
+    }
+    if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
+      setError(t("error_file_type"));
+      return false;
+    }
+    return true;
+  };
+
   const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (!validateImageFile(file)) return;
     try {
       const res = await uploadImage(file);
       setCoverFileId(res.fileId);
       setCoverPreview(res.url);
       setError("");
-    } catch (err: any) {
-      setError(err.message || t("error_upload"));
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : t("error_upload"));
     }
   };
 
   const handleInsertImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (!validateImageFile(file)) return;
     try {
       const res = await uploadImage(file);
       const markdown = `![${res.name}](${res.url})\n`;
       setContent((c) => c + markdown);
       setError("");
-    } catch (err: any) {
-      setError(err.message || t("error_insert"));
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : t("error_insert"));
     }
   };
 
@@ -71,8 +95,8 @@ export default function WritePage() {
         coverImageFileId: coverFileId ?? undefined,
       });
       router.push("/articles/me");
-    } catch (err: any) {
-      setError(err.message || t("error_publish"));
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : t("error_publish"));
     } finally {
       setSubmitting(false);
     }
@@ -156,12 +180,21 @@ export default function WritePage() {
                 {t("insertImage")}
               </Label>
             </div>
-            {error && <p className="text-sm text-red-600">{error}</p>}
+            {error && (
+              <p id="write-error" role="alert" className="text-sm text-red-600">
+                {error}
+              </p>
+            )}
             <div className="flex gap-2">
               <Button type="button" variant="outline" onClick={() => router.push("/")}>
                 {t("cancel")}
               </Button>
-              <Button type="submit" className="flex-1" disabled={submitting}>
+              <Button
+                type="submit"
+                className="flex-1"
+                disabled={submitting}
+                aria-describedby={error ? "write-error" : undefined}
+              >
                 {submitting ? t("submitting") : t("submit")}
               </Button>
             </div>

@@ -26,8 +26,8 @@ export default function LoginPage() {
     setSubmitting(true);
     try {
       await login(username, password);
-    } catch (err: any) {
-      setError(err.message || t("error_failed"));
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : t("error_failed"));
     } finally {
       setSubmitting(false);
     }
@@ -45,6 +45,8 @@ export default function LoginPage() {
               <Label htmlFor="username">{t("username")}</Label>
               <Input
                 id="username"
+                name="username"
+                autoComplete="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="admin"
@@ -54,7 +56,9 @@ export default function LoginPage() {
               <Label htmlFor="password">{t("password")}</Label>
               <Input
                 id="password"
+                name="password"
                 type="password"
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="******"

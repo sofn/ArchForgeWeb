@@ -104,7 +104,9 @@
     "error_required": "Please fill in title, category and content",
     "error_upload": "Image upload failed",
     "error_insert": "Image insert failed",
-    "error_publish": "Publish failed"
+    "error_publish": "Publish failed",
+    "error_file_too_large": "Image size exceeds 10MB limit",
+    "error_file_type": "Only JPEG, PNG, WebP, GIF, BMP and SVG images are allowed"
   },
   "errors": {
     "request_failed": "Request failed",

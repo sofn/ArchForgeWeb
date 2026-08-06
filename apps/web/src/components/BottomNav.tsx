@@ -28,6 +28,7 @@ export function BottomNav() {
             <Link
               key={tab.href}
               href={tab.href}
+              aria-current={active ? "page" : undefined}
               className={`flex flex-col items-center gap-1 py-3 text-xs ${active ? "text-primary" : "text-muted-foreground"}`}
             >
               <Icon className="h-5 w-5" />

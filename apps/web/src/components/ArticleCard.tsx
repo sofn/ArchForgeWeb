@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { WebArticleSummary, formatDateTime } from "@/lib/api";
+import { WebArticleSummary } from "@/lib/api";
+import { formatDateTime } from "@/lib/date";
 
 export function ArticleCard({ article }: { article: WebArticleSummary }) {
   return (

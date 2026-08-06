@@ -6,7 +6,7 @@ import { getArticle } from "@/lib/api";
 import { Markdown } from "@/components/Markdown";
 import { getLocale } from "@/lib/getLocale";
 import Link from "next/link";
-import { formatDateTime } from "@/lib/api";
+import { formatDateTime } from "@/lib/date";
 import { notFound } from "next/navigation";
 
 interface ArticlePageProps {

@@ -104,7 +104,9 @@
     "error_required": "请填写标题、分类和内容",
     "error_upload": "图片上传失败",
     "error_insert": "图片插入失败",
-    "error_publish": "发布失败"
+    "error_publish": "发布失败",
+    "error_file_too_large": "图片大小不能超过 10MB",
+    "error_file_type": "仅支持 JPEG、PNG、WebP、GIF、BMP 和 SVG 图片"
   },
   "errors": {
     "request_failed": "请求失败",
