@@ -28,9 +28,6 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: apiRemotePattern ? [apiRemotePattern] : [],
   },
-  experimental: {
-    useTypeScriptCli: true,
-  },
 };
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
