@@ -30,6 +30,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Audit dependencies
+        run: pnpm audit --registry=https://registry.npmjs.org/ --audit-level=moderate
+        continue-on-error: true
+
       - name: Typecheck
         run: pnpm typecheck
 
