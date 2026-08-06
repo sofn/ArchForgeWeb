@@ -110,6 +110,9 @@
   },
   "errors": {
     "request_failed": "请求失败",
-    "upload_failed": "上传失败"
+    "upload_failed": "上传失败",
+    "title": "出错了",
+    "description": "页面加载时发生错误",
+    "retry": "重试"
   }
 }

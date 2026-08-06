@@ -110,6 +110,9 @@
   },
   "errors": {
     "request_failed": "Request failed",
-    "upload_failed": "Upload failed"
+    "upload_failed": "Upload failed",
+    "title": "Something went wrong",
+    "description": "An error occurred while loading the page",
+    "retry": "Try again"
   }
 }
