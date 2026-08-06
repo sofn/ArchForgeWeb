@@ -68,7 +68,7 @@ export default function WritePage() {
         title,
         summary,
         content,
-        coverImageFileId: coverFileId ?? undefined
+        coverImageFileId: coverFileId ?? undefined,
       });
       router.push("/articles/me");
     } catch (err: any) {
@@ -88,7 +88,12 @@ export default function WritePage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="title">{t("title_label")}</Label>
-              <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t("title_placeholder")} />
+              <Input
+                id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder={t("title_placeholder")}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="category">{t("category")}</Label>
@@ -96,32 +101,58 @@ export default function WritePage() {
                 id="category"
                 value={categoryId}
                 onChange={(e) => setCategoryId(e.target.value)}
-                className="flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                className="border-border bg-background focus:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm focus:ring-2 focus:outline-none"
               >
                 <option value="">{t("category_placeholder")}</option>
                 {categories.map((c) => (
-                  <option key={c.id} value={c.id}>{c.name}</option>
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
                 ))}
               </select>
             </div>
             <div className="space-y-2">
               <Label htmlFor="summary">{t("summary")}</Label>
-              <Textarea id="summary" value={summary} onChange={(e) => setSummary(e.target.value)} placeholder={t("summary_placeholder")} rows={2} />
+              <Textarea
+                id="summary"
+                value={summary}
+                onChange={(e) => setSummary(e.target.value)}
+                placeholder={t("summary_placeholder")}
+                rows={2}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="cover">{t("cover")}</Label>
               <Input id="cover" type="file" accept="image/*" onChange={handleImage} />
               {coverPreview && (
                 <div className="relative mt-2 h-32 w-64 overflow-hidden rounded-lg">
-                  <Image src={coverPreview} alt="cover" fill sizes="256px" className="object-cover" unoptimized />
+                  <Image
+                    src={coverPreview}
+                    alt="cover"
+                    fill
+                    sizes="256px"
+                    className="object-cover"
+                    unoptimized
+                  />
                 </div>
               )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="content">{t("content")}</Label>
-              <Textarea id="content" value={content} onChange={(e) => setContent(e.target.value)} rows={12} placeholder={t("content_placeholder")} />
-              <Label className="inline-flex cursor-pointer items-center gap-2 text-sm text-primary">
-                <Input type="file" accept="image/*" className="hidden" onChange={handleInsertImage} />
+              <Textarea
+                id="content"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                rows={12}
+                placeholder={t("content_placeholder")}
+              />
+              <Label className="text-primary inline-flex cursor-pointer items-center gap-2 text-sm">
+                <Input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleInsertImage}
+                />
                 {t("insertImage")}
               </Label>
             </div>

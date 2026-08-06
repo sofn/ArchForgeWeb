@@ -13,13 +13,13 @@ export function BottomNav() {
     { href: "/", label: t("home"), icon: Home },
     { href: "/articles", label: t("articles"), icon: FileText },
     { href: "/write", label: t("write"), icon: PenLine },
-    { href: "/profile", label: t("profile"), icon: User }
+    { href: "/profile", label: t("profile"), icon: User },
   ];
 
   if (pathname === "/login") return null;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-white md:hidden">
+    <nav className="border-border fixed right-0 bottom-0 left-0 z-40 border-t bg-white md:hidden">
       <div className="flex items-center justify-around px-2 pb-2">
         {tabs.map((tab) => {
           const Icon = tab.icon;

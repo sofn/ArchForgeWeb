@@ -8,7 +8,7 @@ import {
   getOperationLogs,
   WebNoticeResponse,
   WebOperationLogResponse,
-  formatDateTime
+  formatDateTime,
 } from "@/lib/api";
 
 export default function NotificationsPage() {
@@ -33,13 +33,17 @@ export default function NotificationsPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             {notices.map((n) => (
-              <div key={n.id} className="border-b last:border-0 pb-3 last:pb-0">
+              <div key={n.id} className="border-b pb-3 last:border-0 last:pb-0">
                 <div className="font-medium">{n.title}</div>
-                <div className="mt-1 text-sm text-muted-foreground">{n.content}</div>
-                <div className="mt-1 text-xs text-muted-foreground">{formatDateTime(n.createTime)}</div>
+                <div className="text-muted-foreground mt-1 text-sm">{n.content}</div>
+                <div className="text-muted-foreground mt-1 text-xs">
+                  {formatDateTime(n.createTime)}
+                </div>
               </div>
             ))}
-            {notices.length === 0 && <p className="text-sm text-muted-foreground">{t("noNotices")}</p>}
+            {notices.length === 0 && (
+              <p className="text-muted-foreground text-sm">{t("noNotices")}</p>
+            )}
           </CardContent>
         </Card>
         <Card>
@@ -48,13 +52,15 @@ export default function NotificationsPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             {logs.map((l) => (
-              <div key={l.id} className="border-b last:border-0 pb-3 last:pb-0">
+              <div key={l.id} className="border-b pb-3 last:border-0 last:pb-0">
                 <div className="font-medium">{l.module}</div>
-                <div className="text-sm text-muted-foreground">{l.summary}</div>
-                <div className="text-xs text-muted-foreground">{l.username} · {formatDateTime(l.operatingTime)}</div>
+                <div className="text-muted-foreground text-sm">{l.summary}</div>
+                <div className="text-muted-foreground text-xs">
+                  {l.username} · {formatDateTime(l.operatingTime)}
+                </div>
               </div>
             ))}
-            {logs.length === 0 && <p className="text-sm text-muted-foreground">{t("noLogs")}</p>}
+            {logs.length === 0 && <p className="text-muted-foreground text-sm">{t("noLogs")}</p>}
           </CardContent>
         </Card>
       </div>

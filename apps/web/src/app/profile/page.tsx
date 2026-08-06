@@ -16,24 +16,24 @@ export default function ProfilePage() {
       <h1 className="text-2xl font-bold">{t("title")}</h1>
       <Card>
         <CardHeader className="flex flex-row items-center gap-4">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground">
+          <div className="bg-primary text-primary-foreground flex h-16 w-16 items-center justify-center rounded-full text-2xl font-bold">
             {(user?.nickname || user?.username || "?")[0].toUpperCase()}
           </div>
           <div>
             <CardTitle>{user?.nickname || user?.username}</CardTitle>
-            <p className="text-sm text-muted-foreground">{user?.username}</p>
+            <p className="text-muted-foreground text-sm">{user?.username}</p>
           </div>
         </CardHeader>
         <CardContent className="space-y-3">
           <Link
             href="/change-password"
-            className="flex items-center gap-3 rounded-lg border p-3 hover:border-primary"
+            className="hover:border-primary flex items-center gap-3 rounded-lg border p-3"
           >
             <Lock className="h-5 w-5" /> {t("changePassword")}
           </Link>
           <Link
             href="/articles/me"
-            className="flex items-center gap-3 rounded-lg border p-3 hover:border-primary"
+            className="hover:border-primary flex items-center gap-3 rounded-lg border p-3"
           >
             <FileText className="h-5 w-5" /> {t("myArticles")}
           </Link>

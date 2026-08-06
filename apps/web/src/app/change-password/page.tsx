@@ -51,15 +51,30 @@ export default function ChangePasswordPage() {
           <form onSubmit={handle} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="old">{t("oldPassword")}</Label>
-              <Input id="old" type="password" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} />
+              <Input
+                id="old"
+                type="password"
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="new">{t("newPassword")}</Label>
-              <Input id="new" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+              <Input
+                id="new"
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="confirm">{t("confirmPassword")}</Label>
-              <Input id="confirm" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+              <Input
+                id="confirm"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
             </div>
             {error && <p className="text-sm text-red-600">{error}</p>}
             {success && <p className="text-sm text-green-600">{t("success")}</p>}

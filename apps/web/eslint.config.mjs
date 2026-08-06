@@ -6,12 +6,12 @@ const eslintConfig = [
   ...next,
   {
     plugins: {
-      "react-hooks": reactHooks
+      "react-hooks": reactHooks,
     },
     rules: {
-      "react-hooks/set-state-in-effect": "off"
-    }
-  }
+      "react-hooks/set-state-in-effect": "off",
+    },
+  },
 ];
 
 export default eslintConfig;

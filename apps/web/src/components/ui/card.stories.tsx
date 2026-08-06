@@ -4,7 +4,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "./car
 const meta: Meta<typeof Card> = {
   title: "UI/Card",
   component: Card,
-  tags: ["autodocs"]
+  tags: ["autodocs"],
 };
 
 export default meta;
@@ -21,5 +21,5 @@ export const Default: Story = {
         <p>Main card content.</p>
       </CardContent>
     </Card>
-  )
+  ),
 };

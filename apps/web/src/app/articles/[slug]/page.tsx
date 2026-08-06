@@ -28,12 +28,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     <article className="mx-auto max-w-3xl">
       <Link
         href={`/articles?category=${encodeURIComponent(article.categorySlug)}`}
-        className="text-sm font-medium text-primary hover:underline"
+        className="text-primary text-sm font-medium hover:underline"
       >
         {article.categoryName}
       </Link>
       <h1 className="mt-2 text-3xl font-bold md:text-4xl">{article.title}</h1>
-      <p className="mt-2 text-sm text-muted-foreground">{t("publishTime")}：{formatDateTime(article.publishTime)}</p>
+      <p className="text-muted-foreground mt-2 text-sm">
+        {t("publishTime")}：{formatDateTime(article.publishTime)}
+      </p>
       {article.coverImageUrl ? (
         <div className="relative mt-6 aspect-video w-full overflow-hidden rounded-xl">
           <Image
@@ -48,7 +50,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </div>
       ) : null}
       {article.summary ? (
-        <p className="mt-6 rounded-lg border-l-4 border-primary bg-slate-100 p-4 text-slate-700">
+        <p className="border-primary mt-6 rounded-lg border-l-4 bg-slate-100 p-4 text-slate-700">
           {article.summary}
         </p>
       ) : null}

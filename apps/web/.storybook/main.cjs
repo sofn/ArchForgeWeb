@@ -7,14 +7,14 @@ module.exports = {
   addons: ["@storybook/addon-essentials", "@storybook/addon-interactions"],
   framework: {
     name: "@storybook/react-vite",
-    options: {}
+    options: {},
   },
   viteFinal: async (config) =>
     mergeConfig(config, {
       resolve: {
         alias: {
-          "@": path.resolve(__dirname, "../src")
-        }
-      }
-    })
+          "@": path.resolve(__dirname, "../src"),
+        },
+      },
+    }),
 };

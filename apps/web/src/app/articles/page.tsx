@@ -7,7 +7,7 @@ import { getLocale } from "@/lib/getLocale";
 import Link from "next/link";
 
 export default async function ArticlesPage({
-  searchParams
+  searchParams,
 }: {
   searchParams: Promise<{ category?: string }>;
 }) {
@@ -24,8 +24,10 @@ export default async function ArticlesPage({
       <div className="flex flex-wrap gap-3">
         <Link
           href="/articles"
-          className={`rounded-full px-4 py-2 text-sm font-medium border ${
-            !category ? "bg-primary text-primary-foreground border-primary" : "bg-white hover:border-primary"
+          className={`rounded-full border px-4 py-2 text-sm font-medium ${
+            !category
+              ? "bg-primary text-primary-foreground border-primary"
+              : "hover:border-primary bg-white"
           }`}
         >
           {t("all")}
@@ -34,8 +36,10 @@ export default async function ArticlesPage({
           <Link
             key={c.id}
             href={`/articles?category=${encodeURIComponent(c.slug)}`}
-            className={`rounded-full px-4 py-2 text-sm font-medium border ${
-              category === c.slug ? "bg-primary text-primary-foreground border-primary" : "bg-white hover:border-primary"
+            className={`rounded-full border px-4 py-2 text-sm font-medium ${
+              category === c.slug
+                ? "bg-primary text-primary-foreground border-primary"
+                : "hover:border-primary bg-white"
             }`}
           >
             {c.name}

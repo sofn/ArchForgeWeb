@@ -17,7 +17,7 @@ export function LocaleSwitcher() {
   return (
     <button
       onClick={switchLocale}
-      className="text-sm font-medium text-foreground hover:text-primary"
+      className="text-foreground hover:text-primary text-sm font-medium"
       aria-label={t("switch")}
     >
       {locale === "en" ? "中文" : "English"}

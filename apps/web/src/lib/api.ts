@@ -124,19 +124,24 @@ function getTokenName(): string {
   return localStorage.getItem("tokenName") || getCookie("tokenName") || "Authorization";
 }
 
-export function setAuthCookies(token: string, tokenName: string) {
+export function setAuthCookies(token: string, tokenName: string, refreshToken?: string) {
   if (typeof document === "undefined") return;
   const secure = window.location.protocol === "https:" ? "; Secure" : "";
   document.cookie = `token=${encodeURIComponent(token)}; path=/; SameSite=Lax${secure}`;
   if (tokenName) {
     document.cookie = `tokenName=${encodeURIComponent(tokenName)}; path=/; SameSite=Lax${secure}`;
   }
+  if (refreshToken) {
+    document.cookie = `refreshToken=${encodeURIComponent(refreshToken)}; path=/; SameSite=Lax${secure}`;
+  }
 }
 
 export function clearAuthCookies() {
   if (typeof document === "undefined") return;
-  document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax";
-  document.cookie = "tokenName=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax";
+  const names = ["token", "tokenName", "refreshToken"];
+  names.forEach((name) => {
+    document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax`;
+  });
 }
 
 function buildAuthHeader(token: string, tokenName: string): string {
@@ -146,16 +151,102 @@ function buildAuthHeader(token: string, tokenName: string): string {
   return token;
 }
 
-async function fetchApi<T>(path: string, options?: RequestInit): Promise<T> {
-  const token = getToken();
-  const tokenName = getTokenName();
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
-  if (token) headers[tokenName] = buildAuthHeader(token, tokenName);
-  const res = await fetch(`${API_BASE}${path}`, {
-    ...options,
+function getRefreshToken(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem("refreshToken") || getCookie("refreshToken");
+}
+
+let isRefreshing = false;
+const refreshSubscribers: Array<() => void> = [];
+let authExpiredHandler: (() => void) | null = null;
+
+export function setAuthExpiredHandler(handler: () => void) {
+  authExpiredHandler = handler;
+}
+
+function notifyRefreshSubscribers() {
+  refreshSubscribers.forEach((cb) => cb());
+  refreshSubscribers.length = 0;
+}
+
+async function doRefresh(): Promise<void> {
+  const refreshToken = getRefreshToken();
+  if (!refreshToken) {
+    throw new Error("No refresh token");
+  }
+
+  const res = await fetch(`${API_BASE}/web/refresh-token`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     credentials: "include",
-    headers: { ...headers, ...options?.headers }
+    body: JSON.stringify({ refreshToken }),
   });
+
+  if (!res.ok) {
+    throw new Error("Refresh failed");
+  }
+
+  const json: ApiResponse<WebLoginResponse> & { detail?: string } = await res.json();
+  if (json.code !== 0) {
+    throw new Error(json.message || json.detail || "Refresh failed");
+  }
+
+  const data = json.data;
+  const tokenName = data.tokenName || "Authorization";
+  localStorage.setItem("token", data.accessToken);
+  localStorage.setItem("tokenName", tokenName);
+  if (data.refreshToken) {
+    localStorage.setItem("refreshToken", data.refreshToken);
+  }
+  setAuthCookies(data.accessToken, tokenName);
+}
+
+async function refreshAccessToken(): Promise<void> {
+  if (isRefreshing) {
+    await new Promise<void>((resolve) => refreshSubscribers.push(resolve));
+    return;
+  }
+
+  isRefreshing = true;
+  try {
+    await doRefresh();
+    notifyRefreshSubscribers();
+  } catch (err) {
+    authExpiredHandler?.();
+    throw err;
+  } finally {
+    isRefreshing = false;
+  }
+}
+
+async function fetchWithAuth(path: string, options?: RequestInit): Promise<Response> {
+  const call = async (): Promise<Response> => {
+    const token = getToken();
+    const tokenName = getTokenName();
+    const headers = new Headers(options?.headers);
+    if (token) headers.set(tokenName, buildAuthHeader(token, tokenName));
+
+    const res = await fetch(`${API_BASE}${path}`, {
+      ...options,
+      credentials: "include",
+      headers,
+    });
+
+    if (res.status === 401) {
+      await refreshAccessToken();
+      return call();
+    }
+
+    return res;
+  };
+
+  return call();
+}
+
+async function fetchApi<T>(path: string, options?: RequestInit): Promise<T> {
+  const headers = new Headers(options?.headers);
+  headers.set("Content-Type", "application/json");
+  const res = await fetchWithAuth(path, { ...options, headers });
   let message = `Request failed: ${res.status}`;
   if (!res.ok) {
     try {
@@ -176,7 +267,7 @@ async function fetchApi<T>(path: string, options?: RequestInit): Promise<T> {
 export async function login(username: string, password: string): Promise<WebLoginResponse> {
   return fetchApi<WebLoginResponse>("/web/login", {
     method: "POST",
-    body: JSON.stringify({ username, password })
+    body: JSON.stringify({ username, password }),
   });
 }
 
@@ -191,7 +282,7 @@ export async function getProfile(): Promise<WebUserProfileResponse> {
 export async function changePassword(data: WebChangePasswordRequest): Promise<boolean> {
   return fetchApi<boolean>("/web/user/change-password", {
     method: "POST",
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   });
 }
 
@@ -225,7 +316,10 @@ export async function getArticles(
   return fetchApi<PageResult<WebArticleSummary>>(`/web/articles?${params.toString()}`);
 }
 
-export async function getMyArticles(currentPage = 1, pageSize = 10): Promise<PageResult<WebArticleSummary>> {
+export async function getMyArticles(
+  currentPage = 1,
+  pageSize = 10
+): Promise<PageResult<WebArticleSummary>> {
   const params = new URLSearchParams();
   params.set("currentPage", String(currentPage));
   params.set("pageSize", String(pageSize));
@@ -239,22 +333,16 @@ export async function getArticle(slug: string): Promise<WebArticleDetail> {
 export async function createArticle(data: WebArticleCreateRequest): Promise<number> {
   return fetchApi<number>("/web/articles", {
     method: "POST",
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   });
 }
 
 export async function uploadImage(file: File): Promise<FileUploadResponse> {
-  const token = getToken();
-  const tokenName = getTokenName();
   const form = new FormData();
   form.append("file", file);
-  const headers: Record<string, string> = {};
-  if (token) headers[tokenName] = buildAuthHeader(token, tokenName);
-  const res = await fetch(`${API_BASE}/web/file/upload`, {
+  const res = await fetchWithAuth("/web/file/upload", {
     method: "POST",
-    credentials: "include",
-    headers,
-    body: form
+    body: form,
   });
   const json: ApiResponse<FileUploadResponse> & { detail?: string } = await res.json();
   if (!res.ok || json.code !== 0) {
@@ -274,6 +362,6 @@ export function formatDateTime(iso?: string): string {
     month: "2-digit",
     day: "2-digit",
     hour: "2-digit",
-    minute: "2-digit"
+    minute: "2-digit",
   });
 }

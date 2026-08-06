@@ -31,7 +31,7 @@ export default function MyArticlesPage() {
       </div>
       {articles.length === 0 ? (
         <Card>
-          <CardContent className="py-12 text-center text-muted-foreground">
+          <CardContent className="text-muted-foreground py-12 text-center">
             {t("empty")}
           </CardContent>
         </Card>
@@ -46,7 +46,11 @@ export default function MyArticlesPage() {
         <Button variant="outline" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
           {t("previous")}
         </Button>
-        <Button variant="outline" disabled={page * pageSize >= total} onClick={() => setPage((p) => p + 1)}>
+        <Button
+          variant="outline"
+          disabled={page * pageSize >= total}
+          onClick={() => setPage((p) => p + 1)}
+        >
           {t("next")}
         </Button>
       </div>

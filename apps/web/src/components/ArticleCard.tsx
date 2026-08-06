@@ -5,8 +5,8 @@ import { WebArticleSummary, formatDateTime } from "@/lib/api";
 
 export function ArticleCard({ article }: { article: WebArticleSummary }) {
   return (
-    <Link href={`/articles/${encodeURIComponent(article.slug)}`} className="block group">
-      <Card className="h-full transition-shadow hover:shadow-md overflow-hidden">
+    <Link href={`/articles/${encodeURIComponent(article.slug)}`} className="group block">
+      <Card className="h-full overflow-hidden transition-shadow hover:shadow-md">
         {article.coverImageUrl ? (
           <div className="relative aspect-video w-full overflow-hidden">
             <Image
@@ -20,7 +20,9 @@ export function ArticleCard({ article }: { article: WebArticleSummary }) {
           </div>
         ) : null}
         <CardHeader>
-          <CardTitle className="line-clamp-2 text-lg group-hover:text-primary">{article.title}</CardTitle>
+          <CardTitle className="group-hover:text-primary line-clamp-2 text-lg">
+            {article.title}
+          </CardTitle>
           <CardDescription className="flex items-center gap-2 text-xs">
             <span>{article.categoryName}</span>
             <span>·</span>
@@ -28,7 +30,7 @@ export function ArticleCard({ article }: { article: WebArticleSummary }) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground line-clamp-3">{article.summary}</p>
+          <p className="text-muted-foreground line-clamp-3 text-sm">{article.summary}</p>
         </CardContent>
       </Card>
     </Link>

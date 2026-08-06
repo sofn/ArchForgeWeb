@@ -12,12 +12,20 @@ import {
   WebDashboardMetricsResponse,
   WebNoticeResponse,
   WebOperationLogResponse,
-  formatDateTime
+  formatDateTime,
 } from "@/lib/api";
 import { RefreshCw, Bell, FileText, PenLine, User } from "lucide-react";
 import Link from "next/link";
 
-function MetricCard({ title, value, isLoading }: { title: string; value?: number; isLoading?: boolean }) {
+function MetricCard({
+  title,
+  value,
+  isLoading,
+}: {
+  title: string;
+  value?: number;
+  isLoading?: boolean;
+}) {
   return (
     <Card>
       <CardHeader className="pb-2">
@@ -86,23 +94,39 @@ export default function HomePage() {
           <MetricCard title={t("userTotal")} value={metrics?.userTotal} isLoading={loading} />
           <MetricCard title={t("onlineNow")} value={metrics?.onlineNow} isLoading={loading} />
           <MetricCard title={t("todayLogin")} value={metrics?.todayLogin} isLoading={loading} />
-          <MetricCard title={t("todayOperation")} value={metrics?.todayOperation} isLoading={loading} />
+          <MetricCard
+            title={t("todayOperation")}
+            value={metrics?.todayOperation}
+            isLoading={loading}
+          />
         </div>
       </section>
 
       <section>
         <h2 className="mb-4 text-xl font-semibold">{t("quickLinks_title")}</h2>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          <Link href="/notifications" className="flex items-center gap-3 rounded-xl border border-border bg-white p-4 hover:border-primary hover:text-primary">
+          <Link
+            href="/notifications"
+            className="border-border hover:border-primary hover:text-primary flex items-center gap-3 rounded-xl border bg-white p-4"
+          >
             <Bell className="h-5 w-5" /> <span>{t("notifications")}</span>
           </Link>
-          <Link href="/articles" className="flex items-center gap-3 rounded-xl border border-border bg-white p-4 hover:border-primary hover:text-primary">
+          <Link
+            href="/articles"
+            className="border-border hover:border-primary hover:text-primary flex items-center gap-3 rounded-xl border bg-white p-4"
+          >
             <FileText className="h-5 w-5" /> <span>{t("allArticles")}</span>
           </Link>
-          <Link href="/write" className="flex items-center gap-3 rounded-xl border border-border bg-white p-4 hover:border-primary hover:text-primary">
+          <Link
+            href="/write"
+            className="border-border hover:border-primary hover:text-primary flex items-center gap-3 rounded-xl border bg-white p-4"
+          >
             <PenLine className="h-5 w-5" /> <span>{t("write")}</span>
           </Link>
-          <Link href="/profile" className="flex items-center gap-3 rounded-xl border border-border bg-white p-4 hover:border-primary hover:text-primary">
+          <Link
+            href="/profile"
+            className="border-border hover:border-primary hover:text-primary flex items-center gap-3 rounded-xl border bg-white p-4"
+          >
             <User className="h-5 w-5" /> <span>{t("profile")}</span>
           </Link>
         </div>
@@ -115,12 +139,14 @@ export default function HomePage() {
           </CardHeader>
           <CardContent className="space-y-3">
             {notices.slice(0, 5).map((n) => (
-              <div key={n.id} className="border-b last:border-0 pb-2 last:pb-0">
+              <div key={n.id} className="border-b pb-2 last:border-0 last:pb-0">
                 <div className="font-medium">{n.title}</div>
-                <div className="text-xs text-muted-foreground">{formatDateTime(n.createTime)}</div>
+                <div className="text-muted-foreground text-xs">{formatDateTime(n.createTime)}</div>
               </div>
             ))}
-            {notices.length === 0 && <p className="text-sm text-muted-foreground">{t("noNotices")}</p>}
+            {notices.length === 0 && (
+              <p className="text-muted-foreground text-sm">{t("noNotices")}</p>
+            )}
           </CardContent>
         </Card>
         <Card>
@@ -129,12 +155,16 @@ export default function HomePage() {
           </CardHeader>
           <CardContent className="space-y-3">
             {logs.slice(0, 5).map((l) => (
-              <div key={l.id} className="border-b last:border-0 pb-2 last:pb-0">
-                <div className="font-medium">{l.module}：{l.summary}</div>
-                <div className="text-xs text-muted-foreground">{l.username} · {formatDateTime(l.operatingTime)}</div>
+              <div key={l.id} className="border-b pb-2 last:border-0 last:pb-0">
+                <div className="font-medium">
+                  {l.module}：{l.summary}
+                </div>
+                <div className="text-muted-foreground text-xs">
+                  {l.username} · {formatDateTime(l.operatingTime)}
+                </div>
               </div>
             ))}
-            {logs.length === 0 && <p className="text-sm text-muted-foreground">{t("noLogs")}</p>}
+            {logs.length === 0 && <p className="text-muted-foreground text-sm">{t("noLogs")}</p>}
           </CardContent>
         </Card>
       </section>

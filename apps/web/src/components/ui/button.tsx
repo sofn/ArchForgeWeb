@@ -9,19 +9,19 @@ const buttonVariants = cva(
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
         outline: "border border-border bg-background hover:bg-muted/50",
-        ghost: "hover:bg-muted/50"
+        ghost: "hover:bg-muted/50",
       },
       size: {
         default: "h-9 px-4 py-2",
         sm: "h-8 px-3",
         lg: "h-10 px-8",
-        icon: "h-9 w-9"
-      }
+        icon: "h-9 w-9",
+      },
     },
     defaultVariants: {
       variant: "default",
-      size: "default"
-    }
+      size: "default",
+    },
   }
 );
 
@@ -32,11 +32,7 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, ...props }, ref) => {
     return (
-      <button
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
+      <button className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
     );
   }
 );
