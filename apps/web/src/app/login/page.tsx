@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -34,10 +35,10 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-12rem)] items-center justify-center">
-      <Card className="w-full max-w-sm">
-        <CardHeader>
-          <CardTitle className="text-center text-xl">{t("title")}</CardTitle>
+    <div className="flex min-h-[calc(100vh-12rem)] flex-col items-center justify-center">
+      <Card className="w-full max-w-sm border-slate-200/60 bg-white/90 shadow-xl backdrop-blur">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-center text-2xl font-bold">{t("title")}</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handle} className="space-y-4">
@@ -69,6 +70,11 @@ export default function LoginPage() {
               {submitting ? t("submitting") : t("submit")}
             </Button>
           </form>
+          <div className="mt-6 text-center">
+            <Link href="/" className="text-sm text-slate-500 hover:text-indigo-600">
+              Back to home
+            </Link>
+          </div>
         </CardContent>
       </Card>
     </div>

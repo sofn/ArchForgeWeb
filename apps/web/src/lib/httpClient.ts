@@ -89,7 +89,7 @@ async function doRefresh(): Promise<void> {
   const res = await fetch(`${API_BASE}/web/refresh-token`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    credentials: "include",
+    credentials: "same-origin",
     body: JSON.stringify({ refreshToken }),
   });
 
@@ -168,11 +168,14 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 
     const res = await fetchWithTimeout(
       `${API_BASE}${path}`,
-      { ...options, credentials: "include", headers },
+      { ...options, credentials: "same-origin", headers },
       DEFAULT_TIMEOUT
     );
 
     if (res.status === 401) {
+      if (!token) {
+        throw new Error("请先登录");
+      }
       await refreshAccessToken();
       return call();
     }

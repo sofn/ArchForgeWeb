@@ -2,8 +2,13 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
-export function LocaleSwitcher() {
+interface LocaleSwitcherProps {
+  className?: string;
+}
+
+export function LocaleSwitcher({ className }: LocaleSwitcherProps) {
   const locale = useLocale();
   const router = useRouter();
   const t = useTranslations("locale");
@@ -17,7 +22,7 @@ export function LocaleSwitcher() {
   return (
     <button
       onClick={switchLocale}
-      className="text-foreground hover:text-primary text-sm font-medium"
+      className={cn("text-sm font-medium transition-colors", className)}
       aria-label={t("switch")}
     >
       {locale === "en" ? "中文" : "English"}

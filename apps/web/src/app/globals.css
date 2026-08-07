@@ -1,16 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #f8fafc;
   --foreground: #0f172a;
   --muted: #64748b;
   --muted-foreground: #475569;
   --border: #e2e8f0;
-  --primary: #2563eb;
+  --primary: #4f46e5;
   --primary-foreground: #ffffff;
   --card: #ffffff;
   --card-foreground: #0f172a;
-  --ring: #2563eb;
+  --ring: #4f46e5;
+  --accent: #f1f5f9;
+  --accent-foreground: #0f172a;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -22,15 +24,42 @@
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-ring: var(--ring);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: rgba(79, 70, 229, 0.2);
+  color: #1e1b4b;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }

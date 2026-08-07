@@ -12,7 +12,10 @@ export default function RouteError({ error, reset }: RouteErrorProps) {
   const t = useTranslations("errors");
   return (
     <div className="flex flex-col items-center justify-center py-20">
-      <h2 className="text-2xl font-bold text-red-600">{t("title")}</h2>
+      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-50 text-3xl font-bold text-red-600 dark:bg-red-950">
+        !
+      </div>
+      <h2 className="text-2xl font-bold">{t("title")}</h2>
       <p className="text-muted-foreground mt-2 max-w-md text-center">
         {error.message || t("description")}
       </p>

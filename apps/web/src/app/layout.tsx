@@ -25,8 +25,8 @@ export default async function RootLayout({
   const messages = await getMessages({ locale });
 
   return (
-    <html lang={locale}>
-      <body className="min-h-screen bg-slate-50 text-slate-900 antialiased">
+    <html lang={locale} data-scroll-behavior="smooth">
+      <body className="min-h-screen bg-background text-foreground antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <AuthProvider>
             <Header />

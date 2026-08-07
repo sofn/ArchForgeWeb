@@ -34,7 +34,7 @@ function isPublicPath(path: string) {
   const isPublicArticleDetail =
     /^\/articles\/[^/]+$/.test(path) &&
     !(path === "/articles/me" || path.startsWith("/articles/me/"));
-  return path === "/login" || path === "/articles" || isPublicArticleDetail;
+  return path === "/" || path === "/login" || path === "/articles" || isPublicArticleDetail;
 }
 
 function readStoredToken(): string | null {
