@@ -11,6 +11,7 @@ import {
   setAuthCookies,
   clearAuthCookies,
   setAuthExpiredHandler,
+  type WebLoginResponse,
 } from "@/lib/api";
 
 interface AuthUser {
@@ -25,6 +26,7 @@ interface AuthContextType {
   user: AuthUser | null;
   isLoading: boolean;
   login: (username: string, password: string) => Promise<void>;
+  setLoginResponse: (res: WebLoginResponse) => void;
   logout: () => void;
 }
 
@@ -34,7 +36,8 @@ function isPublicPath(path: string) {
   const isPublicArticleDetail =
     /^\/articles\/[^/]+$/.test(path) &&
     !(path === "/articles/me" || path.startsWith("/articles/me/"));
-  return path === "/" || path === "/login" || path === "/articles" || isPublicArticleDetail;
+  const publicPaths = ["/", "/login", "/register", "/forgot-password", "/articles"];
+  return publicPaths.includes(path) || isPublicArticleDetail;
 }
 
 function readStoredToken(): string | null {
@@ -91,8 +94,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [isLoading, token, pathname, router]);
 
-  const login = async (username: string, password: string) => {
-    const res = await apiLogin(username, password);
+  const setLoginResponse = (res: WebLoginResponse) => {
     const tokenName = res.tokenName || "Authorization";
     setToken(res.accessToken);
     localStorage.setItem("token", res.accessToken);
@@ -107,6 +109,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       nickname: res.nickname,
       avatar: res.avatar,
     });
+  };
+
+  const login = async (username: string, password: string) => {
+    const res = await apiLogin(username, password);
+    setLoginResponse(res);
     router.push("/");
   };
 
@@ -136,7 +143,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ token, user, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ token, user, isLoading, login, setLoginResponse, logout }}>
       {children}
     </AuthContext.Provider>
   );

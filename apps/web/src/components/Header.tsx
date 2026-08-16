@@ -54,12 +54,20 @@ export function Header() {
               {t("logout")}
             </Button>
           ) : (
-            <Link
-              href="/login"
-              className={cn(buttonVariants({ variant: "default", size: "sm" }))}
-            >
-              {t("login")}
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link
+                href="/register"
+                className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "text-slate-300 hover:text-white")}
+              >
+                {t("register")}
+              </Link>
+              <Link
+                href="/login"
+                className={cn(buttonVariants({ variant: "default", size: "sm" }))}
+              >
+                {t("login")}
+              </Link>
+            </div>
           )}
         </nav>
         <Button
@@ -101,9 +109,14 @@ export function Header() {
               {t("logout")}
             </button>
           ) : (
-            <Link href="/login" onClick={() => setOpen(false)} className="block py-2 text-white">
-              {t("login")}
-            </Link>
+            <div className="flex flex-col gap-1 py-2">
+              <Link href="/register" onClick={() => setOpen(false)} className="block py-2 text-white">
+                {t("register")}
+              </Link>
+              <Link href="/login" onClick={() => setOpen(false)} className="block py-2 text-white">
+                {t("login")}
+              </Link>
+            </div>
           )}
         </div>
       )}

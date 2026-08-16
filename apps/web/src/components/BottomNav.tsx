@@ -25,7 +25,7 @@ export function BottomNav() {
     ? [...publicTabs, ...privateTabs]
     : [...publicTabs, { href: "/login", label: t("login"), icon: LogIn }];
 
-  if (pathname === "/login") return null;
+  if (pathname === "/login" || pathname === "/register" || pathname === "/forgot-password") return null;
 
   return (
     <nav className="fixed right-0 bottom-0 left-0 z-40 border-t border-white/10 bg-slate-900/95 pb-[env(safe-area-inset-bottom)] md:hidden">

@@ -70,9 +70,18 @@ export default function LoginPage() {
               {submitting ? t("submitting") : t("submit")}
             </Button>
           </form>
-          <div className="mt-6 text-center">
-            <Link href="/" className="text-sm text-slate-500 hover:text-indigo-600">
-              Back to home
+          <div className="mt-6 flex flex-col items-center gap-2 text-center text-sm text-slate-500">
+            <div className="flex gap-4">
+              <Link href="/forgot-password" className="hover:text-indigo-600">
+                {t("forgotPassword")}
+              </Link>
+              <span className="text-slate-300">|</span>
+              <Link href="/register" className="hover:text-indigo-600">
+                {t("register")}
+              </Link>
+            </div>
+            <Link href="/" className="hover:text-indigo-600">
+              {t("backToHome")}
             </Link>
           </div>
         </CardContent>

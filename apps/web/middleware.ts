@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const PUBLIC_PATHS = ["/", "/login", "/articles"];
+const PUBLIC_PATHS = ["/", "/login", "/register", "/forgot-password", "/articles"];
 const STATIC_PREFIXES = ["/_next/", "/favicon.ico"];
 
 function isPublicPath(path: string): boolean {

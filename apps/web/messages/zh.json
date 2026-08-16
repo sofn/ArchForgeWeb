@@ -10,7 +10,8 @@
     "notifications": "通知",
     "profile": "我的",
     "login": "登录",
-    "logout": "退出"
+    "logout": "退出",
+    "register": "注册"
   },
   "locale": {
     "switch": "切换语言"
@@ -47,7 +48,47 @@
     "submit": "登录",
     "submitting": "登录中...",
     "error_missing": "请输入用户名和密码",
-    "error_failed": "登录失败"
+    "error_failed": "登录失败",
+    "forgotPassword": "忘记密码？",
+    "register": "注册账号",
+    "backToHome": "返回首页"
+  },
+  "register": {
+    "title": "注册账号",
+    "email": "邮箱",
+    "password": "密码",
+    "confirmPassword": "确认密码",
+    "code": "验证码",
+    "sendCode": "发送验证码",
+    "countdown": "{seconds}秒",
+    "submit": "注册",
+    "success": "注册成功",
+    "hasAccount": "已有账号？",
+    "login": "去登录",
+    "error_invalid_email": "请输入有效的邮箱",
+    "error_password_weak": "密码至少 8 位，且包含大写字母、小写字母和数字",
+    "error_password_mismatch": "两次输入的密码不一致",
+    "error_code_required": "请输入验证码",
+    "error_send_code": "验证码发送失败",
+    "error_failed": "注册失败"
+  },
+  "forgotPassword": {
+    "title": "重置密码",
+    "email": "邮箱",
+    "code": "验证码",
+    "sendCode": "发送验证码",
+    "countdown": "{seconds}秒",
+    "newPassword": "新密码",
+    "confirmPassword": "确认密码",
+    "submit": "重置密码",
+    "success": "密码重置成功",
+    "backToLogin": "返回登录",
+    "error_invalid_email": "请输入有效的邮箱",
+    "error_password_weak": "密码至少 8 位，且包含大写字母、小写字母和数字",
+    "error_password_mismatch": "两次输入的密码不一致",
+    "error_code_required": "请输入验证码",
+    "error_send_code": "验证码发送失败",
+    "error_failed": "密码重置失败"
   },
   "profile": {
     "title": "个人中心",

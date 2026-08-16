@@ -25,6 +25,25 @@ export interface WebChangePasswordRequest {
   confirmPassword: string;
 }
 
+export interface WebSendVerificationCodeRequest {
+  email: string;
+  purpose: "REGISTER" | "RESET_PASSWORD";
+}
+
+export interface WebRegisterRequest {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  code: string;
+}
+
+export interface WebResetPasswordRequest {
+  email: string;
+  code: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
 export interface WebDashboardMetricsResponse {
   userTotal: number;
   onlineNow: number;
@@ -175,4 +194,20 @@ export async function uploadImage(file: File): Promise<FileUploadResponse> {
 
 export function getFileUrl(fileId?: number | null): string {
   return fileId ? `${API_BASE}/web/file/${fileId}` : "";
+}
+
+export async function sendVerificationCode(data: WebSendVerificationCodeRequest): Promise<boolean> {
+  return httpClient.post<boolean>("/web/verification-code/send", data);
+}
+
+export async function register(data: WebRegisterRequest): Promise<WebLoginResponse> {
+  return httpClient.post<WebLoginResponse>("/web/register", data);
+}
+
+export async function forgotPassword(email: string): Promise<boolean> {
+  return httpClient.post<boolean>("/web/forgot-password", { email, purpose: "RESET_PASSWORD" });
+}
+
+export async function resetPassword(data: WebResetPasswordRequest): Promise<boolean> {
+  return httpClient.post<boolean>("/web/reset-password", data);
 }

@@ -10,7 +10,8 @@
     "notifications": "Notifications",
     "profile": "Profile",
     "login": "Login",
-    "logout": "Logout"
+    "logout": "Logout",
+    "register": "Register"
   },
   "locale": {
     "switch": "Switch language"
@@ -47,7 +48,47 @@
     "submit": "Login",
     "submitting": "Logging in...",
     "error_missing": "Please enter username and password",
-    "error_failed": "Login failed"
+    "error_failed": "Login failed",
+    "forgotPassword": "Forgot password?",
+    "register": "Register",
+    "backToHome": "Back to home"
+  },
+  "register": {
+    "title": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "code": "Verification Code",
+    "sendCode": "Send Code",
+    "countdown": "{seconds}s",
+    "submit": "Register",
+    "success": "Registration successful",
+    "hasAccount": "Already have an account?",
+    "login": "Login",
+    "error_invalid_email": "Please enter a valid email",
+    "error_password_weak": "Password must be at least 8 characters, including uppercase, lowercase and digits",
+    "error_password_mismatch": "Passwords do not match",
+    "error_code_required": "Please enter the verification code",
+    "error_send_code": "Failed to send verification code",
+    "error_failed": "Registration failed"
+  },
+  "forgotPassword": {
+    "title": "Reset Password",
+    "email": "Email",
+    "code": "Verification Code",
+    "sendCode": "Send Code",
+    "countdown": "{seconds}s",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "submit": "Reset Password",
+    "success": "Password reset successfully",
+    "backToLogin": "Back to login",
+    "error_invalid_email": "Please enter a valid email",
+    "error_password_weak": "Password must be at least 8 characters, including uppercase, lowercase and digits",
+    "error_password_mismatch": "Passwords do not match",
+    "error_code_required": "Please enter the verification code",
+    "error_send_code": "Failed to send verification code",
+    "error_failed": "Failed to reset password"
   },
   "profile": {
     "title": "Profile",
