@@ -25,6 +25,7 @@ function getApiRemotePattern(): RemotePattern | null {
 const apiRemotePattern = getApiRemotePattern();
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   images: {
     remotePatterns: apiRemotePattern ? [apiRemotePattern] : [],
   },

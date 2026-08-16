@@ -1,0 +1,8 @@
+node_modules
+apps/web/node_modules
+.next
+.turbo
+.git
+*.log
+playwright-report
+test-results
