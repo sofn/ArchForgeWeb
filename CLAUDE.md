@@ -1,26 +1,87 @@
 # CLAUDE.md
 
-ArchForgeWeb is the **consumer (C-end)** Next.js app for ArchForge.
+Guidance for agents working in **ArchForgeWeb**, the C-end Next.js client.
 
-## Commands
+## Overview
 
-- `pnpm dev` — turbo dev (apps/web)
-- `pnpm build` / `pnpm typecheck` / `pnpm lint`
-- Node >= 22, pnpm >= 9
+Consumer-facing frontend for ArchForge. Talks only to **server-web** (`http://localhost:8081`). It is not the admin console.
 
-## Layout
+## Scripts
+
+Root `package.json` (pnpm + Turborepo):
+
+| Command | What |
+|---------|------|
+| `pnpm dev` | Next.js dev server — [http://localhost:3000](http://localhost:3000) |
+| `pnpm build` | Production build |
+| `pnpm typecheck` | TypeScript check |
+| `pnpm lint` | ESLint |
+
+App-level (`apps/web`):
+
+| Command | What |
+|---------|------|
+| `pnpm start` | Start the production server (`next start`) |
+| `pnpm test:e2e` | Playwright |
+| `pnpm test:e2e:ui` | Playwright UI |
+| `pnpm test:e2e:debug` | Playwright debug |
+
+Requires Node.js >= 22 and pnpm >= 9.
+
+## `apps/web` layout
 
 ```
-apps/web/src/
-├── app/            # App Router pages
-├── components/
-├── lib/            # API client
-└── messages/       # en.json / zh.json
+apps/web/
+├── src/
+│   ├── app/                 # App Router: /, /login, /register, /articles, /write, /profile, …
+│   ├── components/          # Header, BottomNav, ArticleCard, providers/AuthProvider
+│   ├── components/ui/       # shadcn primitives
+│   └── lib/                 # api.ts, httpClient.ts
+├── messages/                # en.json, zh.json
+├── i18n/                    # next-intl
+├── e2e/
+├── middleware.ts
+└── next.config.ts
 ```
 
-## Integration
+## Auth cookies
 
-- API: `NEXT_PUBLIC_API_BASE_URL` → `http://localhost:8081`
-- Auth: sa-token session on the web API (`/web/login`)
-- Errors: ProblemDetail (`status`, `detail`, optional `code`)
-- Contracts: `../ArchForgeSpec/api/openapi.yaml` and `enums/enums.yaml`
+sa-token session (not admin JWT):
+
+- `token` — access token
+- `tokenName` — header name (usually `Authorization`)
+- `refreshToken` — refresh via `POST /web/refresh-token`
+
+Mirrored in `localStorage` with the same keys. `httpClient` sends `Authorization: Bearer <token>` and refreshes on HTTP 401.
+
+Public routes: `/`, `/login`, `/register`, `/forgot-password`, `/articles`, `/articles/:slug`.
+
+## ProblemDetail errors
+
+Non-2xx bodies from server-web are RFC 9457:
+
+```json
+{
+  "type": "about:blank",
+  "title": "Unauthorized",
+  "status": 401,
+  "detail": "…"
+}
+```
+
+Read `detail` first, then `message`. Do not assume every error is `{code, message, data}`.
+
+Success JSON may still be `{ "code": 0, "message": "ok", "data": … }` — `httpClient` unwraps `data` when `code === 0`.
+
+## `NEXT_PUBLIC_API_BASE_URL`
+
+```env
+# apps/web/.env.local
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8081
+```
+
+Default in code: `http://localhost:8081`. Never point this at admin `:8080`.
+
+## Contract
+
+Paths are `/web/*`. Source of truth: `../ArchForgeSpec/api/openapi.yaml`.

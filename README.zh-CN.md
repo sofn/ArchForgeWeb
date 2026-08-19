@@ -2,7 +2,9 @@
 
 [English](README.md) | 中文
 
-**ArchForge** 的 C 端（面向消费者）前端，消费 `archforge-server-web`（`:8081`）。基于 Next.js + React + Tailwind CSS v4 + shadcn/ui，使用 pnpm + Turborepo。
+ArchForge 的 **C 端 Next.js 客户端**。只消费 **`server-web`（端口 8081）**，不要指向管理端 8080。
+
+基于 Next.js（App Router）+ React + Tailwind CSS v4 + shadcn/ui，使用 pnpm workspaces 与 Turborepo。
 
 ## 功能
 
@@ -17,7 +19,7 @@
 
 ## 技术栈
 
-- [Next.js 15](https://nextjs.org/)（App Router）
+- [Next.js](https://nextjs.org/)（App Router）
 - [React 19](https://react.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS v4](https://tailwindcss.com/)
@@ -67,12 +69,13 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8081
 pnpm install
 ```
 
-3. 启动后端服务：
+3. 启动 **server-web**（本仓库不使用 server-admin）：
 
 ```bash
 # 在 ArchForge 后端仓库
-./gradlew :server-admin:bootRun   # 端口 8080
-./gradlew :server-web:bootRun     # 端口 8081
+./gradlew :archforge-server-web:bootRun   # 端口 8081
+# 若模块尚未重命名：
+# ./gradlew :server-web:bootRun
 ```
 
 4. 启动开发服务器：

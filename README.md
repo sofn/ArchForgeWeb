@@ -2,8 +2,9 @@
 
 English | [中文](README.zh-CN.md)
 
-A C-end (consumer-facing) frontend for **ArchForge** `archforge-server-web` (`:8081`).
-Built with Next.js (App Router) + React + Tailwind CSS v4 + shadcn/ui, managed by pnpm + Turborepo.
+C-end (consumer) **Next.js** client for ArchForge. It consumes **`server-web` on port 8081** only — not the admin API on 8080.
+
+Built with Next.js (App Router) + React + Tailwind CSS v4 + shadcn/ui, managed by pnpm workspaces and Turborepo.
 
 ## Features
 
@@ -68,12 +69,13 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8081
 pnpm install
 ```
 
-3. Start the backend services:
+3. Start **server-web** (this client does not use server-admin):
 
 ```bash
 # ArchForge backend (in the ArchForge repo)
-./gradlew :server-admin:bootRun   # port 8080
-./gradlew :server-web:bootRun     # port 8081
+./gradlew :archforge-server-web:bootRun   # port 8081
+# fallback if the module has not been renamed yet:
+# ./gradlew :server-web:bootRun
 ```
 
 4. Start the dev server:
