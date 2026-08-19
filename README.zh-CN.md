@@ -2,7 +2,7 @@
 
 [English](README.md) | 中文
 
-**ArchForge** 的 C 端（面向消费者）示例前端。基于 Next.js 15 + React 19 + Tailwind CSS v4 + shadcn/ui 构建，使用 pnpm workspaces 与 Turborepo 管理。
+**ArchForge** 的 C 端（面向消费者）前端，消费 `archforge-server-web`（`:8081`）。基于 Next.js + React + Tailwind CSS v4 + shadcn/ui，使用 pnpm + Turborepo。
 
 ## 功能
 

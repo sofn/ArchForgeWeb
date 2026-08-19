@@ -2,7 +2,8 @@
 
 English | [中文](README.zh-CN.md)
 
-A C-end (consumer-facing) demo frontend for the **ArchForge** backend. Built with Next.js 15 + React 19 + Tailwind CSS v4 + shadcn/ui, managed by pnpm workspaces and Turborepo.
+A C-end (consumer-facing) frontend for **ArchForge** `archforge-server-web` (`:8081`).
+Built with Next.js (App Router) + React + Tailwind CSS v4 + shadcn/ui, managed by pnpm + Turborepo.
 
 ## Features
 
@@ -17,7 +18,7 @@ A C-end (consumer-facing) demo frontend for the **ArchForge** backend. Built wit
 
 ## Tech Stack
 
-- [Next.js 15](https://nextjs.org/) (App Router)
+- [Next.js](https://nextjs.org/) (App Router; see `apps/web/package.json` for the exact version)
 - [React 19](https://react.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS v4](https://tailwindcss.com/)
