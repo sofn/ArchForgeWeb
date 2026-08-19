@@ -19,7 +19,7 @@ ArchForge 的 **C 端 Next.js 客户端**。只消费 **`server-web`（端口 80
 
 ## 技术栈
 
-- [Next.js](https://nextjs.org/)（App Router）
+- [Next.js](https://nextjs.org/) 16.2.12（App Router）
 - [React 19](https://react.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS v4](https://tailwindcss.com/)
@@ -74,8 +74,6 @@ pnpm install
 ```bash
 # 在 ArchForge 后端仓库
 ./gradlew :archforge-server-web:bootRun   # 端口 8081
-# 若模块尚未重命名：
-# ./gradlew :server-web:bootRun
 ```
 
 4. 启动开发服务器：

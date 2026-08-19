@@ -19,7 +19,7 @@ Built with Next.js (App Router) + React + Tailwind CSS v4 + shadcn/ui, managed b
 
 ## Tech Stack
 
-- [Next.js](https://nextjs.org/) (App Router; see `apps/web/package.json` for the exact version)
+- [Next.js](https://nextjs.org/) 16.2.12 (App Router)
 - [React 19](https://react.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS v4](https://tailwindcss.com/)
@@ -74,8 +74,6 @@ pnpm install
 ```bash
 # ArchForge backend (in the ArchForge repo)
 ./gradlew :archforge-server-web:bootRun   # port 8081
-# fallback if the module has not been renamed yet:
-# ./gradlew :server-web:bootRun
 ```
 
 4. Start the dev server:
