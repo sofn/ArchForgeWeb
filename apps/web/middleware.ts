@@ -1,28 +1,27 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import createMiddleware from "next-intl/middleware";
+import { NextRequest, NextResponse } from "next/server";
+import { routing } from "./i18n/routing";
+import { DEFAULT_LOCALE, isPublicPath, localeFromPath } from "./src/lib/routes";
 
-const PUBLIC_PATHS = ["/", "/login", "/register", "/forgot-password", "/articles"];
-const STATIC_PREFIXES = ["/_next/", "/favicon.ico"];
+const intlMiddleware = createMiddleware(routing);
 
-function isPublicPath(path: string): boolean {
-  if (PUBLIC_PATHS.includes(path)) return true;
-  if (STATIC_PREFIXES.some((p) => path.startsWith(p))) return true;
-  // Article detail like /articles/hello-world is public
-  if (/^\/articles\/[^/]+$/.test(path) && path !== "/articles/me") return true;
-  return false;
-}
-
-export function middleware(request: NextRequest) {
+export default function middleware(request: NextRequest) {
+  const intlResponse = intlMiddleware(request);
+  const pathname = request.nextUrl.pathname;
+  if (isPublicPath(pathname)) {
+    return intlResponse;
+  }
   const token = request.cookies.get("token")?.value;
-  if (!token && !isPublicPath(request.nextUrl.pathname)) {
+  if (!token) {
+    const locale = localeFromPath(pathname) || DEFAULT_LOCALE;
     const loginUrl = request.nextUrl.clone();
-    loginUrl.pathname = "/login";
+    loginUrl.pathname = `/${locale}/login`;
+    loginUrl.searchParams.set("from", pathname);
     return NextResponse.redirect(loginUrl);
   }
-
-  return NextResponse.next();
+  return intlResponse;
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\.).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|rss.xml|.*\\..*).*)"],
 };

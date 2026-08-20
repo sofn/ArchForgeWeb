@@ -17,7 +17,7 @@ archforge/
 └── ArchForgeSpec/      # contracts / architecture / AI context
 ```
 
-- This repo is the **C-end (consumer) client**, Next.js App Router + React + Tailwind + shadcn/ui, pnpm workspaces + Turborepo.
+- This repo is the **C-end (consumer) client**, Next.js App Router + React + Tailwind + shadcn/ui, pnpm workspaces + Turborepo. URLs are locale-prefixed (`/en`, `/zh`).
 - Backend: `../ArchForge` → `server-web` (port **8081**). Do **not** call `server-admin` :8080 from here.
 - Contracts are owned by `../ArchForgeSpec` (`api/openapi.yaml` OpenAPI 3.1). If an API does not fit, raise the change in Spec — do not hack around it here.
 - Errors from server-web are RFC 9457 **ProblemDetail** (`detail`). Success bodies may still wrap `{code, message, data}`.

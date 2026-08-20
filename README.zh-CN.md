@@ -8,101 +8,37 @@ ArchForge 的 **C 端 Next.js 客户端**。只消费 **`server-web`（端口 80
 
 ## 功能
 
-- 用户登录 / 退出（基于 Sa-Token）
+- 登录 / 注册 / 重置密码（Sa-Token）
 - 仪表盘问候语与运营指标
 - 通知中心与操作日志
 - 个人中心、修改密码、我的文章
-- 公开文章列表与 Markdown 文章详情
-- 写文章：选择分类、标题、摘要、封面图、Markdown 正文
-- 响应式 PC / H5 布局：PC 顶部导航，H5 底部导航
-- 国际化：默认英文，可切换中文
+- 公开文章列表 / 详情、搜索、分页、分享、RSS
+- SEO：sitemap、robots、JSON-LD、OG 图
+- 写文章：分类、标题、摘要、封面、Markdown
+- 响应式 PC / H5，URL 带语言前缀（`/en`、`/zh`）
+- 暗色模式、TanStack Query、RHF + zod
 
-## 技术栈
+## 数据规范
 
-- [Next.js](https://nextjs.org/) 16.2.12（App Router）
-- [React 19](https://react.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS v4](https://tailwindcss.com/)
-- [shadcn/ui](https://ui.shadcn.com/)
-- [next-intl](https://next-intl.dev/) 国际化
-- [Turborepo](https://turbo.build/) + [pnpm workspaces](https://pnpm.io/workspaces)
-
-## 项目结构
-
-```
-apps/web/
-├── src/
-│   ├── app/                 # Next.js App Router 页面
-│   ├── components/          # React 组件（Header、BottomNav、ArticleCard、LocaleSwitcher 等）
-│   ├── components/providers/# Context 提供者（AuthProvider）
-│   ├── components/ui/       # shadcn/ui 基础组件
-│   └── lib/                 # API 客户端与工具函数
-├── messages/
-│   ├── en.json              # 英文翻译
-│   └── zh.json              # 中文翻译
-├── i18n/
-│   ├── request.ts           # next-intl 请求配置
-│   └── routing.ts           # next-intl 路由配置
-├── middleware.ts            # next-intl 中间件
-├── next.config.ts
-└── package.json
-```
+- 公开内容 → 服务端组件 + `revalidate = 60`
+- 个人数据 → TanStack Query hooks
+- 认证态 → `AuthProvider` / `useAuth()`
+- 公开路径 → `src/lib/routes.ts` 单一事实源
 
 ## 快速开始
 
-1. 创建环境变量文件：
-
 ```bash
-cp .env.example .env.local
-# 或手动创建 apps/web/.env.local
-```
-
-`apps/web/.env.local`：
-
-```env
-NEXT_PUBLIC_API_BASE_URL=http://localhost:8081
-```
-
-2. 安装依赖：
-
-```bash
+cp apps/web/.env.example apps/web/.env.local
 pnpm install
-```
-
-3. 启动 **server-web**（本仓库不使用 server-admin）：
-
-```bash
-# 在 ArchForge 后端仓库
-./gradlew :archforge-server-web:bootRun   # 端口 8081
-```
-
-4. 启动开发服务器：
-
-```bash
+# 在 ArchForge 仓库启动 ./gradlew :archforge-server-web:bootRun
 pnpm dev
 ```
 
-打开 [http://localhost:3000](http://localhost:3000)。
+打开 [http://localhost:3000/en](http://localhost:3000/en)。
 
-默认开发账号与 ArchForge 后台管理员一致（例如 `admin / admin123`）。
+## 限制
 
-## 可用脚本
-
-```bash
-pnpm dev        # 启动开发服务器
-pnpm build      # 生产构建
-pnpm start      # 启动生产服务器
-pnpm typecheck  # TypeScript 类型检查
-pnpm lint       # Next.js 代码检查
-```
-
-## 国际化
-
-- 默认语言：**英文（`en`）**
-- 支持语言：`en`、`zh`
-- 翻译文件位于 `apps/web/messages/`
-- 顶部导航栏的 **Language** 按钮通过 `NEXT_LOCALE` Cookie 切换语言并刷新页面
-- `next-intl` 配置为 `localePrefix: 'never'`，不同语言共享同一 URL
+评论、点赞、标签、保存昵称/头像需要后端接口，当前契约没有这些能力。资料页可以演示上传，但不能持久化头像。
 
 ## 协议
 

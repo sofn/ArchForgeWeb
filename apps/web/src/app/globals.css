@@ -28,6 +28,21 @@
   --color-accent-foreground: var(--accent-foreground);
 }
 
+.dark {
+  --background: #0b1220;
+  --foreground: #e2e8f0;
+  --muted: #94a3b8;
+  --muted-foreground: #cbd5e1;
+  --border: #1e293b;
+  --primary: #818cf8;
+  --primary-foreground: #0f172a;
+  --card: #111827;
+  --card-foreground: #e2e8f0;
+  --ring: #818cf8;
+  --accent: #1e293b;
+  --accent-foreground: #e2e8f0;
+}
+
 html {
   scroll-behavior: smooth;
 }

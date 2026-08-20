@@ -1,17 +1,7 @@
-import { cookies, headers } from "next/headers";
+import { getLocale as getRequestLocale } from "next-intl/server";
+import { DEFAULT_LOCALE, LOCALES, type AppLocale } from "./routes";
 
-const SUPPORTED_LOCALES = ["en", "zh"] as const;
-type Locale = (typeof SUPPORTED_LOCALES)[number];
-
-export async function getLocale(): Promise<Locale> {
-  const cookieLocale = (await cookies()).get("NEXT_LOCALE")?.value;
-  if (cookieLocale && SUPPORTED_LOCALES.includes(cookieLocale as Locale)) {
-    return cookieLocale as Locale;
-  }
-
-  const acceptLanguage = (await headers()).get("accept-language") || "";
-  if (acceptLanguage.toLowerCase().startsWith("zh")) {
-    return "zh";
-  }
-  return "en";
+export async function getLocale(): Promise<AppLocale> {
+  const locale = await getRequestLocale();
+  return LOCALES.includes(locale as AppLocale) ? (locale as AppLocale) : DEFAULT_LOCALE;
 }

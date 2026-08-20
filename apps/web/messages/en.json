@@ -13,6 +13,15 @@
     "logout": "Logout",
     "register": "Register"
   },
+  "common": {
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page",
+    "theme": "Toggle theme",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "loadMore": "Load more"
+  },
   "locale": {
     "switch": "Switch language"
   },
@@ -24,6 +33,8 @@
     "greeting_afternoon": "Good afternoon",
     "greeting_evening": "Good evening",
     "guest": "Guest",
+    "colon": ", ",
+    "error": "Request failed",
     "welcome": "Welcome to the ArchForgeWeb dashboard",
     "metrics_title": "Metrics",
     "refresh": "Refresh",
@@ -94,14 +105,17 @@
     "title": "Profile",
     "changePassword": "Change Password",
     "myArticles": "My Articles",
-    "logout": "Logout"
+    "logout": "Logout",
+    "uploadAvatar": "Upload avatar",
+    "avatarDemo": "Upload works. Saving avatar needs a profile update API that does not exist yet."
   },
   "changePassword": {
     "title": "Change Password",
     "oldPassword": "Old Password",
     "newPassword": "New Password",
     "confirmPassword": "Confirm New Password",
-    "error_short": "New password must be at least 6 characters",
+    "error_short": "New password must be at least 8 characters",
+    "error_weak": "Password must be at least 8 characters, including uppercase, lowercase and digits",
     "error_mismatch": "New passwords do not match",
     "success": "Password changed",
     "cancel": "Cancel",
@@ -117,14 +131,21 @@
   },
   "articles": {
     "title": "All Articles",
+    "hero": "Explore the latest articles and insights from the community.",
     "all": "All",
+    "search": "Search",
+    "searchPlaceholder": "Search articles",
+    "back": "Back to articles",
+    "share": "Share",
     "publishTime": "Published at",
+    "colon": ": ",
     "myArticles": {
       "title": "My Articles",
       "write": "Write Article",
       "empty": "No articles yet, go write one",
       "previous": "Previous",
-      "next": "Next"
+      "next": "Next",
+      "loading": "Loading..."
     }
   },
   "write": {
@@ -154,6 +175,8 @@
     "upload_failed": "Upload failed",
     "title": "Something went wrong",
     "description": "An error occurred while loading the page",
-    "retry": "Try again"
+    "retry": "Try again",
+    "not_found": "This page does not exist.",
+    "back_home": "Back home"
   }
 }

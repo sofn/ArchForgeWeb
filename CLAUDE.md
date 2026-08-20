@@ -15,6 +15,7 @@ Root `package.json` (pnpm + Turborepo):
 | `pnpm dev` | Next.js dev server — [http://localhost:3000](http://localhost:3000) |
 | `pnpm build` | Production build |
 | `pnpm typecheck` | TypeScript check |
+| `pnpm test` | Vitest unit tests |
 | `pnpm lint` | ESLint |
 
 App-level (`apps/web`):
@@ -33,12 +34,11 @@ Requires Node.js >= 22 and pnpm >= 9.
 ```
 apps/web/
 ├── src/
-│   ├── app/                 # App Router: /, /login, /register, /articles, /write, /profile, …
-│   ├── components/          # Header, BottomNav, ArticleCard, providers/AuthProvider
-│   ├── components/ui/       # shadcn primitives
-│   └── lib/                 # api.ts, httpClient.ts
+│   ├── app/[locale]/{(marketing)|(auth)|(user)}
+│   ├── components/{ui,layout,shared,providers,theme}
+│   └── lib/{api,http,query,validation,routes.ts}
 ├── messages/                # en.json, zh.json
-├── i18n/                    # next-intl
+├── i18n/                    # next-intl, localePrefix=always
 ├── e2e/
 ├── middleware.ts
 └── next.config.ts
@@ -54,7 +54,7 @@ sa-token session (not admin JWT):
 
 Mirrored in `localStorage` with the same keys. `httpClient` sends `Authorization: Bearer <token>` and refreshes on HTTP 401.
 
-Public routes: `/`, `/login`, `/register`, `/forgot-password`, `/articles`, `/articles/:slug`.
+Public routes live in `src/lib/routes.ts` and are served under `/en` and `/zh`.
 
 ## ProblemDetail errors
 

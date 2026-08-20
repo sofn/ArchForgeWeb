@@ -1,18 +1,19 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import {
   login as apiLogin,
   logout as apiLogout,
-  getProfile,
   getCookie,
   setAuthCookies,
   clearAuthCookies,
   setAuthExpiredHandler,
   type WebLoginResponse,
 } from "@/lib/api";
+import { useProfile } from "@/lib/query/hooks";
+import { isPublicPath } from "@/lib/routes";
+import { usePathname, useRouter } from "../../../i18n/navigation";
 
 interface AuthUser {
   userId: number;
@@ -32,14 +33,6 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-function isPublicPath(path: string) {
-  const isPublicArticleDetail =
-    /^\/articles\/[^/]+$/.test(path) &&
-    !(path === "/articles/me" || path.startsWith("/articles/me/"));
-  const publicPaths = ["/", "/login", "/register", "/forgot-password", "/articles"];
-  return publicPaths.includes(path) || isPublicArticleDetail;
-}
-
 function readStoredToken(): string | null {
   if (typeof window === "undefined") return null;
   return localStorage.getItem("token") || getCookie("token");
@@ -48,10 +41,10 @@ function readStoredToken(): string | null {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(readStoredToken());
   const [user, setUser] = useState<AuthUser | null>(null);
-  const [isLoading, setIsLoading] = useState(Boolean(readStoredToken()));
   const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations("auth");
+  const profileQuery = useProfile(Boolean(token));
 
   useEffect(() => {
     setAuthExpiredHandler(() => {
@@ -66,33 +59,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [router]);
 
   useEffect(() => {
-    if (!token) {
-      setIsLoading(false);
-      return;
+    if (profileQuery.data) {
+      setUser({
+        userId: profileQuery.data.userId,
+        username: profileQuery.data.username,
+        nickname: profileQuery.data.nickname,
+        avatar: profileQuery.data.avatar,
+      });
     }
-    getProfile()
-      .then((profile) => {
-        setUser({
-          userId: profile.userId,
-          username: profile.username,
-          nickname: profile.nickname,
-          avatar: profile.avatar,
-        });
-      })
-      .catch(() => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("tokenName");
-        localStorage.removeItem("refreshToken");
-        setToken(null);
-      })
-      .finally(() => setIsLoading(false));
+  }, [profileQuery.data]);
+
+  useEffect(() => {
+    if (!token) {
+      setUser(null);
+    }
   }, [token]);
 
   useEffect(() => {
-    if (!isLoading && !token && !isPublicPath(pathname)) {
+    if (profileQuery.isError && token) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("tokenName");
+      localStorage.removeItem("refreshToken");
+      setToken(null);
+    }
+  }, [profileQuery.isError, token]);
+
+  const publicPage = isPublicPath(pathname);
+  const isLoading = Boolean(token) && profileQuery.isLoading && !user;
+
+  useEffect(() => {
+    if (!isLoading && !token && !publicPage) {
       router.push("/login");
     }
-  }, [isLoading, token, pathname, router]);
+  }, [isLoading, token, publicPage, router]);
 
   const setLoginResponse = (res: WebLoginResponse) => {
     const tokenName = res.tokenName || "Authorization";
@@ -134,11 +133,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     router.push("/login");
   };
 
-  if (isLoading && !isPublicPath(pathname)) {
+  if (isLoading && !publicPage) {
     return (
-      <div className="text-muted-foreground flex h-screen items-center justify-center">
-        {t("loading")}
-      </div>
+      <div className="text-muted-foreground flex h-screen items-center justify-center">{t("loading")}</div>
     );
   }
 
