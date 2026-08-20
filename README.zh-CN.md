@@ -2,7 +2,23 @@
 
 [English](README.md) | 中文
 
+[![CI](https://github.com/sofn/ArchForgeWeb/actions/workflows/ci.yml/badge.svg)](https://github.com/sofn/ArchForgeWeb/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ArchForge 的 **C 端 Next.js 客户端**。只消费 **`server-web`（端口 8081）**，不要指向管理端 8080。
+
+文档：[https://archforge.lesofn.com](https://archforge.lesofn.com)
+
+## 五仓地图
+
+```
+archforge/
+├── ArchForge/          # 后端 :8080 / :8081
+├── ArchForgeAdmin/     # 管理端 :8848 → :8080
+├── ArchForgeWeb/       # 本仓库 :3000 → :8081
+├── ArchForgeDocs/
+└── ArchForgeSpec/
+```
 
 基于 Next.js（App Router）+ React + Tailwind CSS v4 + shadcn/ui，使用 pnpm workspaces 与 Turborepo。
 

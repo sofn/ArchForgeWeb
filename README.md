@@ -2,7 +2,23 @@
 
 English | [中文](README.zh-CN.md)
 
+[![CI](https://github.com/sofn/ArchForgeWeb/actions/workflows/ci.yml/badge.svg)](https://github.com/sofn/ArchForgeWeb/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 C-end (consumer) **Next.js** client for ArchForge. It consumes **`server-web` on port 8081** only — not the admin API on 8080.
+
+Docs: [https://archforge.lesofn.com](https://archforge.lesofn.com)
+
+## Five-repo map
+
+```
+archforge/
+├── ArchForge/          # backend :8080 / :8081
+├── ArchForgeAdmin/     # admin :8848 → :8080
+├── ArchForgeWeb/       # this repo :3000 → :8081
+├── ArchForgeDocs/
+└── ArchForgeSpec/
+```
 
 Built with Next.js (App Router) + React + Tailwind CSS v4 + shadcn/ui, managed by pnpm workspaces and Turborepo.
 
