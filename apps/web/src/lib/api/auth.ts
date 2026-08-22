@@ -1,7 +1,7 @@
-import { httpClient } from "@/lib/http/client";
-import type { WebLoginResponse } from "@/lib/http/types";
+import { api, unwrap } from "@/lib/http/client";
 import type {
   WebChangePasswordRequest,
+  WebLoginResponse,
   WebRegisterRequest,
   WebResetPasswordRequest,
   WebSendVerificationCodeRequest,
@@ -9,33 +9,39 @@ import type {
 } from "./types";
 
 export async function login(username: string, password: string): Promise<WebLoginResponse> {
-  return httpClient.post<WebLoginResponse>("/web/login", { username, password });
+  return unwrap<WebLoginResponse>(api.POST("/web/login", { body: { username, password } }));
 }
 
 export async function logout(refreshToken?: string | null): Promise<boolean> {
-  return httpClient.post<boolean>("/web/logout", refreshToken ? { refreshToken } : {});
+  return unwrap<boolean>(
+    api.POST("/web/logout", { body: refreshToken ? { refreshToken } : {} })
+  );
 }
 
 export async function getProfile(): Promise<WebUserProfileResponse> {
-  return httpClient.get<WebUserProfileResponse>("/web/user/profile");
+  return unwrap<WebUserProfileResponse>(api.GET("/web/user/profile"));
 }
 
 export async function changePassword(data: WebChangePasswordRequest): Promise<boolean> {
-  return httpClient.post<boolean>("/web/user/change-password", data);
+  return unwrap<boolean>(api.POST("/web/user/change-password", { body: data }));
 }
 
-export async function sendVerificationCode(data: WebSendVerificationCodeRequest): Promise<boolean> {
-  return httpClient.post<boolean>("/web/verification-code/send", data);
+export async function sendVerificationCode(
+  data: WebSendVerificationCodeRequest
+): Promise<boolean> {
+  return unwrap<boolean>(api.POST("/web/verification-code/send", { body: data }));
 }
 
 export async function register(data: WebRegisterRequest): Promise<WebLoginResponse> {
-  return httpClient.post<WebLoginResponse>("/web/register", data);
+  return unwrap<WebLoginResponse>(api.POST("/web/register", { body: data }));
 }
 
 export async function forgotPassword(email: string): Promise<boolean> {
-  return httpClient.post<boolean>("/web/forgot-password", { email, purpose: "RESET_PASSWORD" });
+  return unwrap<boolean>(
+    api.POST("/web/forgot-password", { body: { email, purpose: "RESET_PASSWORD" } })
+  );
 }
 
 export async function resetPassword(data: WebResetPasswordRequest): Promise<boolean> {
-  return httpClient.post<boolean>("/web/reset-password", data);
+  return unwrap<boolean>(api.POST("/web/reset-password", { body: data }));
 }

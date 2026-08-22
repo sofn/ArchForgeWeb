@@ -1,14 +1,18 @@
-import { httpClient } from "@/lib/http/client";
-import type { WebDashboardMetricsResponse, WebNoticeResponse, WebOperationLogResponse } from "./types";
+import { api, unwrap } from "@/lib/http/client";
+import type {
+  WebDashboardMetricsResponse,
+  WebNoticeResponse,
+  WebOperationLogResponse,
+} from "./types";
 
 export async function getMetrics(): Promise<WebDashboardMetricsResponse> {
-  return httpClient.get<WebDashboardMetricsResponse>("/web/dashboard/metrics");
+  return unwrap<WebDashboardMetricsResponse>(api.GET("/web/dashboard/metrics"));
 }
 
 export async function getNotices(): Promise<WebNoticeResponse[]> {
-  return httpClient.get<WebNoticeResponse[]>("/web/notices");
+  return unwrap<WebNoticeResponse[]>(api.GET("/web/notices"));
 }
 
 export async function getOperationLogs(): Promise<WebOperationLogResponse[]> {
-  return httpClient.get<WebOperationLogResponse[]>("/web/operation-logs");
+  return unwrap<WebOperationLogResponse[]>(api.GET("/web/operation-logs"));
 }

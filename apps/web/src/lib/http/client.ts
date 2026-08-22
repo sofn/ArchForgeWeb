@@ -1,6 +1,7 @@
+import createClient from "openapi-fetch";
+import type { paths } from "@/types/schema";
 import { clearAuthCookies, getCookie, setAuthCookies } from "./cookies";
 import { ApiError } from "./errors";
-import type { ApiResponse, WebLoginResponse } from "./types";
 
 export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8081";
 
@@ -41,12 +42,12 @@ function notifyRefreshSubscribers() {
   refreshSubscribers.length = 0;
 }
 
-async function parseError(res: Response, fallback: string): Promise<ApiError> {
+async function parseErrorResponse(res: Response): Promise<ApiError> {
   try {
     const err = (await res.json()) as { message?: string; detail?: string; code?: number };
-    return new ApiError(err.message || err.detail || fallback, res.status, err.code);
+    return new ApiError(err.message || err.detail || `Request failed: ${res.status}`, res.status, err.code);
   } catch {
-    return new ApiError(fallback, res.status);
+    return new ApiError(`Request failed: ${res.status}`, res.status);
   }
 }
 
@@ -64,12 +65,20 @@ async function doRefresh(): Promise<void> {
   });
 
   if (!res.ok) {
-    throw await parseError(res, "Refresh failed");
+    throw await parseErrorResponse(res);
   }
 
-  const json: ApiResponse<WebLoginResponse> & { detail?: string } = await res.json();
-  if (json.code !== 0) {
-    throw new ApiError(json.message || json.detail || "Refresh failed", res.status, json.code);
+  const json = (await res.json()) as {
+    code: number;
+    message?: string;
+    data?: {
+      accessToken: string;
+      tokenName?: string;
+      refreshToken?: string;
+    };
+  };
+  if (json.code !== 0 || !json.data) {
+    throw new ApiError(json.message || "Refresh failed", res.status, json.code);
   }
 
   const data = json.data;
@@ -100,13 +109,9 @@ async function refreshAccessToken(): Promise<void> {
   }
 }
 
-function fetchWithTimeout(
-  input: RequestInfo | URL,
-  init: RequestInit,
-  timeoutMs = DEFAULT_TIMEOUT
-): Promise<Response> {
+function fetchWithTimeout(input: RequestInfo | URL, init: RequestInit): Promise<Response> {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+  const timeoutId = setTimeout(() => controller.abort(), DEFAULT_TIMEOUT);
 
   const userSignal = init.signal;
   const onAbort = () => controller.abort();
@@ -126,61 +131,53 @@ function fetchWithTimeout(
   });
 }
 
-async function request<T>(path: string, options: RequestInit = {}, retried = false): Promise<T> {
-  const call = async (): Promise<T> => {
-    const token = getToken();
-    const tokenName = getTokenName();
-    const headers = new Headers(options.headers);
-    if (token) headers.set(tokenName, buildAuthHeader(token, tokenName));
-    if (!headers.has("Content-Type") && typeof options.body === "string") {
-      headers.set("Content-Type", "application/json");
+/**
+ * Transport for openapi-fetch: injects the sa-token header, applies a timeout,
+ * transparently refreshes expired tokens once, and normalizes every non-2xx
+ * response (envelope or ProblemDetail) into an {@link ApiError}.
+ */
+const authFetch: typeof fetch = async (input, init) => {
+  const token = getToken();
+  const tokenName = getTokenName();
+  const headers = new Headers(init?.headers);
+  if (token) headers.set(tokenName, buildAuthHeader(token, tokenName));
+
+  let res = await fetchWithTimeout(input, { ...init, credentials: "same-origin", headers });
+
+  if (res.status === 401 && token) {
+    await refreshAccessToken();
+    headers.set(tokenName, buildAuthHeader(getToken(), getTokenName()));
+    res = await fetchWithTimeout(input, { ...init, credentials: "same-origin", headers });
+  }
+
+  if (!res.ok) {
+    if (res.status === 401 && !getToken()) {
+      throw new ApiError("请先登录", 401);
     }
+    throw await parseErrorResponse(res);
+  }
 
-    const res = await fetchWithTimeout(
-      `${API_BASE}${path}`,
-      { ...options, credentials: "same-origin", headers },
-      DEFAULT_TIMEOUT
-    );
-
-    if (res.status === 401) {
-      if (!token || retried) {
-        throw new ApiError("请先登录", 401);
-      }
-      await refreshAccessToken();
-      return request<T>(path, options, true);
-    }
-
-    if (!res.ok) {
-      throw await parseError(res, `Request failed: ${res.status}`);
-    }
-
-    const json: ApiResponse<T> & { detail?: string } = await res.json();
-    if (json.code !== 0) {
-      throw new ApiError(json.message || json.detail || "Request failed", res.status, json.code);
-    }
-    return json.data;
-  };
-
-  return call();
-}
-
-export const httpClient = {
-  request,
-  get: <T>(path: string) => request<T>(path),
-  post: <T>(path: string, body: unknown) =>
-    request<T>(path, {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: { "Content-Type": "application/json" },
-    }),
-  put: <T>(path: string, body: unknown) =>
-    request<T>(path, {
-      method: "PUT",
-      body: JSON.stringify(body),
-      headers: { "Content-Type": "application/json" },
-    }),
-  delete: <T>(path: string) => request<T>(path, { method: "DELETE" }),
-  upload: <T>(path: string, form: FormData) => request<T>(path, { method: "POST", body: form }),
+  return res;
 };
+
+/**
+ * Schema-typed API client. All endpoint calls go through this — paths and
+ * payloads are checked against `src/types/schema.d.ts`, which is generated
+ * from ArchForgeSpec/api/openapi.yaml via `pnpm gen:api`.
+ */
+export const api = createClient<paths>({ fetch: authFetch });
+
+/** Unwraps the `{code,message,data}` envelope returned by every success response. */
+export async function unwrap<T>(call: Promise<{ data?: unknown; error?: unknown; response: Response }>): Promise<T> {
+  const { data, error, response } = await call;
+  if (error) {
+    throw error instanceof ApiError ? error : new ApiError(String(error), response.status);
+  }
+  const envelope = data as { code: number; message?: string; data?: T } | undefined;
+  if (!envelope || envelope.code !== 0) {
+    throw new ApiError(envelope?.message || "Request failed", response.status, envelope?.code);
+  }
+  return envelope.data as T;
+}
 
 export { clearAuthCookies, getCookie, setAuthCookies };
