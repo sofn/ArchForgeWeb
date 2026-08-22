@@ -22,6 +22,39 @@ archforge/
 
 Built with Next.js (App Router) + React + Tailwind CSS v4 + shadcn/ui, managed by pnpm workspaces and Turborepo.
 
+## Architecture
+
+Where this repo sits in the five-repo system, and where its types come from:
+
+```mermaid
+flowchart LR
+  U(["Visitors / C-end users"]) --> B["Browser<br/>SSR/RSC pages · TanStack Query"]
+  subgraph next["ArchForgeWeb — this repo :3000"]
+    PAGES["App Router pages<br/>/en /zh locale prefixes"]
+    SDK["lib/api — openapi-fetch<br/>typed from schema.d.ts"]
+  end
+  SA["server-web :8081<br/>REST + SSE · ProblemDetail"]
+  SPEC["ArchForgeSpec<br/>openapi.yaml · enums.yaml"]
+
+  B --> PAGES --> SDK -->|"REST"| SA
+  SPEC -.|"pnpm gen:api"| SDK
+```
+
+Public content is fetched in server components (`revalidate = 60`); personal data goes through TanStack Query hooks; auth state lives in `AuthProvider`.
+
+## Contract-first types
+
+API and enum types are **generated, never hand-written**:
+
+```bash
+pnpm gen:api   # schema.d.ts from ../ArchForgeSpec/api/openapi.yaml
+```
+
+- `src/types/schema.d.ts` — all request/response shapes (openapi-typescript)
+- `src/types/enums.generated.ts` — shared enums + labels from `enums.yaml`
+- `lib/api/*` calls go through `openapi-fetch` with paths/payloads checked against the schema
+- CI regenerates both files and fails on drift (`sdk-sync`)
+
 ## Features
 
 - User login / register / reset password (Sa-Token)

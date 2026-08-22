@@ -22,6 +22,39 @@ archforge/
 
 基于 Next.js（App Router）+ React + Tailwind CSS v4 + shadcn/ui，使用 pnpm workspaces 与 Turborepo。
 
+## 架构
+
+本仓库在五仓体系中的位置，以及类型的来源：
+
+```mermaid
+flowchart LR
+  U(["C 端访问者"]) --> B["浏览器<br/>SSR/RSC 页面 · TanStack Query"]
+  subgraph next["ArchForgeWeb —— 本仓库 :3000"]
+    PAGES["App Router 页面<br/>/en /zh 语言前缀"]
+    SDK["lib/api —— openapi-fetch<br/>类型来自 schema.d.ts"]
+  end
+  SA["server-web :8081<br/>REST + SSE · ProblemDetail"]
+  SPEC["ArchForgeSpec<br/>openapi.yaml · enums.yaml"]
+
+  B --> PAGES --> SDK -->|"REST"| SA
+  SPEC -.|"pnpm gen:api"| SDK
+```
+
+公开内容走服务端组件（`revalidate = 60`）；个人数据走 TanStack Query hooks；认证态在 `AuthProvider`。
+
+## 契约先行：生成类型
+
+API 与枚举类型**全部生成，不手写**：
+
+```bash
+pnpm gen:api   # schema.d.ts，来自 ../ArchForgeSpec/api/openapi.yaml
+```
+
+- `src/types/schema.d.ts` —— 全部请求/响应结构（openapi-typescript）
+- `src/types/enums.generated.ts` —— 共享枚举与文案（enums.yaml）
+- `lib/api/*` 通过 `openapi-fetch` 调用，路径与载荷受 schema 类型约束
+- CI 重新生成两个文件并校验漂移（`sdk-sync`）
+
 ## 功能
 
 - 登录 / 注册 / 重置密码（Sa-Token）
