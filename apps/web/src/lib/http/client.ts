@@ -30,15 +30,15 @@ function buildAuthHeader(token: string, tokenName: string): string {
 }
 
 let isRefreshing = false;
-const refreshSubscribers: Array<() => void> = [];
+const refreshSubscribers: Array<{ resolve: () => void; reject: (err: unknown) => void }> = [];
 let authExpiredHandler: (() => void) | null = null;
 
 export function setAuthExpiredHandler(handler: () => void) {
   authExpiredHandler = handler;
 }
 
-function notifyRefreshSubscribers() {
-  refreshSubscribers.forEach((cb) => cb());
+function settleRefreshSubscribers(error?: unknown) {
+  refreshSubscribers.forEach(({ resolve, reject }) => (error ? reject(error) : resolve()));
   refreshSubscribers.length = 0;
 }
 
@@ -57,7 +57,7 @@ async function doRefresh(): Promise<void> {
     throw new ApiError("No refresh token", 401);
   }
 
-  const res = await fetch(`${API_BASE}/web/refresh-token`, {
+  const res = await fetchWithTimeout(`${API_BASE}/web/refresh-token`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "same-origin",
@@ -93,16 +93,17 @@ async function doRefresh(): Promise<void> {
 
 async function refreshAccessToken(): Promise<void> {
   if (isRefreshing) {
-    await new Promise<void>((resolve) => refreshSubscribers.push(resolve));
+    await new Promise<void>((resolve, reject) => refreshSubscribers.push({ resolve, reject }));
     return;
   }
 
   isRefreshing = true;
   try {
     await doRefresh();
-    notifyRefreshSubscribers();
+    settleRefreshSubscribers();
   } catch (err) {
     authExpiredHandler?.();
+    settleRefreshSubscribers(err);
     throw err;
   } finally {
     isRefreshing = false;
