@@ -1,16 +1,16 @@
-"use client";
-
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDateTime } from "@/lib/date";
-import { useNotices, useOperationLogs } from "@/lib/query/hooks";
+import { getServerNotices, getServerOperationLogs } from "@/lib/api/server";
 
-export default function NotificationsPage() {
-  const noticesQuery = useNotices();
-  const logsQuery = useOperationLogs();
-  const t = useTranslations("notifications");
-  const notices = noticesQuery.data ?? [];
-  const logs = logsQuery.data ?? [];
+/**
+ * Server component (was "use client" with react-query): pure display page —
+ * both lists are fetched server-side with the auth cookie during SSR.
+ * loading.tsx streams the shell; errors hit the route error boundary.
+ */
+export default async function NotificationsPage() {
+  const t = await getTranslations("notifications");
+  const [notices, logs] = await Promise.all([getServerNotices(), getServerOperationLogs()]);
 
   return (
     <div className="space-y-6">
@@ -24,11 +24,14 @@ export default function NotificationsPage() {
             {notices.map((n) => (
               <div key={n.id} className="border-b pb-3 last:border-0 last:pb-0">
                 <div className="font-medium">{n.title}</div>
-                <div className="text-muted-foreground mt-1 text-sm">{n.content}</div>
-                <div className="text-muted-foreground mt-1 text-xs">{formatDateTime(n.createTime)}</div>
+                <div className="text-muted-foreground text-xs">
+                  {formatDateTime(n.createTime)}
+                </div>
               </div>
             ))}
-            {notices.length === 0 && <p className="text-muted-foreground text-sm">{t("noNotices")}</p>}
+            {notices.length === 0 && (
+              <p className="text-muted-foreground text-sm">{t("noNotices")}</p>
+            )}
           </CardContent>
         </Card>
         <Card>

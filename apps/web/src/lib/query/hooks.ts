@@ -1,17 +1,12 @@
 "use client";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  createArticle,
-  getMetrics,
-  getMyArticles,
-  getNotices,
-  getOperationLogs,
-  getProfile,
-  uploadImage,
-  type WebArticleCreateRequest,
-} from "@/lib/api";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { createArticle, getProfile, uploadImage, type WebArticleCreateRequest } from "@/lib/api";
 import { queryKeys } from "./keys";
+
+// Data-fetching hooks for CLIENT pages (forms, interactive islands).
+// List pages (home / my-articles / notifications) now render on the server —
+// see lib/api/server.ts — so their react-query hooks were removed.
 
 export function useProfile(enabled = true) {
   return useQuery({
@@ -21,44 +16,11 @@ export function useProfile(enabled = true) {
   });
 }
 
-export function useMetrics(enabled = true) {
-  return useQuery({
-    queryKey: queryKeys.metrics,
-    queryFn: getMetrics,
-    enabled,
-  });
-}
-
-export function useNotices(enabled = true) {
-  return useQuery({
-    queryKey: queryKeys.notices,
-    queryFn: getNotices,
-    enabled,
-  });
-}
-
-export function useOperationLogs(enabled = true) {
-  return useQuery({
-    queryKey: queryKeys.logs,
-    queryFn: getOperationLogs,
-    enabled,
-  });
-}
-
-export function useMyArticles(page: number, pageSize = 12) {
-  return useQuery({
-    queryKey: queryKeys.myArticles(page),
-    queryFn: () => getMyArticles(page, pageSize),
-  });
-}
-
 export function useCreateArticle() {
-  const client = useQueryClient();
+  // my-articles is now server-rendered (dynamic via request cookies), so fresh
+  // data comes from the next RSC navigation — no query to invalidate.
   return useMutation({
     mutationFn: (data: WebArticleCreateRequest) => createArticle(data),
-    onSuccess: () => {
-      void client.invalidateQueries({ queryKey: ["my-articles"] });
-    },
   });
 }
 

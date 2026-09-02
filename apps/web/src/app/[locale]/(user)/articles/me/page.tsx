@@ -1,31 +1,43 @@
-"use client";
-
-import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { ArticleCard } from "@/components/shared/ArticleCard";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useMyArticles } from "@/lib/query/hooks";
-import { useRouter } from "../../../../../../i18n/navigation";
+import { Pagination } from "@/components/shared/Pagination";
+import { getServerMyArticles } from "@/lib/api/server";
+import { Link } from "../../../../../../i18n/navigation";
 
-export default function MyArticlesPage() {
-  const [page, setPage] = useState(1);
+/**
+ * Server component (was "use client" with react-query): pagination moves from
+ * useState to the URL (searchParams), data is fetched server-side with the
+ * auth cookie, and the shared link-based Pagination client component keeps
+ * navigation instant. loading.tsx streams the shell while RSC fetches.
+ */
+
+type Props = {
+  searchParams: Promise<{ page?: string }>;
+};
+
+export default async function MyArticlesPage({ searchParams }: Props) {
+  const { page: pageRaw } = await searchParams;
+  const page = Math.max(1, Number(pageRaw) || 1);
   const pageSize = 12;
-  const query = useMyArticles(page, pageSize);
-  const router = useRouter();
-  const t = useTranslations("articles.myArticles");
-  const articles = query.data?.list ?? [];
-  const total = query.data?.total ?? 0;
+
+  const data = await getServerMyArticles(page, pageSize);
+  const articles = data?.list ?? [];
+  const total = data?.total ?? 0;
+
+  const t = await getTranslations("articles.myArticles");
+  const hrefFor = (nextPage: number) => `/articles/me?page=${nextPage}`;
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{t("title")}</h1>
-        <Button onClick={() => router.push("/write")}>{t("write")}</Button>
+        <Link href="/write" className={buttonVariants()}>
+          {t("write")}
+        </Link>
       </div>
-      {query.isLoading ? (
-        <p className="text-muted-foreground">{t("loading")}</p>
-      ) : articles.length === 0 ? (
+      {articles.length === 0 ? (
         <Card>
           <CardContent className="text-muted-foreground py-12 text-center">{t("empty")}</CardContent>
         </Card>
@@ -36,14 +48,7 @@ export default function MyArticlesPage() {
           ))}
         </div>
       )}
-      <div className="flex justify-center gap-2">
-        <Button variant="outline" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
-          {t("previous")}
-        </Button>
-        <Button variant="outline" disabled={page * pageSize >= total} onClick={() => setPage((p) => p + 1)}>
-          {t("next")}
-        </Button>
-      </div>
+      <Pagination page={page} pageSize={pageSize} total={total} hrefFor={hrefFor} />
     </div>
   );
 }

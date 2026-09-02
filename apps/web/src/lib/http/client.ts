@@ -2,10 +2,29 @@ import createClient from "openapi-fetch";
 import type { paths } from "@/types/schema";
 import { clearAuthCookies, getCookie, setAuthCookies } from "./cookies";
 import { ApiError } from "./errors";
+import {
+  API_BASE,
+  DEFAULT_TIMEOUT,
+  buildAuthHeader,
+  fetchWithTimeout,
+  parseErrorResponse,
+  unwrap,
+} from "./shared";
 
-export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8081";
-
-const DEFAULT_TIMEOUT = 10000;
+/**
+ * Browser http client (with token refresh).
+ *
+ * IMPORTANT: this module is for Client Components. Server Components must use
+ * `@/lib/http/server` (or the data layer `@/lib/api/server`): credentials live
+ * in request cookies there, and `next/headers` must never enter the client
+ * module graph.
+ *
+ * History note: getToken()/getCookie() below still return ""/null outside the
+ * browser — by design, since a synchronous signature cannot await the
+ * async-only `next/headers` cookie API. Previously that silently stripped auth
+ * headers from RSC requests and forced user-facing pages to "use client".
+ * The server client now covers RSC; do not route server requests through here.
+ */
 
 function getToken(): string {
   if (typeof window === "undefined") return "";
@@ -22,13 +41,6 @@ function getRefreshToken(): string | null {
   return localStorage.getItem("refreshToken") || getCookie("refreshToken");
 }
 
-function buildAuthHeader(token: string, tokenName: string): string {
-  if (tokenName.toLowerCase() === "authorization") {
-    return `Bearer ${token}`;
-  }
-  return token;
-}
-
 let isRefreshing = false;
 const refreshSubscribers: Array<{ resolve: () => void; reject: (err: unknown) => void }> = [];
 let authExpiredHandler: (() => void) | null = null;
@@ -40,15 +52,6 @@ export function setAuthExpiredHandler(handler: () => void) {
 function settleRefreshSubscribers(error?: unknown) {
   refreshSubscribers.forEach(({ resolve, reject }) => (error ? reject(error) : resolve()));
   refreshSubscribers.length = 0;
-}
-
-async function parseErrorResponse(res: Response): Promise<ApiError> {
-  try {
-    const err = (await res.json()) as { message?: string; detail?: string; code?: number };
-    return new ApiError(err.message || err.detail || `Request failed: ${res.status}`, res.status, err.code);
-  } catch {
-    return new ApiError(`Request failed: ${res.status}`, res.status);
-  }
 }
 
 async function doRefresh(): Promise<void> {
@@ -110,28 +113,6 @@ async function refreshAccessToken(): Promise<void> {
   }
 }
 
-function fetchWithTimeout(input: RequestInfo | URL, init: RequestInit): Promise<Response> {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), DEFAULT_TIMEOUT);
-
-  const userSignal = init.signal;
-  const onAbort = () => controller.abort();
-  if (userSignal) {
-    if (userSignal.aborted) {
-      controller.abort();
-    } else {
-      userSignal.addEventListener("abort", onAbort, { once: true });
-    }
-  }
-
-  return fetch(input, { ...init, signal: controller.signal }).finally(() => {
-    clearTimeout(timeoutId);
-    if (userSignal) {
-      userSignal.removeEventListener("abort", onAbort);
-    }
-  });
-}
-
 /**
  * Transport for openapi-fetch: injects the sa-token header, applies a timeout,
  * transparently refreshes expired tokens once, and normalizes every non-2xx
@@ -163,22 +144,10 @@ const authFetch: typeof fetch = async (input, init) => {
 
 /**
  * Schema-typed API client. All endpoint calls go through this — paths and
- * payloads are checked against `src/types/schema.d.ts`, which is generated
+ * response shapes are checked against `src/types/schema.d.ts`, which is generated
  * from ArchForgeSpec/api/openapi.yaml via `pnpm gen:api`.
  */
 export const api = createClient<paths>({ fetch: authFetch });
 
-/** Unwraps the `{code,message,data}` envelope returned by every success response. */
-export async function unwrap<T>(call: Promise<{ data?: unknown; error?: unknown; response: Response }>): Promise<T> {
-  const { data, error, response } = await call;
-  if (error) {
-    throw error instanceof ApiError ? error : new ApiError(String(error), response.status);
-  }
-  const envelope = data as { code: number; message?: string; data?: T } | undefined;
-  if (!envelope || envelope.code !== 0) {
-    throw new ApiError(envelope?.message || "Request failed", response.status, envelope?.code);
-  }
-  return envelope.data as T;
-}
-
+export { API_BASE, DEFAULT_TIMEOUT, buildAuthHeader, parseErrorResponse, fetchWithTimeout, unwrap };
 export { clearAuthCookies, getCookie, setAuthCookies };

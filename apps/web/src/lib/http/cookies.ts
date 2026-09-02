@@ -1,3 +1,12 @@
+/**
+ * Browser-side cookie helpers.
+ *
+ * getCookie is synchronous and therefore BROWSER-ONLY: server-side cookies are
+ * async-only (`next/headers` cookies(), Next 15+). Server code must read
+ * credentials via `@/lib/http/server` (readServerAuth) — routing RSC requests
+ * through this file is what originally stripped auth headers from SSR.
+ */
+
 export function getCookie(name: string): string | null {
   if (typeof document === "undefined") return null;
   const entry = document.cookie.split("; ").find((row) => row.startsWith(`${name}=`));
