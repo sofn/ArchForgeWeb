@@ -7,7 +7,7 @@ import { ShareButtons } from "@/components/shared/ShareButtons";
 import { formatDateTime } from "@/lib/date";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Calendar, FolderOpen } from "lucide-react";
-import { Link } from "../../../../../../i18n/navigation";
+import { Link } from "@/i18n/navigation";
 
 export const revalidate = 60;
 

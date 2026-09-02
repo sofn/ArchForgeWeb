@@ -4,7 +4,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Pagination } from "@/components/shared/Pagination";
 import { getServerMyArticles } from "@/lib/api/server";
-import { Link } from "../../../../../../i18n/navigation";
+import { Link } from "@/i18n/navigation";
 
 /**
  * Server component (was "use client" with react-query): pagination moves from

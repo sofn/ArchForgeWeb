@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { changePassword } from "@/lib/api";
 import { changePasswordSchema, type ChangePasswordValues } from "@/lib/validation/auth";
-import { useRouter } from "../../../../../i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 
 export default function ChangePasswordPage() {
   const [formError, setFormError] = useState("");

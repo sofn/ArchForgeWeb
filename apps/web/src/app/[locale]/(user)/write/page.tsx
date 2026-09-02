@@ -13,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCategories, WebCategory } from "@/lib/api";
 import { useCreateArticle, useUploadImage } from "@/lib/query/hooks";
 import { writeArticleSchema, type WriteArticleValues } from "@/lib/validation/article";
-import { useRouter } from "../../../../../i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 
 export default function WritePage() {
   const [coverFileId, setCoverFileId] = useState<number | null>(null);

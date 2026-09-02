@@ -3,7 +3,7 @@ import { getCategories, getArticles } from "@/lib/api";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { Pagination } from "@/components/shared/Pagination";
 import { ArticlesSearchForm } from "./ArticlesSearchForm";
-import { Link } from "../../../../../i18n/navigation";
+import { Link } from "@/i18n/navigation";
 
 export const revalidate = 60;
 

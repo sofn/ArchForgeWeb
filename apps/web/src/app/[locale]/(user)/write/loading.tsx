@@ -1,1 +1,1 @@
-export { default } from "@/components/shared/RouteLoading";
+export { default } from "@/components/boundaries/RouteLoading";

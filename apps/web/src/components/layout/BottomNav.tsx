@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Home, FileText, User, PenLine, LogIn } from "lucide-react";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { Link, usePathname } from "../../../i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 
 export function BottomNav() {
   const pathname = usePathname();

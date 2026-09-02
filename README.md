@@ -83,14 +83,13 @@ pnpm gen:api   # schema.d.ts from ../ArchForgeSpec/api/openapi.yaml
 apps/web/
 ├── src/
 │   ├── app/[locale]/(marketing|auth|user)/
-│   ├── components/{ui,layout,shared,providers,theme}
+│   ├── components/{ui,layout,shared,providers,theme,boundaries}
+│   ├── i18n/
 │   └── lib/{api,http,query,validation,routes.ts}
 ├── messages/
-├── i18n/
 ├── e2e/
 └── middleware.ts
 ```
-
 Data rules:
 
 - Public content → server component fetch (`revalidate = 60`)

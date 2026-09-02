@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useRouter } from "../../../../../i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 
 export function ArticlesSearchForm({ category, q }: { category?: string; q?: string }) {
   const t = useTranslations("articles");

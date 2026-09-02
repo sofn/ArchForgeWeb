@@ -1,3 +1,8 @@
+/**
+ * Next.js has no special filename for RSS (unlike `robots.ts` / `sitemap.ts`).
+ * A folder named `rss.xml/` is the App Router way to serve GET /rss.xml —
+ * do not flatten this into `rss.xml.ts`; that would not register the route.
+ */
 import { getArticles } from "@/lib/api";
 
 export async function GET() {

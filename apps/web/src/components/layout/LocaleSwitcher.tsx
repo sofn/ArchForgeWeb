@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { usePathname, useRouter } from "../../../i18n/navigation";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 interface LocaleSwitcherProps {

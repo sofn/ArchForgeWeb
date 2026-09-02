@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { forgotPassword, resetPassword } from "@/lib/api";
 import { resetPasswordSchema, type ResetPasswordValues } from "@/lib/validation/auth";
-import { Link, useRouter } from "../../../../../i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 
 export default function ForgotPasswordPage() {
   const [formError, setFormError] = useState("");

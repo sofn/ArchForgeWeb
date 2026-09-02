@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { WebArticleSummary } from "@/lib/api";
 import { formatDateTime } from "@/lib/date";
-import { Link } from "../../../i18n/navigation";
+import { Link } from "@/i18n/navigation";
 
 export function ArticleCard({ article }: { article: WebArticleSummary }) {
   return (

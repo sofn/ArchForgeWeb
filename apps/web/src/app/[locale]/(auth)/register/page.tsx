@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { register as registerUser, sendVerificationCode } from "@/lib/api";
 import { registerSchema, type RegisterValues } from "@/lib/validation/auth";
-import { Link, useRouter } from "../../../../../i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 
 export default function RegisterPage() {
   const [formError, setFormError] = useState("");

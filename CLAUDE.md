@@ -35,15 +35,29 @@ Requires Node.js >= 22 and pnpm >= 9.
 apps/web/
 ├── src/
 │   ├── app/[locale]/{(marketing)|(auth)|(user)}
-│   ├── components/{ui,layout,shared,providers,theme}
+│   ├── components/{ui,layout,shared,providers,theme,boundaries}
+│   ├── i18n/                    # next-intl, localePrefix=always
 │   └── lib/{api,http,query,validation,routes.ts}
 ├── messages/                # en.json, zh.json
-├── i18n/                    # next-intl, localePrefix=always
 ├── e2e/
 ├── middleware.ts
 └── next.config.ts
 ```
 
+Import locale-aware `Link` / `useRouter` from `@/i18n/navigation` (not relative `../` walks). `src/app/rss.xml/route.ts` is the App Router trick for `GET /rss.xml` — Next has no `rss.ts` convention file.
+
+### Component directories
+
+| Directory | Naming | Purpose | Rule of thumb |
+|-----------|--------|---------|----------------|
+| `ui/` | kebab-case | Atomic, no business meaning | Would work in any project (`button`, `input`) — shadcn/ui convention |
+| `shared/` | PascalCase | Composite with business meaning | Tied to ArchForge domain (`ArticleCard`) |
+| `layout/` | PascalCase | Page chrome | `Header`, `Footer`, `Nav` |
+| `providers/` | PascalCase | React Context providers | State injection only, no UI |
+| `theme/` | PascalCase | Theme plumbing | `ThemeProvider`, `ThemeToggle` |
+| `boundaries/` | PascalCase | Route-level error/loading UI | Reused by `error.tsx` / `loading.tsx` |
+
+Do not put a new `Button` in `shared/` — that belongs in `ui/`. Do not put `ArticleCard` in `ui/` — that is domain UI.
 ## Auth cookies
 
 sa-token session (not admin JWT):

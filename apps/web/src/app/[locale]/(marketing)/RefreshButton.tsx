@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "../../../../i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 
 /**
  * Client island: re-runs the server components on this page (server data is

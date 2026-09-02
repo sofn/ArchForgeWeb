@@ -7,7 +7,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { LocaleSwitcher } from "@/components/layout/LocaleSwitcher";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
-import { Link, usePathname } from "../../../i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 export function Header() {

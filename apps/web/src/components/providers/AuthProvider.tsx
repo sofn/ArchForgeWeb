@@ -13,7 +13,7 @@ import {
 } from "@/lib/api";
 import { useProfile } from "@/lib/query/hooks";
 import { isPublicPath } from "@/lib/routes";
-import { usePathname, useRouter } from "../../../i18n/navigation";
+import { usePathname, useRouter } from "@/i18n/navigation";
 
 interface AuthUser {
   userId: number;

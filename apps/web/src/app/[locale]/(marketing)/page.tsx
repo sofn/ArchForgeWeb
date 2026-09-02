@@ -15,7 +15,7 @@ import type {
   WebNoticeResponse,
   WebOperationLogResponse,
 } from "@/lib/api/types";
-import { Link } from "../../../../i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import { Greeting } from "./Greeting";
 import { RefreshButton } from "./RefreshButton";
 
