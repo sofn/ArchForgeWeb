@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
 import { Bell, FileText, PenLine, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,6 +11,7 @@ import {
   getServerOperationLogs,
   getServerProfile,
 } from "@/lib/api/server";
+import { getSiteUrl } from "@/lib/site";
 import type {
   WebDashboardMetricsResponse,
   WebNoticeResponse,
@@ -18,6 +20,53 @@ import type {
 import { Link } from "@/i18n/navigation";
 import { Greeting } from "./Greeting";
 import { RefreshButton } from "./RefreshButton";
+
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+/**
+ * Homepage SEO metadata (the page is a server component since the RSC fix, so
+ * this is finally reachable): custom title/description, canonical, hreflang
+ * alternates and an OG card rendered by /api/og.
+ */
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "metadata" });
+  const site = getSiteUrl();
+  const title = t("homeTitle");
+  const description = t("homeDescription");
+  const url = `${site}/${locale}`;
+  const ogImage = `${site}/api/og?title=${encodeURIComponent(title)}`;
+  return {
+    // absolute — the layout's `%s · site` template would duplicate the brand
+    // segment that homeTitle already carries.
+    title: { absolute: title },
+    description,
+    alternates: {
+      canonical: url,
+      languages: {
+        en: `${site}/en`,
+        zh: `${site}/zh`,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: "ArchForgeWeb",
+      locale,
+      type: "website",
+      images: [{ url: ogImage, width: 1200, height: 630, alt: title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
+  };
+}
 
 /**
  * Server component (was "use client"): the homepage renders fully on the

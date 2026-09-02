@@ -1,3 +1,7 @@
+// Root 404 renders OUTSIDE the [locale] segment, so `@/i18n/navigation`
+// (locale-aware) is unavailable here — next/link with an explicit locale-
+// prefixed href is the correct tool. Allowed via the eslint override that
+// matches this file.
 import Link from "next/link";
 
 export default function RootNotFound() {

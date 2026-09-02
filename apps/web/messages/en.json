@@ -1,7 +1,9 @@
 {
   "metadata": {
     "title": "ArchForgeWeb - C-end Demo",
-    "description": "A C-end demo site powered by the ArchForge backend."
+    "description": "A C-end demo site powered by the ArchForge backend.",
+    "homeTitle": "ArchForgeWeb — Home",
+    "homeDescription": "Your dashboard at a glance: metrics, notices and operation logs, plus the latest published articles."
   },
   "nav": {
     "home": "Home",

@@ -1,5 +1,7 @@
-"use client";
-
+// Server component (no interactivity — plain Links). Keeping it out of the
+// client graph lets server pages pass hrefFor closures directly (functions
+// cannot cross the RSC serialization boundary) and drops its JS from the bundle.
+// useTranslations is supported in Server Components by next-intl.
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { buttonVariants } from "@/components/ui/button";

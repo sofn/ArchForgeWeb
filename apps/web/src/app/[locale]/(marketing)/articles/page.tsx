@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { getCategories, getArticles } from "@/lib/api";
+import { getServerCategories, getServerArticles } from "@/lib/api/server";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { Pagination } from "@/components/shared/Pagination";
 import { ArticlesSearchForm } from "./ArticlesSearchForm";
@@ -15,9 +15,9 @@ export default async function ArticlesPage({
   const { category, q, page: pageRaw } = await searchParams;
   const page = Math.max(1, Number(pageRaw) || 1);
   const pageSize = 12;
-  const categories = await getCategories();
+  const categories = await getServerCategories();
   const categoryId = category ? categories.find((c) => c.slug === category)?.id : undefined;
-  const articlePage = await getArticles(categoryId, page, pageSize, q);
+  const articlePage = await getServerArticles(categoryId, page, pageSize, q);
   const t = await getTranslations("articles");
 
   const hrefFor = (nextPage: number) => {

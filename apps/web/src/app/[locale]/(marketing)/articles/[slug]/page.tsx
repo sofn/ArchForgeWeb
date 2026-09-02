@@ -1,7 +1,8 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { getArticle } from "@/lib/api";
+import { getServerArticle } from "@/lib/api/server";
+import { getSiteUrl } from "@/lib/site";
 import { Markdown } from "@/components/shared/Markdown";
 import { ShareButtons } from "@/components/shared/ShareButtons";
 import { formatDateTime } from "@/lib/date";
@@ -17,7 +18,7 @@ interface ArticlePageProps {
 
 async function loadArticle(slug: string) {
   try {
-    return await getArticle(slug);
+    return await getServerArticle(slug);
   } catch {
     return null;
   }
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   const { slug, locale } = await params;
   const article = await loadArticle(slug);
   if (!article) return {};
-  const site = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const site = getSiteUrl();
   const path = `/${locale}/articles/${encodeURIComponent(slug)}`;
   return {
     title: article.title,

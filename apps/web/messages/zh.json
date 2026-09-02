@@ -1,7 +1,9 @@
 {
   "metadata": {
     "title": "ArchForgeWeb - C 端示例",
-    "description": "基于 ArchForge 后端的 C 端站点。"
+    "description": "基于 ArchForge 后端的 C 端站点。",
+    "homeTitle": "ArchForgeWeb — 首页",
+    "homeDescription": "一览你的仪表盘：指标、通知与操作日志，以及最新发布的文章。"
   },
   "nav": {
     "home": "首页",

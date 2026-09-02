@@ -1,7 +1,8 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   login as apiLogin,
   logout as apiLogout,
@@ -12,6 +13,7 @@ import {
   type WebLoginResponse,
 } from "@/lib/api";
 import { useProfile } from "@/lib/query/hooks";
+import { queryKeys } from "@/lib/query/keys";
 import { isPublicPath } from "@/lib/routes";
 import { usePathname, useRouter } from "@/i18n/navigation";
 
@@ -38,76 +40,91 @@ function readStoredToken(): string | null {
   return localStorage.getItem("token") || getCookie("token");
 }
 
+function toAuthUser(source: {
+  userId: number;
+  username: string;
+  nickname?: string;
+  avatar?: string;
+}): AuthUser {
+  return {
+    userId: source.userId,
+    username: source.username,
+    nickname: source.nickname,
+    avatar: source.avatar,
+  };
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [token, setToken] = useState<string | null>(readStoredToken());
-  const [user, setUser] = useState<AuthUser | null>(null);
+  const [token, setToken] = useState<string | null>(readStoredToken);
+  // User snapshot captured from login/register responses. The server profile
+  // (profileQuery) is the source of truth once loaded — both merge into the
+  // derived `user` below, with no setState-in-effect cascades.
+  const [loginUser, setLoginUser] = useState<AuthUser | null>(null);
   const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations("auth");
+  const queryClient = useQueryClient();
   const profileQuery = useProfile(Boolean(token));
+
+  const publicPage = isPublicPath(pathname);
+
+  // Profile 401s after the refresh chain failed → session is dead. Derived
+  // here instead of setState-in-effect; storage cleanup is the only side
+  // effect (see effect below).
+  const sessionInvalid = Boolean(token) && profileQuery.isError;
+  const activeToken = sessionInvalid ? null : token;
+
+  const user: AuthUser | null = !activeToken
+    ? null
+    : profileQuery.data
+      ? toAuthUser(profileQuery.data)
+      : loginUser;
+
+  const isLoading = Boolean(activeToken) && profileQuery.isLoading && !user;
+
+  const clearSession = useCallback(() => {
+    setToken(null);
+    setLoginUser(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("tokenName");
+    localStorage.removeItem("refreshToken");
+    clearAuthCookies();
+    queryClient.removeQueries({ queryKey: queryKeys.profile });
+  }, [queryClient]);
+
+  // Storage cleanup when the session dies from a failed profile fetch.
+  // Side effects only — no setState (react-hooks/set-state-in-effect).
+  useEffect(() => {
+    if (!sessionInvalid) return;
+    localStorage.removeItem("token");
+    localStorage.removeItem("tokenName");
+    localStorage.removeItem("refreshToken");
+    clearAuthCookies();
+  }, [sessionInvalid]);
 
   useEffect(() => {
     setAuthExpiredHandler(() => {
-      setToken(null);
-      setUser(null);
-      localStorage.removeItem("token");
-      localStorage.removeItem("tokenName");
-      localStorage.removeItem("refreshToken");
-      clearAuthCookies();
+      clearSession();
       router.push("/login");
     });
-  }, [router]);
+  }, [clearSession, router]);
 
   useEffect(() => {
-    if (profileQuery.data) {
-      setUser({
-        userId: profileQuery.data.userId,
-        username: profileQuery.data.username,
-        nickname: profileQuery.data.nickname,
-        avatar: profileQuery.data.avatar,
-      });
-    }
-  }, [profileQuery.data]);
-
-  useEffect(() => {
-    if (!token) {
-      setUser(null);
-    }
-  }, [token]);
-
-  useEffect(() => {
-    if (profileQuery.isError && token) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("tokenName");
-      localStorage.removeItem("refreshToken");
-      setToken(null);
-    }
-  }, [profileQuery.isError, token]);
-
-  const publicPage = isPublicPath(pathname);
-  const isLoading = Boolean(token) && profileQuery.isLoading && !user;
-
-  useEffect(() => {
-    if (!isLoading && !token && !publicPage) {
+    if (!isLoading && !activeToken && !publicPage) {
       router.push("/login");
     }
-  }, [isLoading, token, publicPage, router]);
+  }, [isLoading, activeToken, publicPage, router]);
 
   const setLoginResponse = (res: WebLoginResponse) => {
     const tokenName = res.tokenName || "Authorization";
     setToken(res.accessToken);
+    setLoginUser(toAuthUser(res));
     localStorage.setItem("token", res.accessToken);
     localStorage.setItem("tokenName", tokenName);
     if (res.refreshToken) {
       localStorage.setItem("refreshToken", res.refreshToken);
     }
     setAuthCookies(res.accessToken, tokenName, res.refreshToken);
-    setUser({
-      userId: res.userId,
-      username: res.username,
-      nickname: res.nickname,
-      avatar: res.avatar,
-    });
   };
 
   const login = async (username: string, password: string) => {
@@ -124,12 +141,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch {
       // ignore backend errors, still clear local state
     }
-    setToken(null);
-    setUser(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("tokenName");
-    localStorage.removeItem("refreshToken");
-    clearAuthCookies();
+    clearSession();
     router.push("/login");
   };
 
@@ -140,7 +152,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ token, user, isLoading, login, setLoginResponse, logout }}>
+    <AuthContext.Provider value={{ token: activeToken, user, isLoading, login, setLoginResponse, logout }}>
       {children}
     </AuthContext.Provider>
   );
