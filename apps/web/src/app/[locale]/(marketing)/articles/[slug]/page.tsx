@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { getServerArticle } from "@/lib/api/server";
-import { getSiteUrl } from "@/lib/site";
+import { getSiteUrl, localeAlternates } from "@/lib/site";
 import { Markdown } from "@/components/shared/Markdown";
 import { ShareButtons } from "@/components/shared/ShareButtons";
 import { formatDateTime } from "@/lib/date";
@@ -30,22 +30,31 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
   if (!article) return {};
   const site = getSiteUrl();
   const path = `/${locale}/articles/${encodeURIComponent(slug)}`;
+  const description = article.summary || article.title;
+  const images = article.coverImageUrl
+    ? [article.coverImageUrl]
+    : [`${site}/api/og?title=${encodeURIComponent(article.title)}`];
   return {
     title: article.title,
-    description: article.summary || article.title,
+    description,
     alternates: {
       canonical: `${site}${path}`,
-      languages: {
-        en: `${site}/en/articles/${encodeURIComponent(slug)}`,
-        zh: `${site}/zh/articles/${encodeURIComponent(slug)}`,
-      },
+      languages: localeAlternates(`/articles/${encodeURIComponent(slug)}`),
     },
     openGraph: {
       title: article.title,
-      description: article.summary || article.title,
+      description,
       type: "article",
       publishedTime: article.publishTime,
-      images: article.coverImageUrl ? [article.coverImageUrl] : [`${site}/api/og?title=${encodeURIComponent(article.title)}`],
+      images,
+    },
+    // X/Twitter, Discord, Slack and WeChat card previews — OG alone only
+    // renders on a subset of them.
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description,
+      images,
     },
   };
 }

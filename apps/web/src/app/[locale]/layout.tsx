@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
-import { getSiteUrl } from "@/lib/site";
+import { getSiteUrl, localeAlternates } from "@/lib/site";
 import { Header } from "@/components/layout/Header";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { AuthProvider } from "@/components/providers/AuthProvider";
@@ -15,6 +15,18 @@ import "../globals.css";
 type Props = {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
+};
+
+// viewport lives outside `metadata` since Next 15; themeColor follows the
+// app's light/dark scheme so the browser chrome (PWA title bar, address bar
+// tint) matches the active theme.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
+  ],
 };
 
 export function generateStaticParams() {
@@ -33,10 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     description: t("description"),
     alternates: {
-      languages: {
-        en: `${site}/en`,
-        zh: `${site}/zh`,
-      },
+      languages: localeAlternates(),
     },
     openGraph: {
       title: t("title"),

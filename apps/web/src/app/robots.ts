@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
 import { LOCALES } from "@/lib/routes";
+import { getSiteUrl } from "@/lib/site";
 
-const site = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const site = getSiteUrl();
 const privatePaths = ["/profile", "/write", "/notifications", "/change-password", "/articles/me"];
 const disallow = LOCALES.flatMap((l) => privatePaths.map((p) => `/${l}${p}`));
 

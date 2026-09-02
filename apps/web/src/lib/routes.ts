@@ -4,8 +4,12 @@ export const DEFAULT_LOCALE: AppLocale = "en";
 
 export const PUBLIC_PATHS = ["/", "/login", "/register", "/forgot-password", "/articles"] as const;
 
+// Derived from LOCALES so adding a locale never silently breaks the guard
+// regex (a stale pattern would stop stripping the new prefix).
+const LOCALE_PREFIX = new RegExp(`^/(${LOCALES.join("|")})(?=/|$)`);
+
 export function stripLocale(pathname: string): string {
-  const match = pathname.match(/^\/(en|zh)(?=\/|$)/);
+  const match = pathname.match(LOCALE_PREFIX);
   if (!match) return pathname || "/";
   const stripped = pathname.slice(match[0].length);
   return stripped.length === 0 ? "/" : stripped;

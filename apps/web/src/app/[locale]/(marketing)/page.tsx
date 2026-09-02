@@ -11,7 +11,7 @@ import {
   getServerOperationLogs,
   getServerProfile,
 } from "@/lib/api/server";
-import { getSiteUrl } from "@/lib/site";
+import { getSiteUrl, localeAlternates } from "@/lib/site";
 import type {
   WebDashboardMetricsResponse,
   WebNoticeResponse,
@@ -45,10 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     alternates: {
       canonical: url,
-      languages: {
-        en: `${site}/en`,
-        zh: `${site}/zh`,
-      },
+      languages: localeAlternates(),
     },
     openGraph: {
       title,

@@ -1,11 +1,35 @@
 import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
 import { getServerCategories, getServerArticles } from "@/lib/api/server";
+import { getSiteUrl, localeAlternates } from "@/lib/site";
 import { ArticleCard } from "@/components/shared/ArticleCard";
 import { Pagination } from "@/components/shared/Pagination";
 import { ArticlesSearchForm } from "./ArticlesSearchForm";
 import { Link } from "@/i18n/navigation";
 
 export const revalidate = 60;
+
+type PageProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "articles" });
+  const site = getSiteUrl();
+  const title = t("title");
+  const description = t("searchPlaceholder");
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `${site}/${locale}/articles`,
+      languages: localeAlternates("/articles"),
+    },
+    openGraph: { title, description, type: "website", locale },
+    twitter: { card: "summary_large_image", title, description },
+  };
+}
 
 export default async function ArticlesPage({
   searchParams,
