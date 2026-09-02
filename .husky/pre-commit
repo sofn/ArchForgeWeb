@@ -1,0 +1,2 @@
+# Quality gate via turbo (cached: unchanged code skips work)
+pnpm exec turbo run lint typecheck test --filter=@archforge/web
