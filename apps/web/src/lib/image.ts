@@ -1,4 +1,4 @@
-import { API_BASE } from "./httpClient";
+import { API_BASE } from "@/lib/http/client";
 
 function getAllowedImageOrigins(): Set<string> {
   const origins = new Set<string>();
