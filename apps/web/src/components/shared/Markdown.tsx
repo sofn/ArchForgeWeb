@@ -64,10 +64,10 @@ export function Markdown({ content }: { content: string }) {
         h1: ({ children }) => <h1 className="mt-8 mb-4 text-3xl font-bold">{children}</h1>,
         h2: ({ children }) => <h2 className="mt-6 mb-3 text-2xl font-semibold">{children}</h2>,
         h3: ({ children }) => <h3 className="mt-5 mb-2 text-xl font-semibold">{children}</h3>,
-        p: ({ children }) => <p className="mb-4 leading-7 text-slate-700">{children}</p>,
+        p: ({ children }) => <p className="mb-4 leading-7 text-slate-700 dark:text-slate-300">{children}</p>,
         ul: ({ children }) => <ul className="mb-4 list-disc pl-6">{children}</ul>,
         ol: ({ children }) => <ol className="mb-4 list-decimal pl-6">{children}</ol>,
-        li: ({ children }) => <li className="mb-1 text-slate-700">{children}</li>,
+        li: ({ children }) => <li className="mb-1 text-slate-700 dark:text-slate-300">{children}</li>,
         pre: ({ children }) => (
           <pre className="mb-4 overflow-x-auto rounded-lg bg-slate-100 p-4">{children}</pre>
         ),

@@ -21,8 +21,12 @@ FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-COPY --from=builder /app/apps/web/.next/standalone ./
-COPY --from=builder /app/apps/web/.next/static ./apps/web/.next/static
-COPY --from=builder /app/apps/web/public ./apps/web/public
+# Non-root runtime: node user ships with node:22-alpine (uid 1000). Container
+# escape / RCE lands on an unprivileged account; standalone assets are chowned
+# so the runtime never needs write access as root.
+COPY --from=builder --chown=node:node /app/apps/web/.next/standalone ./
+COPY --from=builder --chown=node:node /app/apps/web/.next/static ./apps/web/.next/static
+COPY --from=builder --chown=node:node /app/apps/web/public ./apps/web/public
+USER node
 EXPOSE 3000
 CMD ["node", "apps/web/server.js"]

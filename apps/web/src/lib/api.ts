@@ -1,4 +1,4 @@
-export { API_BASE, clearAuthCookies, getCookie, setAuthCookies, setAuthExpiredHandler } from "./http/client";
+export { API_BASE, getCookie, setAuthExpiredHandler, hasSessionCookie } from "./http/client";
 export type { ApiResponse, WebLoginResponse } from "./http/types";
 export { ApiError } from "./http/errors";
 export * from "./api/articles";

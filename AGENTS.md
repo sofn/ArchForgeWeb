@@ -51,6 +51,15 @@ Server/client split is load-bearing:
 - `pnpm typecheck` / `pnpm test` / `pnpm build` — must pass before push (husky pre-commit runs lint+typecheck+test via turbo, cached).
 - Commit messages — conventional commits enforced by commitlint (root `commitlint.config.mjs`, same type vocabulary as ArchForgeAdmin). CI lints every PR commit range.
 
+## Security Architecture (auth cookies, CSP, proxy)
+
+- **Credentials are HttpOnly-only.** The backend returns tokens in login bodies; the BFF routes (`/api/auth/login|register|logout`) exchange them for `HttpOnly; Secure; SameSite=Lax` cookies (see `lib/http/auth-cookies.ts`). NEVER write auth tokens to localStorage or JS-readable cookies — `hasSession` is the only readable signal.
+- **Browser API calls go through `/api/proxy/[...path]`** (same-origin BFF): it injects the `Authorization` header from the cookies, performs single-flight token refresh, rate-limits per IP, and blocks direct proxying of auth endpoints. The browser client (`lib/http/client.ts`) therefore has no token storage — keep it that way.
+- **CSP is nonce-based** (middleware): no `unsafe-inline`/`unsafe-eval` for scripts in production; `connect-src 'self'` is enforceable because of the proxy. The nonce flows: middleware → `x-nonce` request header → `[locale]/layout.tsx` → `ThemeProvider nonce`. Any new inline script must receive the nonce or it will be blocked.
+- **Session validity** is checked by the `(user)` route-group layout (one profile round-trip); middleware only checks token existence (cheap). Dead sessions bounce via `/api/auth/logout?redirect=...` (open-redirect guarded — relative paths only).
+- **AI training bots** are blocked at the middleware (403) using the shared list in `lib/bots.ts` (also feeding robots.ts); AI search/referral bots stay allowed.
+- Rate limiting is in-memory (`lib/http/rate-limit.ts`) — per instance; swap for Redis when running multiple replicas.
+
 ## Project Context
 
 This repository is the **C-end web client** in the ArchForge multi-repository project (five independent Git repositories, cloned side by side, no submodules). For the machine-readable project map, read `../ArchForgeSpec/repos.yaml` first.

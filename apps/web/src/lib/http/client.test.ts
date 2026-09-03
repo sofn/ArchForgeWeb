@@ -11,85 +11,62 @@ function jsonResponse(body: unknown, status = 200): Response {
 const PROFILE_PATH = "/web/user/profile" as const;
 const TEST_BASE = "http://api.test";
 
-describe("http client token refresh", () => {
+beforeEach(() => {
+  vi.stubGlobal("fetch", vi.fn());
+});
+
+afterEach(() => {
+  setAuthExpiredHandler(null);
+});
+
+describe("browser http client (BFF proxy architecture)", () => {
   const onAuthExpired = vi.fn();
 
-  beforeEach(() => {
-    const storage = new Map<string, string>([
-      ["token", "stale-token"],
-      ["refreshToken", "refresh-token"],
-    ]);
-    const localStorageStub = {
-      getItem: (key: string) => storage.get(key) ?? null,
-      setItem: (key: string, value: string) => void storage.set(key, value),
-    };
-    vi.stubGlobal("fetch", vi.fn());
-    vi.stubGlobal("window", { localStorage: localStorageStub });
-    vi.stubGlobal("localStorage", localStorageStub);
+  it("passes successes through", async () => {
+    const fetchMock = vi.mocked(fetch);
+    fetchMock.mockResolvedValueOnce(jsonResponse({ code: 0, data: { userId: 1 } }));
+
+    const result = await api.GET(PROFILE_PATH, { baseUrl: TEST_BASE });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(result.response.status).toBe(200);
+  });
+
+  it("surfaces 401 to the auth-expired handler without retrying", async () => {
+    // The proxy already attempted one single-flight refresh before returning
+    // 401 — a client-side retry loop would only hammer a dead session.
     setAuthExpiredHandler(onAuthExpired);
-  });
-
-  afterEach(() => {
-    vi.unstubAllGlobals();
-    setAuthExpiredHandler(() => undefined);
-    onAuthExpired.mockClear();
-  });
-
-  it("rejects all queued requests when refresh fails and allows a later retry", async () => {
-    const refreshError = new Error("refresh endpoint down");
     const fetchMock = vi.mocked(fetch);
-    fetchMock
-      .mockResolvedValueOnce(jsonResponse({}, 401))
-      .mockResolvedValueOnce(jsonResponse({}, 401))
-      .mockRejectedValueOnce(refreshError)
-      .mockResolvedValueOnce(jsonResponse({}, 401))
-      .mockResolvedValueOnce(jsonResponse({ code: 0, data: { accessToken: "new-token" } }))
-      .mockResolvedValueOnce(jsonResponse({ code: 0, data: { id: 1 } }));
+    fetchMock.mockResolvedValueOnce(jsonResponse({ code: 401, message: "session expired" }, 401));
 
-    const first = api.GET(PROFILE_PATH, { baseUrl: TEST_BASE });
-    const second = api.GET(PROFILE_PATH, { baseUrl: TEST_BASE });
-    const settled = await Promise.allSettled([first, second]);
-
-    expect(settled[0]).toEqual({ status: "rejected", reason: refreshError });
-    expect(settled[1]).toEqual({ status: "rejected", reason: refreshError });
-    expect(onAuthExpired).toHaveBeenCalledTimes(1);
-
-    const third = await api.GET(PROFILE_PATH, { baseUrl: TEST_BASE });
-    expect(third.response.status).toBe(200);
-
-    const refreshCalls = fetchMock.mock.calls.filter((call) =>
-      String(call[0]).endsWith("/web/refresh-token"),
-    );
-    expect(refreshCalls).toHaveLength(2);
-    expect(JSON.parse(String(refreshCalls[1][1]?.body))).toEqual({
-      refreshToken: "refresh-token",
+    await expect(api.GET(PROFILE_PATH, { baseUrl: TEST_BASE })).rejects.toMatchObject({
+      status: 401,
     });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(onAuthExpired).toHaveBeenCalledTimes(1);
   });
 
-  it("retries queued requests once with the refreshed token", async () => {
+  it("normalizes non-2xx envelope responses into ApiError", async () => {
     const fetchMock = vi.mocked(fetch);
-    fetchMock
-      .mockResolvedValueOnce(jsonResponse({}, 401))
-      .mockResolvedValueOnce(jsonResponse({}, 401))
-      .mockResolvedValueOnce(jsonResponse({ code: 0, data: { accessToken: "new-token" } }))
-      .mockResolvedValueOnce(jsonResponse({ code: 0, data: { id: 1 } }))
-      .mockResolvedValueOnce(jsonResponse({ code: 0, data: { id: 2 } }));
+    fetchMock.mockResolvedValueOnce(jsonResponse({ code: 500, message: "boom" }, 500));
 
-    const [first, second] = await Promise.all([
-      api.GET(PROFILE_PATH, { baseUrl: TEST_BASE }),
-      api.GET(PROFILE_PATH, { baseUrl: TEST_BASE }),
-    ]);
+    await expect(api.GET(PROFILE_PATH, { baseUrl: TEST_BASE })).rejects.toMatchObject({
+      status: 500,
+      message: "boom",
+    });
+    expect(vi.fn()).not.toHaveBeenCalled();
+  });
 
-    expect(first.response.status).toBe(200);
-    expect(second.response.status).toBe(200);
+  it("forwards request bodies (e.g. article creation)", async () => {
+    const fetchMock = vi.mocked(fetch);
+    fetchMock.mockResolvedValueOnce(jsonResponse({ code: 0, data: 42 }));
 
-    const refreshCalls = fetchMock.mock.calls.filter((call) =>
-      String(call[0]).endsWith("/web/refresh-token"),
-    );
-    expect(refreshCalls).toHaveLength(1);
-    expect(onAuthExpired).not.toHaveBeenCalled();
-
-    const retriedInit = fetchMock.mock.calls.at(-1)?.[1];
-    expect(new Headers(retriedInit?.headers).get("Authorization")).toBe("Bearer new-token");
+    await api.POST("/web/articles", { baseUrl: TEST_BASE, body: { title: "t" } as never });
+    // openapi-fetch builds a Request object; body/headers live on it, not in init.
+    const [url] = fetchMock.mock.calls[0];
+    expect(url).toBeInstanceOf(Request);
+    const request = url as Request;
+    expect(request.url).toContain("/web/articles");
+    expect(JSON.parse(await request.clone().text())).toEqual({ title: "t" });
+    expect(request.headers.get("Content-Type")).toBe("application/json");
   });
 });

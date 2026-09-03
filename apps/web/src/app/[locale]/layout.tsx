@@ -3,6 +3,7 @@ import { Inter, Noto_Sans_SC } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
+import { headers } from "next/headers";
 import { routing } from "@/i18n/routing";
 import { getSiteUrl, localeAlternates } from "@/lib/site";
 import { Header } from "@/components/layout/Header";
@@ -78,6 +79,10 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
   setRequestLocale(locale);
   const messages = await getMessages();
+  // CSP nonce (see middleware) — consumed by ThemeProvider so its no-flash
+  // inline theme script passes script-src. Reading headers() makes pages
+  // dynamic; accepted trade-off for a nonce-based CSP.
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
 
   return (
     <html

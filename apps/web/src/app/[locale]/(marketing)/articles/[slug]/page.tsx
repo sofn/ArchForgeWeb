@@ -83,13 +83,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       />
       <Link
         href="/articles"
-        className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-indigo-600"
+        className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400 transition-colors hover:text-indigo-600"
       >
         <ArrowLeft className="h-4 w-4" /> {t("back")}
       </Link>
 
       <div className="space-y-4">
-        <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500">
+        <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
           <Link
             href={`/articles?category=${encodeURIComponent(article.categorySlug)}`}
             className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1 font-medium text-indigo-600 hover:bg-indigo-100 dark:bg-indigo-950 dark:text-indigo-300"
@@ -123,7 +123,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       ) : null}
 
       {article.summary ? (
-        <p className="rounded-2xl border-l-4 border-indigo-500 bg-white p-5 text-lg text-slate-700 italic shadow-sm dark:bg-slate-900">
+        <p className="rounded-2xl border-l-4 border-indigo-500 bg-white p-5 text-lg text-slate-700 italic dark:text-slate-300 shadow-sm dark:bg-slate-900">
           {article.summary}
         </p>
       ) : null}

@@ -65,7 +65,11 @@ jobs:
           git diff --exit-code apps/web/src/types/enums.generated.ts \
             || (echo "::error::enums.generated.ts is out of sync with ArchForgeSpec/enums/enums.yaml" && exit 1)
 
-      - name: Audit dependencies
+      # Vulnerability gate: high/critical block the merge; moderate is advisory
+      # (tracked, not gating) — tightening to gate once the current backlog clears.
+      - name: Audit dependencies (high/critical — blocking)
+        run: pnpm audit --registry=https://registry.npmjs.org/ --audit-level=high
+      - name: Audit dependencies (moderate — advisory)
         run: pnpm audit --registry=https://registry.npmjs.org/ --audit-level=moderate
         continue-on-error: true
 
