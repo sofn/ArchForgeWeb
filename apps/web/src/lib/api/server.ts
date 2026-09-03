@@ -22,8 +22,12 @@ import type {
  * Two access modes:
  * - Public endpoints (`/web/articles`, `/web/categories`) use an empty-auth
  *   client WITHOUT reading cookies, so pages/sitemap stay cacheable (ISR).
+ *   Cache lifetimes ride on the Next Data Cache via `next: { revalidate,
+ *   tags }` (see ServerFetchCache) and can be invalidated on demand with
+ *   revalidateTag() through the /api/revalidate webhook.
  * - Authenticated endpoints use the request-scoped client (cookie credentials),
- *   so RSC pages fetch with the sa-token header.
+ *   so RSC pages fetch with the sa-token header. Those requests are
+ *   inherently per-user and stay uncached.
  *
  * Error policy:
  * - getServerProfile: returns null (page renders logged-out state) — a public
@@ -32,6 +36,21 @@ import type {
  * - The list/dash endpoints rethrow: protected routes have error.tsx boundaries
  *   and middleware guarantees a token cookie exists there.
  */
+
+/** Per-call Next Data Cache config, forwarded to the patched fetch as `next`. */
+export interface ServerFetchCache {
+  revalidate?: number | false;
+  tags?: string[];
+}
+
+const DEFAULT_ARTICLE_CACHE: ServerFetchCache = { revalidate: 60, tags: ["articles"] };
+const CATEGORY_CACHE: ServerFetchCache = { revalidate: 3600, tags: ["categories"] };
+
+const EMPTY_AUTH = { token: "", tokenName: "Authorization", refreshToken: null } as const;
+
+function publicApi() {
+  return createServerApi(EMPTY_AUTH);
+}
 
 export async function getServerProfile(): Promise<WebUserProfileResponse | null> {
   const auth = await readServerAuth();
@@ -51,28 +70,35 @@ export async function getServerArticles(
   categoryId?: number,
   currentPage = 1,
   pageSize = 10,
-  keyword?: string
+  keyword?: string,
+  cache: ServerFetchCache = DEFAULT_ARTICLE_CACHE
 ): Promise<PageResult<WebArticleSummary>> {
-  const api = createServerApi({ token: "", tokenName: "Authorization", refreshToken: null });
+  const api = publicApi();
   return unwrap<PageResult<WebArticleSummary>>(
     api.GET("/web/articles", {
       params: { query: { categoryId, currentPage, pageSize, keyword } },
+      next: cache,
     })
   );
 }
 
 /** Public article detail — no credentials, no cookies() (ISR-friendly). */
-export async function getServerArticle(slug: string): Promise<WebArticleDetail> {
-  const api = createServerApi({ token: "", tokenName: "Authorization", refreshToken: null });
+export async function getServerArticle(
+  slug: string,
+  cache: ServerFetchCache = DEFAULT_ARTICLE_CACHE
+): Promise<WebArticleDetail> {
+  const api = publicApi();
   return unwrap<WebArticleDetail>(
-    api.GET("/web/articles/{slug}", { params: { path: { slug } } })
+    api.GET("/web/articles/{slug}", { params: { path: { slug } }, next: cache })
   );
 }
 
 /** Public category list — no credentials, no cookies() (ISR-friendly). */
-export async function getServerCategories(): Promise<WebCategory[]> {
-  const api = createServerApi({ token: "", tokenName: "Authorization", refreshToken: null });
-  return unwrap<WebCategory[]>(api.GET("/web/categories"));
+export async function getServerCategories(
+  cache: ServerFetchCache = CATEGORY_CACHE
+): Promise<WebCategory[]> {
+  const api = publicApi();
+  return unwrap<WebCategory[]>(api.GET("/web/categories", { next: cache }));
 }
 
 export async function getServerMyArticles(

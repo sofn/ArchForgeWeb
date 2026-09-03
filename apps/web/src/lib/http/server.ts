@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import createClient from "openapi-fetch";
 import type { paths } from "@/types/schema";
-import { API_BASE, buildAuthHeader, fetchWithTimeout, parseErrorResponse } from "./shared";
+import { API_BASE, buildAuthHeader, parseErrorResponse } from "./shared";
 
 /**
  * Server-side counterpart of the browser http client.
@@ -62,7 +62,22 @@ export function createServerApi(auth: ServerAuth): ReturnType<typeof createClien
     if (auth.token) {
       headers.set(auth.tokenName, buildAuthHeader(auth.token, auth.tokenName));
     }
-    const res = await fetchWithTimeout(toAbsoluteUrl(input), { ...init, headers });
+    // NO AbortSignal here on purpose: Next.js excludes signal-carrying fetches
+    // from the Data Cache, which would silently disable `revalidate`/ISR for
+    // every page built on this client (they would refetch the backend on each
+    // render). Cache lifetimes arrive per-call via `init.next` (Next extends
+    // RequestInit with it); openapi-fetch copies unknown FetchOptions onto the
+    // Request instance, so lift it back into init for the patched fetch.
+    // The browser client keeps fetchWithTimeout — browser requests are
+    // uncached anyway, so its signal costs nothing.
+    const requestNext =
+      (init as RequestInit & { next?: { revalidate?: number | false; tags?: string[] } })?.next ??
+      (input instanceof Request ? (input as Request & { next?: object }).next : undefined);
+    const res = await fetch(toAbsoluteUrl(input), {
+      ...init,
+      next: requestNext as RequestInit["next"],
+      headers,
+    });
     if (!res.ok) {
       throw await parseErrorResponse(res);
     }

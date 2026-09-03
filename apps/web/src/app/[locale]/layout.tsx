@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Inter, Noto_Sans_SC } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
@@ -28,6 +29,20 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
   ],
 };
+
+// Self-hosted at build time (zero runtime requests to Google Fonts, no
+// CLS thanks to auto-generated size-adjusted fallbacks, automatic preload).
+// Latin glyphs via Inter, CJK via Noto Sans SC — both exposed as CSS variables so
+// globals.css can compose the stack. Note for CN-based CI runners: next/font
+// needs fonts.googleapis.com reachability at build time; if that is a
+// problem, switch to next/font/local with committed woff2 files.
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+const notoSansSC = Noto_Sans_SC({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  variable: "--font-noto-sc",
+  display: "swap",
+});
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -65,7 +80,12 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages();
 
   return (
-    <html lang={locale} suppressHydrationWarning data-scroll-behavior="smooth">
+    <html
+      lang={locale}
+      suppressHydrationWarning
+      data-scroll-behavior="smooth"
+      className={`${inter.variable} ${notoSansSC.variable}`}
+    >
       <body className="bg-background text-foreground min-h-screen antialiased">
         <ThemeProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>

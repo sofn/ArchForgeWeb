@@ -5,6 +5,9 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import { isAllowedImageUrl } from "@/lib/image";
+// Light theme import; the dark variant is hand-scoped under `.dark` in
+// globals.css (importing github-dark.css here would fully override the light
+// theme — both use the same .hljs selector specificity).
 import "highlight.js/styles/github.css";
 
 function MarkdownImage({ src, alt }: { src?: string; alt?: string }) {

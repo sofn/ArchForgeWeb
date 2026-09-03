@@ -48,7 +48,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let consecutiveFailures = 0;
   while (page <= MAX_ARTICLE_PAGES && entries.length < MAX_ENTRIES) {
     try {
-      const result = await getServerArticles(undefined, page, ARTICLES_PAGE_SIZE);
+      const result = await getServerArticles(undefined, page, ARTICLES_PAGE_SIZE, undefined, {
+        revalidate: 3600,
+        tags: ["articles"],
+      });
       consecutiveFailures = 0;
       const total = result.total ?? 0;
       for (const article of result.list ?? []) {

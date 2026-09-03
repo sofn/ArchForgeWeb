@@ -51,7 +51,10 @@ export async function GET(request: Request) {
 
   let items: string[] = [];
   try {
-    const articles = await getServerArticles(undefined, 1, FEED_ITEM_COUNT);
+    const articles = await getServerArticles(undefined, 1, FEED_ITEM_COUNT, undefined, {
+      revalidate: 600,
+      tags: ["articles"],
+    });
     items = (articles.list ?? []).map((article) => {
       const link = `${site}/${locale}/articles/${encodeURIComponent(article.slug)}`;
       return `    <item>

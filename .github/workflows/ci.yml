@@ -80,3 +80,8 @@ jobs:
 
       - name: Build
         run: pnpm build
+
+      # Performance budget: fail the build when client JS/CSS (gzip) outgrows
+      # the budgets in apps/web/scripts/check-bundle-size.mjs.
+      - name: Bundle size check
+        run: pnpm --filter @archforge/web size:check
