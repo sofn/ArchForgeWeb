@@ -53,6 +53,8 @@ Server/client split is load-bearing:
 
 ## Security Architecture (auth cookies, CSP, proxy)
 
+> **通用规范（先读这个再写代码）**：五轮审计教训已沉淀为组织级规范——ArchForgeDocs `docs/guide/security-engineering`（EN+ZH）。写任何认证/Cookie/CSP/代理/门禁/容器/爬虫代码前对照其 S1–S6 规则与合并前 P0/P1/P2 清单；元规则"配置存在≠生效"要求每条配置声明附可观察验证证据。
+
 - **Credentials are HttpOnly-only.** The backend returns tokens in login bodies; the BFF routes (`/api/auth/login|register|logout`) exchange them for `HttpOnly; Secure; SameSite=Lax` cookies (see `lib/http/auth-cookies.ts`). NEVER write auth tokens to localStorage or JS-readable cookies — `hasSession` is the only readable signal.
 - **Browser API calls go through `/api/proxy/[...path]`** (same-origin BFF): it injects the `Authorization` header from the cookies, performs single-flight token refresh, rate-limits per IP, and blocks direct proxying of auth endpoints. The browser client (`lib/http/client.ts`) therefore has no token storage — keep it that way.
 - **CSP is nonce-based** (middleware): no `unsafe-inline`/`unsafe-eval` for scripts in production; `connect-src 'self'` is enforceable because of the proxy. The nonce flows: middleware → `x-nonce` request header → `[locale]/layout.tsx` → `ThemeProvider nonce`. Any new inline script must receive the nonce or it will be blocked.
