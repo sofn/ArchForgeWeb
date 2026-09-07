@@ -98,4 +98,4 @@ Default in code: `http://localhost:8081`. Never point this at admin `:8080`.
 
 ## Contract
 
-Paths are `/web/*`. Source of truth: `../ArchForgeSpec/api/openapi.yaml`.
+Paths are `/web/*`. Source of truth: `../ArchForge/spec/openapi.yaml`.

@@ -13,18 +13,17 @@ Docs: [https://archforge.lesofn.com](https://archforge.lesofn.com)
 
 ```
 archforge/
-├── ArchForge/          # backend :8080 / :8081
+├── ArchForge/          # backend + contracts :8080 / :8081
+│   └── spec/           # openapi.yaml · enums.yaml
 ├── ArchForgeAdmin/     # admin :8848 → :8080
-├── ArchForgeWeb/       # this repo :3000 → :8081
-├── ArchForgeDocs/
-└── ArchForgeSpec/
+└── ArchForgeWeb/       # this repo :3000 → :8081
 ```
 
 Built with Next.js (App Router) + React + Tailwind CSS v4 + shadcn/ui, managed by pnpm workspaces and Turborepo.
 
 ## Architecture
 
-Where this repo sits in the five-repo system, and where its types come from:
+Where this repo sits in the three-repo system, and where its types come from:
 
 ```mermaid
 flowchart LR
@@ -34,7 +33,7 @@ flowchart LR
     SDK["lib/api — openapi-fetch<br/>typed from schema.d.ts"]
   end
   SA["server-web :8081<br/>REST + SSE · ProblemDetail"]
-  SPEC["ArchForgeSpec<br/>openapi.yaml · enums.yaml"]
+  SPEC["ArchForge/spec/<br/>openapi.yaml · enums.yaml"]
 
   B --> PAGES --> SDK -->|"REST"| SA
   SPEC -.|"pnpm gen:api"| SDK
@@ -47,11 +46,11 @@ Public content is fetched in server components (`revalidate = 60`); personal dat
 API and enum types are **generated, never hand-written**:
 
 ```bash
-pnpm gen:api   # schema.d.ts from ../ArchForgeSpec/api/openapi.yaml
+pnpm gen:api   # schema.d.ts from ../ArchForge/spec/openapi.yaml
 ```
 
 - `src/types/schema.d.ts` — all request/response shapes (openapi-typescript)
-- `src/types/enums.generated.ts` — shared enums + labels from `enums.yaml`
+- `src/types/enums.generated.ts` — shared enums + labels from `../ArchForge/spec/enums.yaml`
 - `lib/api/*` calls go through `openapi-fetch` with paths/payloads checked against the schema
 - CI regenerates both files and fails on drift (`sdk-sync`)
 

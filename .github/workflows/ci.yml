@@ -23,12 +23,13 @@ jobs:
           # commitlint ranges need the PR base and pushed commit history
           fetch-depth: 0
 
-      # gen:api resolves ../../../ArchForgeSpec from apps/web — keep the two repos side by side.
-      - name: Checkout ArchForgeSpec (contract source)
+      # gen:api resolves ../../../ArchForge/spec/openapi.yaml from apps/web —
+      # keep the two repos side by side.
+      - name: Checkout ArchForge (contract source)
         uses: actions/checkout@v4
         with:
-          repository: ${{ github.repository_owner }}/ArchForgeSpec
-          path: ArchForgeSpec
+          repository: ${{ github.repository_owner }}/ArchForge
+          path: ArchForge
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -59,11 +60,12 @@ jobs:
           cd apps/web
           pnpm gen:api
           git diff --exit-code src/types/schema.d.ts \
-            || (echo "::error::schema.d.ts is out of sync with ArchForgeSpec/api/openapi.yaml — run pnpm gen:api and commit" && exit 1)
+            || (echo "::error::schema.d.ts is out of sync with ArchForge/spec/openapi.yaml — run pnpm gen:api and commit" && exit 1)
           cd ../..
-          (cd ArchForgeSpec && npm ci --silent && node scripts/gen-enums.mjs)
+          (cd ../ArchForge/scripts && npm ci --silent)
+          node ../ArchForge/scripts/gen-enums.mjs
           git diff --exit-code apps/web/src/types/enums.generated.ts \
-            || (echo "::error::enums.generated.ts is out of sync with ArchForgeSpec/enums/enums.yaml" && exit 1)
+            || (echo "::error::enums.generated.ts is out of sync with ArchForge/spec/enums.yaml" && exit 1)
 
       # Vulnerability gate: high/critical block the merge; moderate is advisory
       # (tracked, not gating) — tightening to gate once the current backlog clears.

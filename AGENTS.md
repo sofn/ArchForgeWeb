@@ -64,22 +64,21 @@ Server/client split is load-bearing:
 
 ## Project Context
 
-This repository is the **C-end web client** in the ArchForge multi-repository project (five independent Git repositories, cloned side by side, no submodules). For the machine-readable project map, read `../ArchForgeSpec/repos.yaml` first.
+This repository is the **C-end web client** in the ArchForge multi-repository project (three independent Git repositories, cloned side by side, no submodules). For the machine-readable project map, read `../ArchForge/repos.yaml` first.
 
 ```
 archforge/
-├── ArchForge/          # backend (server-admin :8080 + server-web :8081)
+├── ArchForge/          # backend + contracts (server-admin :8080 + server-web :8081)
+│   └── spec/           # openapi.yaml, enums.yaml, schemas/ — the API contract
 ├── ArchForgeWeb/       # C-end web client (this repo, Next.js) — consumes server-web :8081
-├── ArchForgeAdmin/     # admin client (vue-pure-admin) — consumes server-admin :8080
-├── ArchForgeDocs/      # documentation site (VitePress)
-└── ArchForgeSpec/      # contracts / architecture / AI context
+└── ArchForgeAdmin/     # admin client (vue-pure-admin) — consumes server-admin :8080
 ```
 
 - This repo is the **C-end (consumer) client**, Next.js App Router + React + Tailwind + shadcn/ui, pnpm workspaces + Turborepo. URLs are locale-prefixed (`/en`, `/zh`).
 - next-intl lives in `apps/web/src/i18n/`. Always import `Link` / `useRouter` / `usePathname` from `@/i18n/navigation`.
 - Component folders: `ui/` kebab-case atoms (no domain meaning); `shared/` / `layout/` / `providers/` / `theme/` / `boundaries/` PascalCase. Full table in `CLAUDE.md`.
 - Backend: `../ArchForge` → `server-web` (port **8081**). Do **not** call `server-admin` :8080 from here.
-- Contracts are owned by `../ArchForgeSpec` (`api/openapi.yaml` OpenAPI 3.1). If an API does not fit, raise the change in Spec — do not hack around it here.
+- Contracts are owned by `../ArchForge` (`spec/openapi.yaml` OpenAPI 3.1). If an API does not fit, raise the change there — do not hack around it here.
 - Errors from server-web are RFC 9457 **ProblemDetail** (`detail`). Success bodies may still wrap `{code, message, data}`.
 - Auth: sa-token. Cookies `token`, `tokenName`, `refreshToken`. Header `Authorization: Bearer <token>`.
 - API base: `NEXT_PUBLIC_API_BASE_URL` (default `http://localhost:8081`).

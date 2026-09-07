@@ -1,4 +1,4 @@
-// Generated from ArchForgeSpec/enums/enums.yaml — do not edit by hand.
+// Generated from ArchForge/spec/enums.yaml — do not edit by hand.
 /* eslint-disable @typescript-eslint/no-redeclare */
 
 export const StatusEnum = {

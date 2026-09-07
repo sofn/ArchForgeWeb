@@ -13,7 +13,7 @@
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",
-    "gen:api": "openapi-typescript ../../../ArchForgeSpec/api/openapi.yaml -o src/types/schema.d.ts",
+    "gen:api": "openapi-typescript ../../../ArchForge/spec/openapi.yaml -o src/types/schema.d.ts",
     "test": "vitest run",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",

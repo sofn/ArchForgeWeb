@@ -13,18 +13,17 @@ ArchForge 的 **C 端 Next.js 客户端**。只消费 **`server-web`（端口 80
 
 ```
 archforge/
-├── ArchForge/          # 后端 :8080 / :8081
+├── ArchForge/          # 后端 + 契约 :8080 / :8081
+│   └── spec/           # openapi.yaml · enums.yaml
 ├── ArchForgeAdmin/     # 管理端 :8848 → :8080
-├── ArchForgeWeb/       # 本仓库 :3000 → :8081
-├── ArchForgeDocs/
-└── ArchForgeSpec/
+└── ArchForgeWeb/       # 本仓库 :3000 → :8081
 ```
 
 基于 Next.js（App Router）+ React + Tailwind CSS v4 + shadcn/ui，使用 pnpm workspaces 与 Turborepo。
 
 ## 架构
 
-本仓库在五仓体系中的位置，以及类型的来源：
+本仓库在三仓体系中的位置，以及类型的来源：
 
 ```mermaid
 flowchart LR
@@ -34,7 +33,7 @@ flowchart LR
     SDK["lib/api —— openapi-fetch<br/>类型来自 schema.d.ts"]
   end
   SA["server-web :8081<br/>REST + SSE · ProblemDetail"]
-  SPEC["ArchForgeSpec<br/>openapi.yaml · enums.yaml"]
+  SPEC["ArchForge/spec/<br/>openapi.yaml · enums.yaml"]
 
   B --> PAGES --> SDK -->|"REST"| SA
   SPEC -.|"pnpm gen:api"| SDK
@@ -47,11 +46,11 @@ flowchart LR
 API 与枚举类型**全部生成，不手写**：
 
 ```bash
-pnpm gen:api   # schema.d.ts，来自 ../ArchForgeSpec/api/openapi.yaml
+pnpm gen:api   # schema.d.ts，来自 ../ArchForge/spec/openapi.yaml
 ```
 
 - `src/types/schema.d.ts` —— 全部请求/响应结构（openapi-typescript）
-- `src/types/enums.generated.ts` —— 共享枚举与文案（enums.yaml）
+- `src/types/enums.generated.ts` —— 共享枚举与文案（`../ArchForge/spec/enums.yaml`）
 - `lib/api/*` 通过 `openapi-fetch` 调用，路径与载荷受 schema 类型约束
 - CI 重新生成两个文件并校验漂移（`sdk-sync`）
 

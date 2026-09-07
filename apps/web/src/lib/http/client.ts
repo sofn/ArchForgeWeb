@@ -52,7 +52,7 @@ const authFetch: typeof fetch = async (input, init) => {
 /**
  * Schema-typed API client. All endpoint calls go through this — paths and
  * response shapes are checked against `src/types/schema.d.ts`, which is generated
- * from ArchForgeSpec/api/openapi.yaml via `pnpm gen:api`.
+ * from ../ArchForge/spec/openapi.yaml via `pnpm gen:api`.
  */
 export const api = createClient<paths>({ fetch: authFetch, baseUrl: API_PROXY_BASE });
 
