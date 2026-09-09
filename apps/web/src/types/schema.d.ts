@@ -2193,14 +2193,14 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/quartz": {
+    "/admin/scheduler-job": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Quartz job list */
+        /** Scheduled job list (db-scheduler) */
         get: {
             parameters: {
                 query?: never;
@@ -2221,7 +2221,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/quartz/add": {
+    "/admin/scheduler-job/add": {
         parameters: {
             query?: never;
             header?: never;
@@ -2230,7 +2230,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Add quartz job */
+        /** Add scheduled job */
         post: {
             parameters: {
                 query?: never;
@@ -2249,7 +2249,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/quartz/update/{id}": {
+    "/admin/scheduler-job/update/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -2257,7 +2257,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        /** Update quartz job */
+        /** Update scheduled job */
         put: {
             parameters: {
                 query?: never;
@@ -2279,7 +2279,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/quartz/{id}": {
+    "/admin/scheduler-job/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -2289,7 +2289,7 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        /** Delete quartz job */
+        /** Delete scheduled job */
         delete: {
             parameters: {
                 query?: never;
@@ -2309,7 +2309,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/quartz/pause/{id}": {
+    "/admin/scheduler-job/pause/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -2318,7 +2318,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Pause quartz job */
+        /** Pause scheduled job */
         post: {
             parameters: {
                 query?: never;
@@ -2339,7 +2339,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/quartz/resume/{id}": {
+    "/admin/scheduler-job/resume/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -2348,7 +2348,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Resume quartz job */
+        /** Resume scheduled job */
         post: {
             parameters: {
                 query?: never;
@@ -2369,7 +2369,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/quartz/run/{id}": {
+    "/admin/scheduler-job/run/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -2378,7 +2378,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Run quartz job once */
+        /** Run scheduled job once */
         post: {
             parameters: {
                 query?: never;
@@ -2399,14 +2399,14 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/quartz/log": {
+    "/admin/scheduler-job/log": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Quartz job logs */
+        /** Scheduled job logs */
         get: {
             parameters: {
                 query?: never;
@@ -2421,6 +2421,34 @@ export interface paths {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/scheduler-job/validate-cron": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Validate cron expression */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                200: components["responses"]["AdminOk"];
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
