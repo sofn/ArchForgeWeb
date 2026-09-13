@@ -86,3 +86,9 @@ archforge/
 - Never introduce Git submodules.
 
 See `CLAUDE.md` for scripts, layout, and local setup.
+
+## AI assets convention (ArchForge workspace)
+
+- Canonical AI-asset dir lives in `../ArchForge/.agents/` (skills, memory, changes, knowledge). This repo does not duplicate it.
+- Cross-repo plan files for work touching this app go in `../ArchForge/.agents/changes/<name>/`.
+- This repo may adopt the same `.agents/` layout later if per-repo skills/memory accumulate; do not create empty scaffolding.
