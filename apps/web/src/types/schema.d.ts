@@ -4,146 +4,15 @@
  */
 
 export interface paths {
-    "/auth/login": {
+    "/admin/chat/config": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
-        put?: never;
-        /** Admin login */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["AdminLoginRequest"];
-                };
-            };
-            responses: {
-                /** @description Wrapped login payload */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["AdminEnvelope"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/auth/logout": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Admin logout */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Wrapped boolean */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["AdminEnvelope"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/auth/refresh-token": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Refresh admin token */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Wrapped token pair */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["AdminEnvelope"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/auth/getConfig": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Public admin login config */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Wrapped config */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["AdminEnvelope"];
-                    };
-                };
-            };
-        };
+        /** LLM 配置状态（不含密钥） */
+        get: operations["config"];
         put?: never;
         post?: never;
         delete?: never;
@@ -152,34 +21,136 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/captchaImage": {
+    "/admin/chat/sessions": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Captcha image payload */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Wrapped captcha */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["AdminEnvelope"];
-                    };
-                };
-            };
+        /** 会话列表 */
+        get: operations["sessions"];
+        put?: never;
+        /** 新建会话 */
+        post: operations["createSession"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/chat/sessions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** 删除会话 */
+        delete: operations["delete_4"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/chat/sessions/{id}/messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 会话消息 */
+        get: operations["messages"];
+        put?: never;
+        /** 发送消息（SSE：delta / done / error） */
+        post: operations["send"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 获取参数列表 */
+        post: operations["getConfigList"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/config/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 创建参数 */
+        post: operations["createConfig"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/config/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 删除参数 */
+        post: operations["deleteConfig"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/config/update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** 更新参数 */
+        put: operations["updateConfig"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/dashboard/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 仪表盘指标 */
+        get: operations["metrics"];
         put?: never;
         post?: never;
         delete?: never;
@@ -188,34 +159,15 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/getLoginUserInfo": {
+    "/admin/dashboard/recent-activities": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Current admin user */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Wrapped user */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["AdminEnvelope"];
-                    };
-                };
-            };
-        };
+        /** 最近动态 */
+        get: operations["recentActivities"];
         put?: never;
         post?: never;
         delete?: never;
@@ -224,34 +176,15 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/auth/getRouters": {
+    "/admin/dashboard/todo": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Dynamic admin routes */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Wrapped router tree */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["AdminEnvelope"];
-                    };
-                };
-            };
-        };
+        /** 待办聚合 */
+        get: operations["todo"];
         put?: never;
         post?: never;
         delete?: never;
@@ -260,83 +193,16 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/user": {
+    "/admin/dashboard/trends": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** 仪表盘趋势 */
+        get: operations["trends"];
         put?: never;
-        /** Admin user page */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/user/create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create admin user */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/user/update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** Update admin user */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
         post?: never;
         delete?: never;
         options?: never;
@@ -344,7 +210,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/user/delete": {
+    "/admin/dept": {
         parameters: {
             query?: never;
             header?: never;
@@ -353,26 +219,15 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Delete admin user */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
+        /** 获取全量部门列表 */
+        post: operations["getDeptList"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/admin/user/status": {
+    "/admin/dept/create": {
         parameters: {
             query?: never;
             header?: never;
@@ -381,26 +236,15 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Update admin user status */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
+        /** 创建部门 */
+        post: operations["createDept"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/admin/user/reset-password": {
+    "/admin/dept/delete": {
         parameters: {
             query?: never;
             header?: never;
@@ -409,26 +253,15 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Reset admin user password */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
+        /** 删除部门 */
+        post: operations["deleteDept"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/admin/user/assign-role": {
+    "/admin/dept/update": {
         parameters: {
             query?: never;
             header?: never;
@@ -436,27 +269,16 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put?: never;
-        /** Assign roles to user */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
+        /** 更新部门 */
+        put: operations["updateDept"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/admin/user/list-role-ids": {
+    "/admin/login-log": {
         parameters: {
             query?: never;
             header?: never;
@@ -465,19 +287,264 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** List role ids for a user */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
+        /** 获取登录日志列表 */
+        post: operations["getLoginLogsList"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/login-log/clear": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
+        get?: never;
+        put?: never;
+        /** 清空登录日志 */
+        post: operations["clearLoginLogs"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/login-log/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 删除登录日志 */
+        post: operations["deleteLoginLog"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/menu": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 获取全量菜单列表 */
+        post: operations["getMenuList"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/menu/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 创建菜单 */
+        post: operations["createMenu"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/menu/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 删除菜单 */
+        post: operations["deleteMenu"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/menu/update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** 更新菜单 */
+        put: operations["updateMenu"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/notice": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 获取通知公告列表 */
+        post: operations["getNoticeList"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/notice/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 创建通知公告 */
+        post: operations["createNotice"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/notice/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 删除通知公告 */
+        post: operations["deleteNotice"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/notice/update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** 更新通知公告 */
+        put: operations["updateNotice"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/operation-log": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 获取操作日志列表 */
+        post: operations["getOperationLogsList"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/operation-log/clear": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 清空操作日志 */
+        post: operations["clearOperLogs"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/operation-log/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 删除操作日志 */
+        post: operations["deleteOperLog"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/permission-matrix/menus/tree": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 菜单权限树 */
+        get: operations["menuTree"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/permission-matrix/roles/{roleId}/permissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 角色已授权菜单 */
+        get: operations["rolePermissions"];
+        /** 保存角色授权 */
+        put: operations["saveRolePermissions"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -493,19 +560,8 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Admin role page */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
+        /** 获取角色列表 */
+        post: operations["getRoleList"];
         delete?: never;
         options?: never;
         head?: never;
@@ -519,19 +575,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** All roles */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
+        /** 获取全量角色列表 */
+        get: operations["listAllRoles"];
         put?: never;
         post?: never;
         delete?: never;
@@ -549,131 +594,8 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Create role */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/role/update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** Update role */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/role/delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Delete role */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/role/status": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Update role status */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/role/save-menu": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Save role menus */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
+        /** 创建角色 */
+        post: operations["createRole"];
         delete?: never;
         options?: never;
         head?: never;
@@ -689,19 +611,25 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Update role data scope */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
+        /** 更新角色数据权限 */
+        post: operations["updateRoleDataScope"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/role/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
+        get?: never;
+        put?: never;
+        /** 删除角色 */
+        post: operations["deleteRole"];
         delete?: never;
         options?: never;
         head?: never;
@@ -717,19 +645,8 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Role menu tree */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
+        /** 获取角色权限菜单树 */
+        post: operations["getRoleMenuTree"];
         delete?: never;
         options?: never;
         head?: never;
@@ -745,26 +662,15 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Role menu ids */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
+        /** 获取角色菜单ID列表 */
+        post: operations["getRoleMenuIds"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/admin/menu": {
+    "/admin/role/save-menu": {
         parameters: {
             query?: never;
             header?: never;
@@ -773,26 +679,15 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Admin menu list */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
+        /** 保存角色菜单权限 */
+        post: operations["saveRoleMenu"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/admin/menu/create": {
+    "/admin/role/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -801,26 +696,15 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Create menu */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
+        /** 更新角色状态 */
+        post: operations["updateRoleStatus"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/admin/menu/update": {
+    "/admin/role/update": {
         parameters: {
             query?: never;
             header?: never;
@@ -828,1364 +712,8 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        /** Update menu */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/menu/delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Delete menu */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/dept": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Admin dept tree */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/dept/create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create dept */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/dept/update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** Update dept */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/dept/delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Delete dept */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/config": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** System config page */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/config/create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create config */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/config/update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** Update config */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/config/delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Delete config */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/notice": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Notice page */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/notice/create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create notice */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/notice/update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** Update notice */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/notice/delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Delete notice */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/operation-log": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Operation log page */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/login-log": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Login log page */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/server": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Server metrics */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/dashboard/metrics": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Dashboard counts */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/dashboard/trends": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Dashboard trends */
-        get: {
-            parameters: {
-                query?: {
-                    days?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/dashboard/recent-activities": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Recent article activity */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/dashboard/todo": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Dashboard todo aggregates */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/permission-matrix/menus/tree": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Permission menu tree */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/permission-matrix/roles/{roleId}/permissions": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Role permission ids */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    roleId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        /** Replace role permissions */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    roleId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/chat/config": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** LLM config status without the API key */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/chat/sessions": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** In-memory chat sessions */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        put?: never;
-        /** Create chat session */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/chat/sessions/{id}/messages": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Send chat message
-         * @description SSE events named `delta`, `done`, `error`.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description text/event-stream */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/system/dict": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Dictionary type page (legacy prefix) */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/blog/article": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Blog article admin (prefix should become /admin/blog) */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/blog/article/create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create blog article */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/blog/article/update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** Update blog article */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/blog/article/delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Delete blog article */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/blog/article/{id}/publish": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Publish blog article */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/blog/article/{id}/offline": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Offline blog article */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/blog/category": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Blog category admin */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/blog/category/create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create blog category */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/blog/category/update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** Update blog category */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/blog/category/delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Delete blog category */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/blog/file/upload": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Upload blog file */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/meta-table": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Meta table admin */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/meta-table/create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create meta table */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/meta-table/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Meta table detail */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/file": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Admin file list */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/file/upload": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Upload admin file */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/file/upload-image": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Upload admin image */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/file/download/{fileId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Download admin file */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    fileId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Binary */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/file/{fileId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /** Delete admin file */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    fileId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/monitor": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Monitor API */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        put?: never;
+        /** 更新角色 */
+        put: operations["updateRole"];
         post?: never;
         delete?: never;
         options?: never;
@@ -2200,19 +728,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Scheduled job list (db-scheduler) */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
+        /** 查询定时任务列表 */
+        get: operations["list_3"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2230,80 +747,26 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Add scheduled job */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
+        /** 新增定时任务 */
+        post: operations["add"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/admin/scheduler-job/update/{id}": {
+    "/admin/scheduler-job/log": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
-        /** Update scheduled job */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/scheduler-job/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
+        /** 查询任务执行日志 */
+        get: operations["logList"];
         put?: never;
         post?: never;
-        /** Delete scheduled job */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -2318,21 +781,8 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Pause scheduled job */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
+        /** 暂停定时任务 */
+        post: operations["pause"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2348,21 +798,8 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Resume scheduled job */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
+        /** 恢复定时任务 */
+        post: operations["resume"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2378,48 +815,24 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Run scheduled job once */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
+        /** 立即执行一次 */
+        post: operations["run"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/admin/scheduler-job/log": {
+    "/admin/scheduler-job/update/{id}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Scheduled job logs */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
-        put?: never;
+        get?: never;
+        /** 更新定时任务 */
+        put: operations["update_3"];
         post?: never;
         delete?: never;
         options?: never;
@@ -2436,26 +849,15 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Validate cron expression */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["AdminOk"];
-            };
-        };
+        /** 校验 cron 表达式 */
+        post: operations["validateCron"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/web/login": {
+    "/admin/scheduler-job/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -2464,308 +866,23 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** C-end login */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["WebLoginRequest"];
-                };
-            };
-            responses: {
-                /** @description Wrapped login payload */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WebEnvelopeLogin"];
-                    };
-                };
-                401: components["responses"]["WebProblem"];
-            };
-        };
-        delete?: never;
+        post?: never;
+        /** 删除定时任务 */
+        delete: operations["delete_3"];
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/web/logout": {
+    "/admin/server": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
-        put?: never;
-        /** C-end logout */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["WebLogoutRequest"];
-                };
-            };
-            responses: {
-                /** @description Wrapped boolean */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WebEnvelopeBoolean"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/web/refresh-token": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Refresh C-end token */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["WebRefreshTokenRequest"];
-                };
-            };
-            responses: {
-                /** @description Wrapped login payload */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WebEnvelopeLogin"];
-                    };
-                };
-                401: components["responses"]["WebProblem"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/web/register": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Register by email */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["WebRegisterRequest"];
-                };
-            };
-            responses: {
-                /** @description Wrapped login payload */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WebEnvelopeLogin"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/web/forgot-password": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Send reset-password code */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["WebForgotPasswordRequest"];
-                };
-            };
-            responses: {
-                /** @description Wrapped boolean */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WebEnvelopeBoolean"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/web/reset-password": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Reset password by email code */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["WebResetPasswordRequest"];
-                };
-            };
-            responses: {
-                /** @description Wrapped boolean */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WebEnvelopeBoolean"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/web/verification-code/send": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Send email verification code */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["WebSendVerificationCodeRequest"];
-                };
-            };
-            responses: {
-                /** @description Wrapped boolean */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WebEnvelopeBoolean"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/web/user/profile": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Current C-end profile */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Wrapped profile */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WebEnvelopeProfile"];
-                    };
-                };
-                401: components["responses"]["WebProblem"];
-            };
-        };
+        /** 获取服务器监控信息 */
+        get: operations["getServerInfo"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2774,7 +891,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/web/user/change-password": {
+    "/admin/user": {
         parameters: {
             query?: never;
             header?: never;
@@ -2783,66 +900,74 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Change password while logged in */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["WebChangePasswordRequest"];
-                };
-            };
-            responses: {
-                /** @description Wrapped boolean */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WebEnvelopeBoolean"];
-                    };
-                };
-                401: components["responses"]["WebProblem"];
-            };
-        };
+        /** 获取用户列表 */
+        post: operations["getUserList"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/web/dashboard/metrics": {
+    "/admin/user/assign-role": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** C-end dashboard metrics */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Wrapped metrics */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WebEnvelopeMetrics"];
-                    };
-                };
-            };
+        get?: never;
+        put?: never;
+        /** 分配用户角色 */
+        post: operations["assignUserRole"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/user/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
+        get?: never;
+        put?: never;
+        /** 创建用户 */
+        post: operations["createUser"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/user/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 删除用户 */
+        post: operations["deleteUser"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/user/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 导出用户列表为 xlsx */
+        get: operations["export_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2851,36 +976,83 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/web/notices": {
+    "/admin/user/list-role-ids": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Latest notices */
-        get: {
-            parameters: {
-                query?: {
-                    limit?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Wrapped notice list */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WebEnvelopeNoticeList"];
-                    };
-                };
-            };
+        get?: never;
+        put?: never;
+        /** 获取用户角色ID列表 */
+        post: operations["listRoleIds"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/user/reset-password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
+        get?: never;
+        put?: never;
+        /** 重置用户密码 */
+        post: operations["resetUserPassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/user/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 更新用户状态 */
+        post: operations["updateUserStatus"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/user/update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** 更新用户 */
+        put: operations["updateUser"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 首页 */
+        get: operations["index"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2889,36 +1061,877 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/web/operation-logs": {
+    "/auth/captchaImage": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Recent operation logs */
-        get: {
-            parameters: {
-                query?: {
-                    limit?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Wrapped log list */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WebEnvelopeOperationLogList"];
-                    };
-                };
-            };
+        get: operations["getCaptchaImg"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/get-async-routes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
+        /**
+         * 获取异步路由
+         * @description 兼容vue-pure-admin前端的路由获取接口
+         */
+        get: operations["getAsyncRoutes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/getConfig": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 获取系统配置 */
+        get: operations["getConfig"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/getLoginUserInfo": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 获取当前登录用户信息 */
+        get: operations["getLoginUserInfo"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/getRouters": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 获取用户对应的菜单路由
+         * @description 用于动态生成路由
+         */
+        get: operations["getRouters"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 登录 */
+        post: operations["login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 退出登录 */
+        post: operations["logout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/refresh-token": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 刷新令牌 */
+        post: operations["refreshToken"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blog/article": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["list_2"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blog/article/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["create_2"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blog/article/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["delete_2"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blog/article/update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["update_2"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blog/article/{id}/offline": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["offline"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blog/article/{id}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["publish"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blog/category": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["list_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blog/category/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["create_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blog/category/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["delete_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blog/category/update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["update_1"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blog/file/upload": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["uploadMarkdownImage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/file": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 获取文件列表 */
+        get: operations["listFiles"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/file/download/{fileId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 下载文件 */
+        get: operations["downloadFile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/file/upload": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 上传文件 */
+        post: operations["uploadFile"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/file/upload-image": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 上传图片（头像等） */
+        post: operations["uploadImage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/file/{fileId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** 删除文件 */
+        delete: operations["deleteFile"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/idempotent/token": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["token"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/meta-table": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 获取元表格列表 */
+        post: operations["list"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/meta-table/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 创建元表格 */
+        post: operations["create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/meta-table/import": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 导入已有物理表 */
+        post: operations["importTable"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/meta-table/import-preview/{tableName}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 预览物理表导入映射 */
+        get: operations["importPreview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/meta-table/importable-tables": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 列出可导入的物理表 */
+        get: operations["importableTables"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/meta-table/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 获取元表格详情 */
+        get: operations["detail"];
+        /** 更新元表格 */
+        put: operations["update"];
+        post?: never;
+        /** 删除元表格 */
+        delete: operations["delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/meta-table/{id}/copy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 复制元表格 */
+        post: operations["copy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/meta-table/{id}/data": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 获取元表格数据 */
+        post: operations["listData"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/meta-table/{id}/data/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 新增元表格数据 */
+        post: operations["createData"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/meta-table/{id}/data/{dataId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** 修改元表格数据 */
+        put: operations["updateData"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/meta-table/{id}/data/{dataId}/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 删除元表格数据 */
+        post: operations["deleteData"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/meta-table/{id}/delete-check": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 检查删除元表格 */
+        get: operations["deleteCheck"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/meta-table/{id}/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 导出元表格数据 */
+        get: operations["export"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/meta-table/{id}/export-migration": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 导出元表格 Schema 迁移为 Flyway SQL */
+        get: operations["exportMigration"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/meta-table/{id}/generate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 生成元表格代码 */
+        post: operations["generate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/meta-table/{id}/import": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 导入元表格数据 */
+        post: operations["importData"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/meta-table/{id}/migrations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 获取元表格 Schema 迁移历史 */
+        get: operations["migrations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/monitor/cache-info": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 缓存监控信息 */
+        get: operations["getCacheInfo"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/monitor/online-logs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 在线用户列表 */
+        post: operations["getOnlineLogsList"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/dict/item/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** 更新字典项 */
+        put: operations["updateItem"];
+        post?: never;
+        /** 删除字典项 */
+        delete: operations["deleteItem"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/dict/type": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 字典类型分页列表 */
+        post: operations["listTypes"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/dict/type/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 创建字典类型 */
+        post: operations["createType"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/dict/type/{dictCode}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 根据字典编码查询详情及全部项 */
+        get: operations["getTypeByCode"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/dict/type/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** 更新字典类型 */
+        put: operations["updateType"];
+        post?: never;
+        /** 删除字典类型 */
+        delete: operations["deleteType"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/system/dict/type/{typeId}/item": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 创建字典项 */
+        post: operations["createItem"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/web/articles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getArticles"];
+        put?: never;
+        post: operations["createArticle"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/web/articles/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getArticle"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2934,27 +1947,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Visible article categories */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Wrapped category list */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WebEnvelopeCategoryList"];
-                    };
-                };
-            };
-        };
+        get: operations["getCategories"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2963,142 +1956,14 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/web/articles": {
+    "/web/dashboard/metrics": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Published articles */
-        get: {
-            parameters: {
-                query?: {
-                    categoryId?: number;
-                    currentPage?: number;
-                    pageSize?: number;
-                    keyword?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Wrapped page */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WebEnvelopeArticlePage"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /** Create article */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["WebArticleCreateRequest"];
-                };
-            };
-            responses: {
-                /** @description Wrapped article id */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WebEnvelopeLong"];
-                    };
-                };
-                401: components["responses"]["WebProblem"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/web/user/articles": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Current user's articles */
-        get: {
-            parameters: {
-                query?: {
-                    currentPage?: number;
-                    pageSize?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Wrapped page */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WebEnvelopeArticlePage"];
-                    };
-                };
-                401: components["responses"]["WebProblem"];
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/web/articles/{slug}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Published article by slug */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    slug: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Wrapped article */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WebEnvelopeArticleDetail"];
-                    };
-                };
-            };
-        };
+        get: operations["webMetrics"];
         put?: never;
         post?: never;
         delete?: never;
@@ -3116,35 +1981,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Upload C-end file */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "multipart/form-data": {
-                        /** Format: binary */
-                        file: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description Wrapped file payload */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WebEnvelopeFileUpload"];
-                    };
-                };
-                401: components["responses"]["WebProblem"];
-            };
-        };
+        post: operations["upload"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3158,31 +1995,201 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Download C-end file */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    fileId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Binary */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/octet-stream": string;
-                    };
-                };
-            };
-        };
+        get: operations["download"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/web/forgot-password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["forgotPassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/web/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["webLogin"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/web/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["webLogout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/web/notices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["notices"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/web/operation-logs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["operationLogs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/web/refresh-token": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["webRefreshToken"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/web/register": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["register"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/web/reset-password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["resetPassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/web/user/articles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["myArticles"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/web/user/change-password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["changePassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/web/user/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["profile"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/web/verification-code/send": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["sendVerificationCode"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3193,83 +2200,1331 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        AdminEnvelope: {
-            /** @description 0 means success */
-            code: number;
-            message: string;
-            data?: unknown;
+        AdminBlogArticleCreateRequest: {
+            /** Format: int64 */
+            categoryId: number;
+            title: string;
+            slug: string;
+            summary?: string;
+            content: string;
+            /** Format: int64 */
+            coverImageFileId?: number;
+            /** Format: int32 */
+            status: number;
         };
-        AdminLoginRequest: {
+        AdminBlogArticleListRequest: {
+            /** Format: int32 */
+            currentPage: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int64 */
+            categoryId: number;
+            title: string;
+            /** Format: int32 */
+            status: number;
+        };
+        AdminBlogArticleResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            categoryId: number;
+            categoryName: string;
+            title: string;
+            slug: string;
+            summary: string;
+            content: string;
+            /** Format: int64 */
+            coverImageFileId: number;
+            coverImageUrl: string;
+            /** Format: int32 */
+            status: number;
+            statusLabel: string;
+            /** Format: date-time */
+            publishTime: string;
+            /** Format: date-time */
+            createTime: string;
+            /** Format: date-time */
+            updateTime: string;
+        };
+        AdminBlogArticleUpdateRequest: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            categoryId: number;
+            title: string;
+            slug: string;
+            summary?: string;
+            content: string;
+            /** Format: int64 */
+            coverImageFileId?: number;
+            /** Format: int32 */
+            status: number;
+        };
+        AdminBlogCategoryCreateRequest: {
+            name: string;
+            slug: string;
+            /** Format: int32 */
+            sortOrder?: number;
+            /** Format: int32 */
+            status?: number;
+        };
+        AdminBlogCategoryListRequest: {
+            /** Format: int32 */
+            currentPage: number;
+            /** Format: int32 */
+            pageSize: number;
+            name: string;
+        };
+        AdminBlogCategoryResponse: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+            slug: string;
+            /** Format: int32 */
+            sortOrder: number;
+            /** Format: int32 */
+            status: number;
+            statusLabel: string;
+            /** Format: int64 */
+            articleCount: number;
+            /** Format: date-time */
+            createTime: string;
+        };
+        AdminBlogCategoryUpdateRequest: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+            slug: string;
+            /** Format: int32 */
+            sortOrder?: number;
+            /** Format: int32 */
+            status?: number;
+        };
+        AdminDeptDTO: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            parentId: number;
+            name: string;
+            principal: string;
+            phone: string;
+            email: string;
+            /** Format: int32 */
+            sort: number;
+            /** Format: int32 */
+            status: number;
+            /** Format: int32 */
+            type: number;
+            remark: string;
+            /** Format: int64 */
+            createTime: number;
+        };
+        AdminMenuDTO: {
+            /** Format: int64 */
+            parentId: number;
+            /** Format: int64 */
+            id: number;
+            /** Format: int32 */
+            menuType: number;
+            isButton: boolean;
+            title: string;
+            name: string;
+            path: string;
+            component: string;
+            /** Format: int32 */
+            rank: number;
+            redirect: string;
+            icon: string;
+            extraIcon: string;
+            enterTransition: string;
+            leaveTransition: string;
+            activePath: string;
+            auths: string;
+            frameSrc: string;
+            frameLoading: boolean;
+            keepAlive: boolean;
+            hiddenTag: boolean;
+            fixedTag: boolean;
+            showLink: boolean;
+            showParent: boolean;
+        };
+        AdminPageResponseAdminBlogArticleResponse: {
+            list: components["schemas"]["AdminBlogArticleResponse"][];
+            /** Format: int64 */
+            total: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            currentPage: number;
+        };
+        AdminPageResponseAdminBlogCategoryResponse: {
+            list: components["schemas"]["AdminBlogCategoryResponse"][];
+            /** Format: int64 */
+            total: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            currentPage: number;
+        };
+        AdminPageResponseAdminRoleDTO: {
+            list: components["schemas"]["AdminRoleDTO"][];
+            /** Format: int64 */
+            total: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            currentPage: number;
+        };
+        AdminPageResponseAdminUserDTO: {
+            list: components["schemas"]["AdminUserDTO"][];
+            /** Format: int64 */
+            total: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            currentPage: number;
+        };
+        AdminPageResponseConfigResponse: {
+            list: components["schemas"]["ConfigResponse"][];
+            /** Format: int64 */
+            total: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            currentPage: number;
+        };
+        AdminPageResponseDictTypeResponse: {
+            list: components["schemas"]["DictTypeResponse"][];
+            /** Format: int64 */
+            total: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            currentPage: number;
+        };
+        AdminPageResponseFileResponse: {
+            list: components["schemas"]["FileResponse"][];
+            /** Format: int64 */
+            total: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            currentPage: number;
+        };
+        AdminPageResponseLoginLogResponse: {
+            list: components["schemas"]["LoginLogResponse"][];
+            /** Format: int64 */
+            total: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            currentPage: number;
+        };
+        AdminPageResponseMapStringObject: {
+            list: {
+                [key: string]: Record<string, never>;
+            }[];
+            /** Format: int64 */
+            total: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            currentPage: number;
+        };
+        AdminPageResponseMetaTableResponse: {
+            list: components["schemas"]["MetaTableResponse"][];
+            /** Format: int64 */
+            total: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            currentPage: number;
+        };
+        AdminPageResponseNoticeResponse: {
+            list: components["schemas"]["NoticeResponse"][];
+            /** Format: int64 */
+            total: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            currentPage: number;
+        };
+        AdminPageResponseOnlineUserResponse: {
+            list: components["schemas"]["OnlineUserResponse"][];
+            /** Format: int64 */
+            total: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            currentPage: number;
+        };
+        AdminPageResponseOperationLogResponse: {
+            list: components["schemas"]["OperationLogResponse"][];
+            /** Format: int64 */
+            total: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            currentPage: number;
+        };
+        AdminPageResponseSchedulerJobResponse: {
+            list: components["schemas"]["SchedulerJobResponse"][];
+            /** Format: int64 */
+            total: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            currentPage: number;
+        };
+        AdminPageResponseSchedulerLogResponse: {
+            list: components["schemas"]["SchedulerLogResponse"][];
+            /** Format: int64 */
+            total: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            currentPage: number;
+        };
+        AdminRoleDTO: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+            code: string;
+            /** Format: int32 */
+            status: number;
+            /** Format: int32 */
+            dataScope: number;
+            customDeptIds: number[];
+            remark: string;
+            /** Format: int64 */
+            createTime: number;
+            /** Format: int64 */
+            updateTime: number;
+        };
+        AdminRoleIdRequest: {
+            /** Format: int64 */
+            id: number;
+        };
+        AdminRoleListRequest: {
+            name: string;
+            code: string;
+            /** Format: int32 */
+            status: number;
+            /** Format: int32 */
+            currentPage: number;
+            /** Format: int32 */
+            pageSize: number;
+        };
+        AdminRoleMenuDTO: {
+            /** Format: int64 */
+            parentId: number;
+            /** Format: int64 */
+            id: number;
+            /** Format: int32 */
+            menuType: number;
+            title: string;
+        };
+        AdminRoleSimpleDTO: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+        };
+        AdminUserDTO: {
+            /** Format: int64 */
+            id: number;
+            avatar: string;
+            username: string;
+            nickname: string;
+            phone: string;
+            email: string;
+            /** Format: int32 */
+            sex: number;
+            /** Format: int32 */
+            status: number;
+            dept: components["schemas"]["DeptInfo"];
+            remark: string;
+            /** Format: int64 */
+            createTime: number;
+        };
+        AdminUserIdRequest: {
+            /** Format: int64 */
+            userId: number;
+        };
+        AdminUserListRequest: {
+            username: string;
+            phone: string;
+            email: string;
+            blurry: string;
+            status: string;
+            deptId: string;
+            createTime: string[];
+            /** Format: int32 */
+            currentPage: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            statusAsInt: number;
+            /** Format: int64 */
+            deptIdAsLong: number;
+        };
+        BasePageRequest: {
+            /** Format: int32 */
+            currentPage: number;
+            /** Format: int32 */
+            pageSize: number;
+        };
+        CacheInfoResponse: {
+            /** Format: int64 */
+            dbSize: number;
+            usedMemory: string;
+            usedMemoryHuman: string;
+            connectedClients: string;
+            instantaneousOpsPerSec: string;
+            totalCommandsProcessed: string;
+            keyspaceHits: string;
+            keyspaceMisses: string;
+            info: string;
+        };
+        CaptchaResponse: {
+            isCaptchaOn: boolean;
+            captchaCodeKey: string;
+            captchaCodeImg: string;
+        };
+        ChatMessageRequest: {
+            content: string;
+        };
+        ConfigCreateRequest: {
+            configName: string;
+            configKey: string;
+            configValue?: string;
+            /** Format: int32 */
+            configType?: number;
+            remark?: string;
+        };
+        ConfigDeleteRequest: {
+            /** Format: int64 */
+            id: number;
+        };
+        ConfigResponse: {
+            /** Format: int64 */
+            id: number;
+            configName: string;
+            configKey: string;
+            configValue: string;
+            /** Format: int32 */
+            configType: number;
+            remark: string;
+            /** Format: int64 */
+            createTime: number;
+        };
+        ConfigUpdateRequest: {
+            /** Format: int64 */
+            id: number;
+            configName?: string;
+            configKey?: string;
+            configValue?: string;
+            /** Format: int32 */
+            configType?: number;
+            remark?: string;
+        };
+        CronValidateRequest: {
+            cron: string;
+        };
+        CurrentLoginUserResponse: {
+            userInfo: components["schemas"]["UserResponse"];
+            roleKey: string;
+            permissions: string[];
+        };
+        DashboardActivity: {
+            type: string;
+            title: string;
+            time: string;
+        };
+        DashboardMetricsResponse: {
+            /** Format: int64 */
+            userCount: number;
+            /** Format: int64 */
+            articleCount: number;
+            /** Format: int64 */
+            metaTableCount: number;
+            /** Format: int64 */
+            taskCount: number;
+        };
+        DashboardTodo: {
+            title: string;
+            /** Format: int64 */
+            count: number;
+            href: string;
+        };
+        DashboardTrendPoint: {
+            date: string;
+            /** Format: int64 */
+            users: number;
+            /** Format: int64 */
+            articles: number;
+        };
+        DeleteRequest: {
+            /** Format: int64 */
+            id: number;
+        };
+        DeptCreateRequest: {
+            /** Format: int64 */
+            parentId?: number;
+            name: string;
+            principal?: string;
+            phone?: string;
+            email?: string;
+            /** Format: int32 */
+            sort?: number;
+            /** Format: int32 */
+            status?: number;
+            remark?: string;
+        };
+        DeptDeleteRequest: {
+            /** Format: int64 */
+            id: number;
+        };
+        DeptInfo: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+        };
+        DeptUpdateRequest: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            parentId?: number;
+            name?: string;
+            principal?: string;
+            phone?: string;
+            email?: string;
+            /** Format: int32 */
+            sort?: number;
+            /** Format: int32 */
+            status?: number;
+            remark?: string;
+        };
+        DictItemRequest: {
+            /** Format: int64 */
+            id?: number;
+            itemCode: string;
+            itemLabel: string;
+            /** Format: int32 */
+            sort?: number;
+            /** Format: int32 */
+            status?: number;
+        };
+        DictItemResponse: {
+            /** Format: int64 */
+            id: number;
+            itemCode: string;
+            itemLabel: string;
+            /** Format: int32 */
+            sort: number;
+            /** Format: int32 */
+            status: number;
+            /** Format: int64 */
+            dictTypeId: number;
+        };
+        DictTypeCreateRequest: {
+            dictCode: string;
+            dictName: string;
+            description?: string;
+            /** Format: int32 */
+            status?: number;
+            /** Format: int32 */
+            sort?: number;
+            items?: components["schemas"]["DictItemRequest"][];
+        };
+        DictTypeQueryRequest: {
+            /** Format: int32 */
+            currentPage: number;
+            /** Format: int32 */
+            pageSize: number;
+            keyword: string;
+        };
+        DictTypeResponse: {
+            /** Format: int64 */
+            id: number;
+            dictCode: string;
+            dictName: string;
+            description: string;
+            /** Format: int32 */
+            status: number;
+            /** Format: int32 */
+            sort: number;
+            /** Format: date-time */
+            createTime: string;
+            /** Format: date-time */
+            updateTime: string;
+            items: components["schemas"]["DictItemResponse"][];
+        };
+        DictTypeUpdateRequest: {
+            dictName: string;
+            description?: string;
+            /** Format: int32 */
+            status?: number;
+            /** Format: int32 */
+            sort?: number;
+        };
+        DictionaryData: {
+            label: string;
+            /** Format: int32 */
+            value: number;
+            cssTag: string;
+        };
+        ExtraIconDTO: {
+            svg: boolean;
+            name: string;
+        };
+        FileListRequest: {
+            /** Format: int32 */
+            currentPage: number;
+            /** Format: int32 */
+            pageSize: number;
+            originalName: string;
+            storageType: string;
+        };
+        FileResponse: {
+            /** Format: int64 */
+            id: number;
+            originalName: string;
+            storageName: string;
+            storagePath: string;
+            /** Format: int64 */
+            fileSize: number;
+            contentType: string;
+            extension: string;
+            storageType: string;
+            /** Format: int64 */
+            createTime: number;
+        };
+        FileUploadResponse: {
+            /** Format: int64 */
+            fileId: number;
+            url: string;
+            name: string;
+        };
+        IdRequest: {
+            /** Format: int64 */
+            id: number;
+        };
+        ImportResponse: {
+            /** Format: int32 */
+            total: number;
+            /** Format: int32 */
+            success: number;
+            /** Format: int32 */
+            failed: number;
+            errorTruncated: boolean;
+            errors: string[];
+        };
+        ImportableTableInfo: {
+            tableName: string;
+            comment: string;
+            /** Format: int32 */
+            columnCount: number;
+            /** Format: int64 */
+            estimatedRows: number;
+            compatible: boolean;
+            reasons: string[];
+            registered: boolean;
+        };
+        LoginConfigResponse: {
+            isCaptchaOn: boolean;
+            dictionary: {
+                [key: string]: components["schemas"]["DictionaryData"][];
+            };
+        };
+        LoginLogResponse: {
+            /** Format: int64 */
+            id: number;
+            username: string;
+            ip: string;
+            address: string;
+            system: string;
+            browser: string;
+            /** Format: int32 */
+            status: number;
+            behavior: string;
+            /** Format: int64 */
+            loginTime: number;
+        };
+        /** @description 登录信息 */
+        LoginRequest: {
             username: string;
             password: string;
             captchaCode?: string;
-            captchaKey?: string;
+            captchaCodeKey?: string;
         };
-        WebLoginRequest: {
+        LoginResponse: {
+            avatar: string;
             username: string;
-            password: string;
-        };
-        ProblemDetail: {
-            /** Format: uri */
-            type?: string;
-            title?: string;
-            status?: number;
-            detail?: string;
-            /** Format: uri */
-            instance?: string;
-            /** @description Optional ArchForge error code property */
-            code?: number;
-        };
-        WebLoginResponse: {
-            /** Format: int64 */
-            userId: number;
-            username: string;
-            nickname?: string;
-            avatar?: string;
-            tokenName: string;
+            nickname: string;
+            roles: string[];
+            permissions: string[];
             accessToken: string;
-            refreshToken?: string;
-            expires?: string;
+            refreshToken: string;
+            expires: string;
         };
-        WebLogoutRequest: {
-            refreshToken?: string;
+        MenuCreateRequest: {
+            /** Format: int64 */
+            parentId: number;
+            /** Format: int32 */
+            menuType: number;
+            isButton: boolean;
+            name: string;
+            path: string;
+            auths: string;
+            /** Format: int32 */
+            status: number;
+            title: string;
+            icon: string;
+            /** Format: int32 */
+            rank: number;
+            showLink: boolean;
+            showParent: boolean;
+            keepAlive: boolean;
+            frameSrc: string;
+            frameLoading: boolean;
+            hiddenTag: boolean;
         };
-        WebRefreshTokenRequest: {
+        MenuDeleteRequest: {
+            /** Format: int64 */
+            id: number;
+        };
+        MenuUpdateRequest: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            parentId?: number;
+            /** Format: int32 */
+            menuType?: number;
+            isButton?: boolean;
+            name?: string;
+            path?: string;
+            auths?: string;
+            /** Format: int32 */
+            status?: number;
+            title?: string;
+            icon?: string;
+            /** Format: int32 */
+            rank?: number;
+            showLink?: boolean;
+            showParent?: boolean;
+            keepAlive?: boolean;
+            frameSrc?: string;
+            frameLoading?: boolean;
+            hiddenTag?: boolean;
+        };
+        MetaColumn: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            creatorId: number;
+            /** Format: date-time */
+            createTime: string;
+            /** Format: int64 */
+            updaterId: number;
+            /** Format: date-time */
+            updateTime: string;
+            deleted: boolean;
+            /** Format: int64 */
+            tableId: number;
+            columnCode: string;
+            columnName: string;
+            /** @enum {string} */
+            dataType: "STRING" | "TEXT" | "INTEGER" | "DECIMAL" | "BOOLEAN" | "DATE" | "DATETIME" | "ENUM" | "JSON" | "FILE" | "IMAGE" | "MULTI_IMAGE" | "UUID" | "TIMESTAMPTZ" | "ARRAY" | "GEO" | "REFERENCE";
+            /** Format: int32 */
+            length: number;
+            /** Format: int32 */
+            precision: number;
+            /** Format: int32 */
+            scale: number;
+            nullable: boolean;
+            defaultValue: string;
+            unique: boolean;
+            required: boolean;
+            searchable: boolean;
+            listVisible: boolean;
+            index: boolean;
+            /** Format: int32 */
+            sort: number;
+            options: components["schemas"]["OptionItem"][];
+            referenceTable: string;
+            referenceColumn: string;
+            displayExpression: string;
+            tenantColumn: boolean;
+            ownerColumn: boolean;
+            indexType: string;
+            indexGroup: string;
+            arrayElementType: string;
+            searchType: string;
+            dictCode: string;
+            searchableColumn: boolean;
+            listVisibleColumn: boolean;
+            uniqueColumn: boolean;
+            indexedColumn: boolean;
+            nullableColumn: boolean;
+        };
+        MetaColumnRequest: {
+            /** Format: int64 */
+            id?: number;
+            columnCode: string;
+            columnName: string;
+            dataType: string;
+            /** Format: int32 */
+            length?: number;
+            /** Format: int32 */
+            precision?: number;
+            /** Format: int32 */
+            scale?: number;
+            nullable?: boolean;
+            defaultValue?: string;
+            unique?: boolean;
+            required?: boolean;
+            searchable?: boolean;
+            listVisible?: boolean;
+            index?: boolean;
+            indexType?: string;
+            indexGroup?: string;
+            /** Format: int32 */
+            sort?: number;
+            arrayElementType?: string;
+            searchType?: string;
+            dictCode?: string;
+            options?: components["schemas"]["OptionItem"][];
+            referenceTable?: string;
+            referenceColumn?: string;
+            displayExpression?: string;
+            tenantColumn?: boolean;
+            ownerColumn?: boolean;
+        };
+        MetaDTO: {
+            title: string;
+            icon: string;
+            showLink: boolean;
+            showParent: boolean;
+            roles: string[];
+            auths: string[];
+            frameSrc: string;
+            isFrameSrcInternal: boolean;
+            /** Format: int32 */
+            rank: number;
+            extraIcon: components["schemas"]["ExtraIconDTO"];
+            keepAlive: boolean;
+            frameLoading: boolean;
+            transition: components["schemas"]["TransitionDTO"];
+            hiddenTag: boolean;
+            /** Format: int32 */
+            dynamicLevel: number;
+        };
+        MetaDataListRequest: {
+            filters: {
+                [key: string]: Record<string, never>;
+            };
+            /** Format: int32 */
+            currentPage: number;
+            /** Format: int32 */
+            pageSize: number;
+            orderBy: string;
+            orderDir: string;
+            skipCount: boolean;
+        };
+        MetaTableCreateRequest: {
+            tableCode: string;
+            tableName: string;
+            description?: string;
+            tablePrefix?: string;
+            /** Format: int32 */
+            status?: number;
+            columns: components["schemas"]["MetaColumnRequest"][];
+        };
+        MetaTableGenerateRequest: {
+            backendDir: string;
+            frontendDir: string;
+            basePath: string;
+            overwrite: boolean;
+        };
+        MetaTableGenerateResponse: {
+            backendDir: string;
+            frontendDir: string;
+            /** Format: int32 */
+            files: number;
+        };
+        MetaTableImportRequest: {
+            tableName: string;
+            displayName?: string;
+            description?: string;
+        };
+        MetaTableListRequest: {
+            keyword: string;
+            /** Format: int32 */
+            currentPage: number;
+            /** Format: int32 */
+            pageSize: number;
+        };
+        MetaTableMigration: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            creatorId: number;
+            /** Format: date-time */
+            createTime: string;
+            /** Format: int64 */
+            updaterId: number;
+            /** Format: date-time */
+            updateTime: string;
+            deleted: boolean;
+            /** Format: int64 */
+            tableId: number;
+            /** Format: int32 */
+            version: number;
+            changeType: string;
+            columnCode: string;
+            oldColumnCode: string;
+            oldType: string;
+            newType: string;
+            oldDefault: string;
+            newDefault: string;
+            ddlSql: string;
+            status: string;
+            /** Format: date-time */
+            executedAt: string;
+        };
+        MetaTableResponse: {
+            /** Format: int64 */
+            id: number;
+            tableCode: string;
+            tableName: string;
+            description: string;
+            tablePrefix: string;
+            /** Format: int32 */
+            status: number;
+            /** Format: int64 */
+            creatorId: number;
+            creatorName: string;
+            /** Format: date-time */
+            createTime: string;
+            /** Format: int64 */
+            updaterId: number;
+            updaterName: string;
+            /** Format: date-time */
+            updateTime: string;
+            columns: components["schemas"]["MetaColumn"][];
+        };
+        MetaTableUpdateRequest: {
+            tableName: string;
+            description?: string;
+            /** Format: int32 */
+            status?: number;
+            columns?: components["schemas"]["MetaColumnRequest"][];
+            force?: boolean;
+        };
+        NoticeCreateRequest: {
+            noticeTitle: string;
+            /** Format: int32 */
+            noticeType?: number;
+            noticeContent?: string;
+            /** Format: int32 */
+            status?: number;
+            remark?: string;
+        };
+        NoticeDeleteRequest: {
+            /** Format: int64 */
+            id: number;
+        };
+        NoticeResponse: {
+            /** Format: int64 */
+            id: number;
+            noticeTitle: string;
+            /** Format: int32 */
+            noticeType: number;
+            noticeContent: string;
+            /** Format: int32 */
+            status: number;
+            remark: string;
+            /** Format: int64 */
+            createTime: number;
+        };
+        NoticeUpdateRequest: {
+            /** Format: int64 */
+            id: number;
+            noticeTitle?: string;
+            /** Format: int32 */
+            noticeType?: number;
+            noticeContent?: string;
+            /** Format: int32 */
+            status?: number;
+            remark?: string;
+        };
+        OnlineLogListRequest: {
+            /** Format: int32 */
+            currentPage: number;
+            /** Format: int32 */
+            pageSize: number;
+            username: string;
+        };
+        OnlineUserResponse: {
+            id: string;
+            username: string;
+            ip: string;
+            address: string;
+            system: string;
+            browser: string;
+            /** Format: int64 */
+            loginTime: number;
+        };
+        OperationLogResponse: {
+            /** Format: int64 */
+            id: number;
+            username: string;
+            module: string;
+            summary: string;
+            ip: string;
+            address: string;
+            system: string;
+            browser: string;
+            /** Format: int32 */
+            status: number;
+            /** Format: int64 */
+            operatingTime: number;
+        };
+        OptionItem: {
+            label: string;
+            value: Record<string, never>;
+        };
+        PermissionMenuNode: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            parentId: number;
+            name: string;
+            permission: string;
+            button: boolean;
+            children: components["schemas"]["PermissionMenuNode"][];
+        };
+        PermissionUpdateRequest: {
+            menuIds: number[];
+        };
+        PreviewColumn: {
+            columnCode: string;
+            comment: string;
+            audit: boolean;
+            dataType: string;
+            /** Format: int32 */
+            length: number;
+            /** Format: int32 */
+            precision: number;
+            /** Format: int32 */
+            scale: number;
+            required: boolean;
+            unique: boolean;
+            indexed: boolean;
+            /** Format: int32 */
+            sort: number;
+            warning: string;
+        };
+        RefreshTokenRequest: {
             refreshToken: string;
         };
-        WebUserProfileResponse: {
+        RefreshTokenResponse: {
+            accessToken: string;
+            refreshToken: string;
+            expires: string;
+        };
+        ResponseResultString: {
+            /** Format: int32 */
+            code: number;
+            msg: string;
+            data: string;
+            message: string;
+        };
+        RoleCreateRequest: {
+            name: string;
+            code: string;
+            remark?: string;
+        };
+        RoleDataScopeRequest: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int32 */
+            dataScope: number;
+            deptIds?: number[];
+        };
+        RoleDeleteRequest: {
+            /** Format: int64 */
+            id: number;
+        };
+        RoleMenuRequest: {
+            /** Format: int64 */
+            id: number;
+            menuIds?: number[];
+        };
+        RoleStatusRequest: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int32 */
+            status: number;
+        };
+        RoleUpdateRequest: {
+            /** Format: int64 */
+            id: number;
+            name?: string;
+            code?: string;
+            remark?: string;
+        };
+        RouterDTO: {
+            name: string;
+            path: string;
+            meta: components["schemas"]["MetaDTO"];
+            children: components["schemas"]["RouterDTO"][];
+        };
+        SchedulerJobListRequest: {
+            /** Format: int32 */
+            currentPage: number;
+            /** Format: int32 */
+            pageSize: number;
+            jobName: string;
+            jobGroup: string;
+            /** Format: int32 */
+            status: number;
+        };
+        SchedulerJobResponse: {
+            /** Format: int64 */
+            id: number;
+            jobName: string;
+            jobGroup: string;
+            description: string;
+            beanName: string;
+            methodName: string;
+            methodParams: string;
+            cron: string;
+            /** Format: int32 */
+            misfirePolicy: number;
+            concurrent: boolean;
+            /** Format: int32 */
+            status: number;
+            /** Format: date-time */
+            createTime: string;
+            /** Format: date-time */
+            updateTime: string;
+        };
+        SchedulerJobUpsertRequest: {
+            jobName: string;
+            jobGroup: string;
+            description: string;
+            beanName: string;
+            methodName: string;
+            methodParams: string;
+            cron: string;
+            /** Format: int32 */
+            misfirePolicy: number;
+            concurrent: boolean;
+            /** Format: int32 */
+            status: number;
+        };
+        SchedulerLogListRequest: {
+            /** Format: int32 */
+            currentPage: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int64 */
+            jobId: number;
+        };
+        SchedulerLogResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            jobId: number;
+            jobName: string;
+            jobGroup: string;
+            beanName: string;
+            methodName: string;
+            methodParams: string;
+            /** Format: int32 */
+            status: number;
+            errorMessage: string;
+            /** Format: int64 */
+            durationMs: number;
+            /** Format: date-time */
+            startedAt: string;
+            /** Format: date-time */
+            finishedAt: string;
+        };
+        ServerInfoResponse: {
+            cpu: Record<string, never>;
+            memory: Record<string, never>;
+            jvm: Record<string, never>;
+            os: Record<string, never>;
+            disks: Record<string, never>;
+            error: string;
+        };
+        SseEmitter: {
+            /** Format: int64 */
+            timeout: number;
+        };
+        TableImportPreview: {
+            tableName: string;
+            comment: string;
+            compatible: boolean;
+            reasons: string[];
+            columns: components["schemas"]["PreviewColumn"][];
+            compositeIndexes: string[];
+        };
+        TransitionDTO: {
+            name: string;
+            enterTransition: string;
+            leaveTransition: string;
+        };
+        UploadFileResponse: {
+            /** Format: int64 */
+            fileId: number;
+            originalName: string;
+            url: string;
+            /** Format: int64 */
+            fileSize: number;
+        };
+        UserCreateRequest: {
+            username: string;
+            nickname: string;
+            phone?: string;
+            /** Format: email */
+            email?: string;
+            /** Format: int32 */
+            sex?: number;
+            /** Format: int32 */
+            status: number;
+            remark?: string;
+            /** Format: int64 */
+            parentId?: number;
+            password: string;
+        };
+        UserDeleteRequest: {
+            /** Format: int64 */
+            id: number;
+        };
+        UserPasswordRequest: {
+            /** Format: int64 */
+            id: number;
+            newPwd: string;
+        };
+        UserResponse: {
             /** Format: int64 */
             userId: number;
+            /** Format: int64 */
+            roleId: number;
+            roleName: string;
+            /** Format: int64 */
+            deptId: number;
+            deptName: string;
             username: string;
+            nickname: string;
+            /** Format: int32 */
+            userType: number;
+            email: string;
+            phoneNumber: string;
+            /** Format: int32 */
+            sex: number;
+            avatar: string;
+            /** Format: int32 */
+            status: number;
+            loginIp: string;
+            /** Format: date-time */
+            loginDate: string;
+            /** Format: int64 */
+            creatorId: number;
+            creatorName: string;
+            /** Format: date-time */
+            createTime: string;
+            /** Format: int64 */
+            updaterId: number;
+            updaterName: string;
+            /** Format: date-time */
+            updateTime: string;
+            remark: string;
+        };
+        UserRoleRequest: {
+            /** Format: int64 */
+            id: number;
+            ids?: number[];
+        };
+        UserStatusRequest: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int32 */
+            status: number;
+        };
+        UserUpdateRequest: {
+            /** Format: int64 */
+            id: number;
+            username?: string;
             nickname?: string;
-            avatar?: string;
+            phone?: string;
+            email?: string;
+            /** Format: int32 */
+            sex?: number;
+            /** Format: int32 */
+            status?: number;
+            remark?: string;
+            /** Format: int64 */
+            parentId?: number;
+        };
+        WebArticleCreateRequest: {
+            /** Format: int64 */
+            categoryId: number;
+            title: string;
+            summary?: string;
+            content: string;
+            /** Format: int64 */
+            coverImageFileId?: number;
+        };
+        WebArticleDetailResponse: {
+            /** Format: int64 */
+            id: number;
+            title: string;
+            slug: string;
+            summary: string;
+            content: string;
+            /** Format: int64 */
+            coverImageFileId: number;
+            coverImageUrl: string;
+            /** Format: int64 */
+            categoryId: number;
+            categoryName: string;
+            categorySlug: string;
+            /** Format: date-time */
+            publishTime: string;
+            /** Format: date-time */
+            createTime: string;
+        };
+        WebArticleSummaryResponse: {
+            /** Format: int64 */
+            id: number;
+            title: string;
+            slug: string;
+            summary: string;
+            /** Format: int64 */
+            coverImageFileId: number;
+            coverImageUrl: string;
+            categoryName: string;
+            /** Format: date-time */
+            publishTime: string;
+        };
+        WebCategoryResponse: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+            slug: string;
+            /** Format: int32 */
+            sortOrder: number;
+            /** Format: int64 */
+            articleCount: number;
         };
         WebChangePasswordRequest: {
             oldPassword: string;
             newPassword: string;
             confirmPassword: string;
-        };
-        WebSendVerificationCodeRequest: {
-            email: string;
-            /** @enum {string} */
-            purpose: "REGISTER" | "RESET_PASSWORD";
-        };
-        WebRegisterRequest: {
-            email: string;
-            password: string;
-            confirmPassword: string;
-            code: string;
-        };
-        WebResetPasswordRequest: {
-            email: string;
-            code: string;
-            newPassword: string;
-            confirmPassword: string;
-        };
-        WebForgotPasswordRequest: {
-            email: string;
-            /** @enum {string} */
-            purpose: "RESET_PASSWORD";
         };
         WebDashboardMetricsResponse: {
             /** Format: int64 */
@@ -3281,141 +3536,3264 @@ export interface components {
             /** Format: int64 */
             todayOperation: number;
         };
+        WebLoginRequest: {
+            username: string;
+            password: string;
+        };
+        WebLoginResponse: {
+            /** Format: int64 */
+            userId: number;
+            username: string;
+            nickname: string;
+            avatar: string;
+            accessToken: string;
+            tokenName: string;
+            refreshToken: string;
+            expires: string;
+        };
+        WebLogoutRequest: {
+            refreshToken: string;
+        };
         WebNoticeResponse: {
             /** Format: int64 */
             id: number;
             title: string;
-            content?: string;
-            noticeType?: number;
+            content: string;
+            /** Format: int32 */
+            noticeType: number;
+            /** Format: date-time */
             createTime: string;
         };
         WebOperationLogResponse: {
             /** Format: int64 */
             id: number;
             username: string;
-            module?: string;
-            summary?: string;
+            module: string;
+            summary: string;
+            /** Format: date-time */
             operatingTime: string;
         };
-        WebCategoryResponse: {
-            /** Format: int64 */
-            id: number;
-            name: string;
-            slug: string;
-            sortOrder: number;
-            /** Format: int64 */
-            articleCount: number;
-        };
-        WebArticleSummaryResponse: {
-            /** Format: int64 */
-            id: number;
-            title: string;
-            slug: string;
-            summary: string;
-            /** Format: int64 */
-            coverImageFileId?: number | null;
-            coverImageUrl: string;
-            categoryName: string;
-            publishTime: string;
-        };
-        WebArticleDetailResponse: {
-            /** Format: int64 */
-            id: number;
-            title: string;
-            slug: string;
-            summary: string;
-            content: string;
-            /** Format: int64 */
-            coverImageFileId?: number | null;
-            coverImageUrl: string;
-            /** Format: int64 */
-            categoryId: number;
-            categoryName: string;
-            categorySlug: string;
-            publishTime: string;
-            createTime: string;
-        };
-        WebArticleCreateRequest: {
-            /** Format: int64 */
-            categoryId: number;
-            title: string;
-            summary?: string;
-            content: string;
-            /** Format: int64 */
-            coverImageFileId?: number | null;
-        };
-        WebFileUploadResponse: {
-            /** Format: int64 */
-            fileId: number;
-            url: string;
-            name: string;
-        };
-        WebArticlePage: {
+        WebPageResponseWebArticleSummaryResponse: {
             list: components["schemas"]["WebArticleSummaryResponse"][];
             /** Format: int64 */
             total: number;
+            /** Format: int32 */
             pageSize: number;
+            /** Format: int32 */
             currentPage: number;
         };
-        WebEnvelopeBoolean: components["schemas"]["AdminEnvelope"] & {
-            data?: boolean;
+        WebRefreshTokenRequest: {
+            refreshToken: string;
         };
-        WebEnvelopeLong: components["schemas"]["AdminEnvelope"] & {
+        WebRegisterRequest: {
+            /** Format: email */
+            email: string;
+            password: string;
+            confirmPassword: string;
+            code: string;
+        };
+        WebResetPasswordRequest: {
+            /** Format: email */
+            email: string;
+            code: string;
+            newPassword: string;
+            confirmPassword: string;
+        };
+        WebSendVerificationCodeRequest: {
+            /** Format: email */
+            email: string;
+            purpose: string;
+        };
+        WebUserProfileResponse: {
             /** Format: int64 */
-            data?: number;
-        };
-        WebEnvelopeLogin: components["schemas"]["AdminEnvelope"] & {
-            data?: components["schemas"]["WebLoginResponse"];
-        };
-        WebEnvelopeProfile: components["schemas"]["AdminEnvelope"] & {
-            data?: components["schemas"]["WebUserProfileResponse"];
-        };
-        WebEnvelopeMetrics: components["schemas"]["AdminEnvelope"] & {
-            data?: components["schemas"]["WebDashboardMetricsResponse"];
-        };
-        WebEnvelopeNoticeList: components["schemas"]["AdminEnvelope"] & {
-            data?: components["schemas"]["WebNoticeResponse"][];
-        };
-        WebEnvelopeOperationLogList: components["schemas"]["AdminEnvelope"] & {
-            data?: components["schemas"]["WebOperationLogResponse"][];
-        };
-        WebEnvelopeCategoryList: components["schemas"]["AdminEnvelope"] & {
-            data?: components["schemas"]["WebCategoryResponse"][];
-        };
-        WebEnvelopeArticlePage: components["schemas"]["AdminEnvelope"] & {
-            data?: components["schemas"]["WebArticlePage"];
-        };
-        WebEnvelopeArticleDetail: components["schemas"]["AdminEnvelope"] & {
-            data?: components["schemas"]["WebArticleDetailResponse"];
-        };
-        WebEnvelopeFileUpload: components["schemas"]["AdminEnvelope"] & {
-            data?: components["schemas"]["WebFileUploadResponse"];
+            userId: number;
+            username: string;
+            nickname: string;
+            avatar: string;
         };
     };
-    responses: {
-        /** @description Admin envelope */
-        AdminOk: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["AdminEnvelope"];
-            };
-        };
-        /** @description RFC 9457 Problem Detail (C-end errors) */
-        WebProblem: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/problem+json": components["schemas"]["ProblemDetail"];
-            };
-        };
-    };
+    responses: never;
     parameters: never;
     requestBodies: never;
     headers: never;
     pathItems: never;
 }
 export type $defs = Record<string, never>;
-export type operations = Record<string, never>;
+export interface operations {
+    config: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: Record<string, never>;
+                    };
+                };
+            };
+        };
+    };
+    sessions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: Record<string, never>;
+                    }[];
+                };
+            };
+        };
+    };
+    createSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: Record<string, never>;
+                    };
+                };
+            };
+        };
+    };
+    delete_4: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    messages: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: string;
+                    }[];
+                };
+            };
+        };
+    };
+    send: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChatMessageRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": components["schemas"]["SseEmitter"];
+                };
+            };
+        };
+    };
+    getConfigList: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BasePageRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminPageResponseConfigResponse"];
+                };
+            };
+        };
+    };
+    createConfig: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ConfigCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+        };
+    };
+    deleteConfig: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ConfigDeleteRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    updateConfig: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ConfigUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    metrics: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DashboardMetricsResponse"];
+                };
+            };
+        };
+    };
+    recentActivities: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DashboardActivity"][];
+                };
+            };
+        };
+    };
+    todo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DashboardTodo"][];
+                };
+            };
+        };
+    };
+    trends: {
+        parameters: {
+            query?: {
+                days?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DashboardTrendPoint"][];
+                };
+            };
+        };
+    };
+    getDeptList: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminDeptDTO"][];
+                };
+            };
+        };
+    };
+    createDept: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeptCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+        };
+    };
+    deleteDept: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeptDeleteRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    updateDept: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeptUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    getLoginLogsList: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BasePageRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminPageResponseLoginLogResponse"];
+                };
+            };
+        };
+    };
+    clearLoginLogs: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    deleteLoginLog: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeleteRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    getMenuList: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminMenuDTO"][];
+                };
+            };
+        };
+    };
+    createMenu: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MenuCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+        };
+    };
+    deleteMenu: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MenuDeleteRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    updateMenu: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MenuUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    getNoticeList: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BasePageRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminPageResponseNoticeResponse"];
+                };
+            };
+        };
+    };
+    createNotice: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NoticeCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+        };
+    };
+    deleteNotice: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NoticeDeleteRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    updateNotice: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NoticeUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    getOperationLogsList: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BasePageRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminPageResponseOperationLogResponse"];
+                };
+            };
+        };
+    };
+    clearOperLogs: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    deleteOperLog: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeleteRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    menuTree: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PermissionMenuNode"][];
+                };
+            };
+        };
+    };
+    rolePermissions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                roleId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number[];
+                };
+            };
+        };
+    };
+    saveRolePermissions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                roleId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PermissionUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getRoleList: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminRoleListRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminPageResponseAdminRoleDTO"];
+                };
+            };
+        };
+    };
+    listAllRoles: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminRoleSimpleDTO"][];
+                };
+            };
+        };
+    };
+    createRole: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RoleCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+        };
+    };
+    updateRoleDataScope: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RoleDataScopeRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    deleteRole: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RoleDeleteRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    getRoleMenuTree: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminRoleMenuDTO"][];
+                };
+            };
+        };
+    };
+    getRoleMenuIds: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminRoleIdRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number[];
+                };
+            };
+        };
+    };
+    saveRoleMenu: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RoleMenuRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    updateRoleStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RoleStatusRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    updateRole: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RoleUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    list_3: {
+        parameters: {
+            query: {
+                query: components["schemas"]["SchedulerJobListRequest"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminPageResponseSchedulerJobResponse"];
+                };
+            };
+        };
+    };
+    add: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SchedulerJobUpsertRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+        };
+    };
+    logList: {
+        parameters: {
+            query: {
+                body: components["schemas"]["SchedulerLogListRequest"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminPageResponseSchedulerLogResponse"];
+                };
+            };
+        };
+    };
+    pause: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    resume: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    run: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    update_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SchedulerJobUpsertRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    validateCron: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CronValidateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    delete_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getServerInfo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServerInfoResponse"];
+                };
+            };
+        };
+    };
+    getUserList: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminUserListRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminPageResponseAdminUserDTO"];
+                };
+            };
+        };
+    };
+    assignUserRole: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UserRoleRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    createUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UserCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+        };
+    };
+    deleteUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UserDeleteRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    export_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    listRoleIds: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminUserIdRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number[];
+                };
+            };
+        };
+    };
+    resetUserPassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UserPasswordRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    updateUserStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UserStatusRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    updateUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UserUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    index: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+        };
+    };
+    getCaptchaImg: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CaptchaResponse"];
+                };
+            };
+        };
+    };
+    getAsyncRoutes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RouterDTO"][];
+                };
+            };
+        };
+    };
+    getConfig: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LoginConfigResponse"];
+                };
+            };
+        };
+    };
+    getLoginUserInfo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CurrentLoginUserResponse"];
+                };
+            };
+        };
+    };
+    getRouters: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RouterDTO"][];
+                };
+            };
+        };
+    };
+    login: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LoginRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LoginResponse"];
+                };
+            };
+        };
+    };
+    logout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["RefreshTokenRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    refreshToken: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RefreshTokenRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RefreshTokenResponse"];
+                };
+            };
+        };
+    };
+    list_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminBlogArticleListRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminPageResponseAdminBlogArticleResponse"];
+                };
+            };
+        };
+    };
+    create_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminBlogArticleCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+        };
+    };
+    delete_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IdRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    update_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminBlogArticleUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    offline: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    publish: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    list_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminBlogCategoryListRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminPageResponseAdminBlogCategoryResponse"];
+                };
+            };
+        };
+    };
+    create_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminBlogCategoryCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+        };
+    };
+    delete_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IdRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    update_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminBlogCategoryUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    uploadMarkdownImage: {
+        parameters: {
+            query: {
+                "file[]": string[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: Record<string, never>;
+                    };
+                };
+            };
+        };
+    };
+    listFiles: {
+        parameters: {
+            query: {
+                params: components["schemas"]["FileListRequest"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminPageResponseFileResponse"];
+                };
+            };
+        };
+    };
+    downloadFile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                fileId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+        };
+    };
+    uploadFile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    /** Format: binary */
+                    file: string;
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UploadFileResponse"];
+                };
+            };
+        };
+    };
+    uploadImage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    /** Format: binary */
+                    file: string;
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UploadFileResponse"];
+                };
+            };
+        };
+    };
+    deleteFile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                fileId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    token: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResponseResultString"];
+                };
+            };
+        };
+    };
+    list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MetaTableListRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminPageResponseMetaTableResponse"];
+                };
+            };
+        };
+    };
+    create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MetaTableCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+        };
+    };
+    importTable: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MetaTableImportRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+        };
+    };
+    importPreview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tableName: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TableImportPreview"];
+                };
+            };
+        };
+    };
+    importableTables: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImportableTableInfo"][];
+                };
+            };
+        };
+    };
+    detail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetaTableResponse"];
+                };
+            };
+        };
+    };
+    update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MetaTableUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    delete: {
+        parameters: {
+            query?: {
+                force?: boolean;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    copy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+        };
+    };
+    listData: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MetaDataListRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminPageResponseMapStringObject"];
+                };
+            };
+        };
+    };
+    createData: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    [key: string]: Record<string, never>;
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+        };
+    };
+    updateData: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+                dataId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    [key: string]: Record<string, never>;
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    deleteData: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+                dataId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    deleteCheck: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+        };
+    };
+    export: {
+        parameters: {
+            query?: {
+                format?: string;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    exportMigration: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+        };
+    };
+    generate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MetaTableGenerateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetaTableGenerateResponse"];
+                };
+            };
+        };
+    };
+    importData: {
+        parameters: {
+            query?: {
+                format?: string;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    /** Format: binary */
+                    file: string;
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImportResponse"];
+                };
+            };
+        };
+    };
+    migrations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetaTableMigration"][];
+                };
+            };
+        };
+    };
+    getCacheInfo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CacheInfoResponse"];
+                };
+            };
+        };
+    };
+    getOnlineLogsList: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OnlineLogListRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminPageResponseOnlineUserResponse"];
+                };
+            };
+        };
+    };
+    updateItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DictItemRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    deleteItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    listTypes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DictTypeQueryRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminPageResponseDictTypeResponse"];
+                };
+            };
+        };
+    };
+    createType: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DictTypeCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+        };
+    };
+    getTypeByCode: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dictCode: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DictTypeResponse"];
+                };
+            };
+        };
+    };
+    updateType: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DictTypeUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    deleteType: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
+    createItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                typeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DictItemRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+        };
+    };
+    getArticles: {
+        parameters: {
+            query?: {
+                categoryId?: number;
+                currentPage?: number;
+                pageSize?: number;
+                keyword?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WebPageResponseWebArticleSummaryResponse"];
+                };
+            };
+        };
+    };
+    createArticle: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WebArticleCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": number;
+                };
+            };
+        };
+    };
+    getArticle: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WebArticleDetailResponse"];
+                };
+            };
+        };
+    };
+    getCategories: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WebCategoryResponse"][];
+                };
+            };
+        };
+    };
+    webMetrics: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WebDashboardMetricsResponse"];
+                };
+            };
+        };
+    };
+    upload: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": {
+                    /** Format: binary */
+                    file: string;
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["FileUploadResponse"];
+                };
+            };
+        };
+    };
+    download: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                fileId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+        };
+    };
+    forgotPassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WebSendVerificationCodeRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": boolean;
+                };
+            };
+        };
+    };
+    webLogin: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WebLoginRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WebLoginResponse"];
+                };
+            };
+        };
+    };
+    webLogout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["WebLogoutRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": boolean;
+                };
+            };
+        };
+    };
+    notices: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WebNoticeResponse"][];
+                };
+            };
+        };
+    };
+    operationLogs: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WebOperationLogResponse"][];
+                };
+            };
+        };
+    };
+    webRefreshToken: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WebRefreshTokenRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WebLoginResponse"];
+                };
+            };
+        };
+    };
+    register: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WebRegisterRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WebLoginResponse"];
+                };
+            };
+        };
+    };
+    resetPassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WebResetPasswordRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": boolean;
+                };
+            };
+        };
+    };
+    myArticles: {
+        parameters: {
+            query?: {
+                currentPage?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WebPageResponseWebArticleSummaryResponse"];
+                };
+            };
+        };
+    };
+    changePassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WebChangePasswordRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": boolean;
+                };
+            };
+        };
+    };
+    profile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WebUserProfileResponse"];
+                };
+            };
+        };
+    };
+    sendVerificationCode: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WebSendVerificationCodeRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": boolean;
+                };
+            };
+        };
+    };
+}

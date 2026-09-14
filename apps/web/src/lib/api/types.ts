@@ -19,5 +19,5 @@ export type WebCategory = components["schemas"]["WebCategoryResponse"];
 export type WebArticleSummary = components["schemas"]["WebArticleSummaryResponse"];
 export type WebArticleDetail = components["schemas"]["WebArticleDetailResponse"];
 export type WebArticleCreateRequest = components["schemas"]["WebArticleCreateRequest"];
-export type FileUploadResponse = components["schemas"]["WebFileUploadResponse"];
+export type FileUploadResponse = components["schemas"]["FileUploadResponse"];
 export type PageResult<T> = { list: T[]; total: number; pageSize: number; currentPage: number };
