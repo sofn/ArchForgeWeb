@@ -4,23 +4,6 @@
  */
 
 export interface paths {
-    "/admin/auth/": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** 首页 */
-        get: operations["index"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/admin/auth/captchaImage": {
         parameters: {
             query?: never;
@@ -896,7 +879,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/meta-table/import-preview/{tableName}": {
+    "/admin/meta-table/import-preview": {
         parameters: {
             query?: never;
             header?: never;
@@ -3012,11 +2995,11 @@ export interface components {
             arrayElementType: string;
             searchType: string;
             dictCode: string;
+            uniqueColumn: boolean;
+            indexedColumn: boolean;
             nullableColumn: boolean;
             listVisibleColumn: boolean;
             searchableColumn: boolean;
-            uniqueColumn: boolean;
-            indexedColumn: boolean;
         };
         MetaColumnRequest: {
             /** Format: int64 */
@@ -3706,27 +3689,6 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    index: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            "4XX": components["responses"]["Error"];
-        };
-    };
     getCaptchaImg: {
         parameters: {
             query?: never;
@@ -4992,11 +4954,11 @@ export interface operations {
     };
     importPreview: {
         parameters: {
-            query?: never;
-            header?: never;
-            path: {
+            query: {
                 tableName: string;
             };
+            header?: never;
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
