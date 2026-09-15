@@ -146,193 +146,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/admin/blog/article": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** List 2 */
-        post: operations["list_2"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/blog/article/create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create 2 */
-        post: operations["create_2"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/blog/article/delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Delete 2 */
-        post: operations["delete_2"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/blog/article/update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** Update 3 */
-        put: operations["update_3"];
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/blog/article/{id}/offline": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Offline */
-        post: operations["offline"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/blog/article/{id}/publish": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Publish */
-        post: operations["publish"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/blog/category": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** List 1 */
-        post: operations["list_1"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/blog/category/create": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create 1 */
-        post: operations["create_1"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/blog/category/delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Delete 1 */
-        post: operations["delete_1"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/blog/category/update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** Update 2 */
-        put: operations["update_2"];
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/blog/file/upload": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Upload markdown image */
-        post: operations["uploadMarkdownImage"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/admin/chat/config": {
         parameters: {
             query?: never;
@@ -379,7 +192,7 @@ export interface paths {
         put?: never;
         post?: never;
         /** 删除会话 */
-        delete: operations["delete_4"];
+        delete: operations["delete_5"];
         options?: never;
         head?: never;
         patch?: never;
@@ -397,6 +210,193 @@ export interface paths {
         put?: never;
         /** 发送消息（SSE：delta / done / error） */
         post: operations["send"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/cms/article": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** List 3 */
+        post: operations["list_3"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/cms/article/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create 3 */
+        post: operations["create_3"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/cms/article/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Delete 3 */
+        post: operations["delete_3"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/cms/article/update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Update 4 */
+        put: operations["update_4"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/cms/article/{id}/offline": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Offline */
+        post: operations["offline"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/cms/article/{id}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Publish */
+        post: operations["publish"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/cms/category": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** List 2 */
+        post: operations["list_2"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/cms/category/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create 2 */
+        post: operations["create_2"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/cms/category/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Delete 2 */
+        post: operations["delete_2"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/cms/category/update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Update 3 */
+        put: operations["update_3"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/cms/file/upload": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Upload markdown image */
+        post: operations["uploadMarkdownImage"];
         delete?: never;
         options?: never;
         head?: never;
@@ -838,7 +838,7 @@ export interface paths {
         get?: never;
         put?: never;
         /** 获取元表格列表 */
-        post: operations["list"];
+        post: operations["list_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -855,7 +855,7 @@ export interface paths {
         get?: never;
         put?: never;
         /** 创建元表格 */
-        post: operations["create"];
+        post: operations["create_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -923,7 +923,7 @@ export interface paths {
         /** 获取元表格详情 */
         get: operations["detail"];
         /** 更新元表格（结构变更，columns 必填；仅改元信息用 PATCH） */
-        put: operations["update_1"];
+        put: operations["update_2"];
         post?: never;
         /** 删除元表格 */
         delete: operations["delete"];
@@ -1503,7 +1503,7 @@ export interface paths {
             cookie?: never;
         };
         /** 查询定时任务列表 */
-        get: operations["list_3"];
+        get: operations["list_4"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1606,7 +1606,7 @@ export interface paths {
         };
         get?: never;
         /** 更新定时任务 */
-        put: operations["update"];
+        put: operations["update_1"];
         post?: never;
         delete?: never;
         options?: never;
@@ -1642,7 +1642,7 @@ export interface paths {
         put?: never;
         post?: never;
         /** 删除定时任务 */
-        delete: operations["delete_3"];
+        delete: operations["delete_4"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1748,6 +1748,125 @@ export interface paths {
         post?: never;
         /** 删除字典类型 */
         delete: operations["deleteType"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/task": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 获取任务列表 */
+        post: operations["list"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/task/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 取消任务 */
+        post: operations["cancel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/task/complete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 完成任务 */
+        post: operations["complete"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/task/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 创建任务 */
+        post: operations["create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/task/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 删除任务 */
+        post: operations["delete_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/task/start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 开始任务 */
+        post: operations["start"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/task/update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** 更新任务 */
+        put: operations["update"];
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -2234,7 +2353,7 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        AdminBlogArticleCreateRequest: {
+        AdminCmsArticleCreateRequest: {
             /** Format: int64 */
             categoryId: number;
             content: string;
@@ -2246,7 +2365,7 @@ export interface components {
             summary?: string;
             title: string;
         };
-        AdminBlogArticleListRequest: {
+        AdminCmsArticleListRequest: {
             /** Format: int64 */
             categoryId: number;
             /** Format: int32 */
@@ -2257,7 +2376,7 @@ export interface components {
             status: number;
             title: string;
         };
-        AdminBlogArticleResponse: {
+        AdminCmsArticleResponse: {
             /** Format: int64 */
             categoryId: number;
             categoryName: string;
@@ -2280,7 +2399,7 @@ export interface components {
             /** Format: date-time */
             updateTime: string;
         };
-        AdminBlogArticleUpdateRequest: {
+        AdminCmsArticleUpdateRequest: {
             /** Format: int64 */
             categoryId: number;
             content: string;
@@ -2294,7 +2413,7 @@ export interface components {
             summary?: string;
             title: string;
         };
-        AdminBlogCategoryCreateRequest: {
+        AdminCmsCategoryCreateRequest: {
             name: string;
             slug: string;
             /** Format: int32 */
@@ -2302,14 +2421,14 @@ export interface components {
             /** Format: int32 */
             status?: number;
         };
-        AdminBlogCategoryListRequest: {
+        AdminCmsCategoryListRequest: {
             /** Format: int32 */
             currentPage: number;
             name: string;
             /** Format: int32 */
             pageSize: number;
         };
-        AdminBlogCategoryResponse: {
+        AdminCmsCategoryResponse: {
             /** Format: int64 */
             articleCount: number;
             /** Format: date-time */
@@ -2324,7 +2443,7 @@ export interface components {
             status: number;
             statusLabel: string;
         };
-        AdminBlogCategoryUpdateRequest: {
+        AdminCmsCategoryUpdateRequest: {
             /** Format: int64 */
             id: number;
             name: string;
@@ -2382,19 +2501,19 @@ export interface components {
             showParent: boolean;
             title: string;
         };
-        AdminPageResponseAdminBlogArticleResponse: {
+        AdminPageResponseAdminCmsArticleResponse: {
             /** Format: int32 */
             currentPage: number;
-            list: components["schemas"]["AdminBlogArticleResponse"][];
+            list: components["schemas"]["AdminCmsArticleResponse"][];
             /** Format: int32 */
             pageSize: number;
             /** Format: int64 */
             total: number;
         };
-        AdminPageResponseAdminBlogCategoryResponse: {
+        AdminPageResponseAdminCmsCategoryResponse: {
             /** Format: int32 */
             currentPage: number;
-            list: components["schemas"]["AdminBlogCategoryResponse"][];
+            list: components["schemas"]["AdminCmsCategoryResponse"][];
             /** Format: int32 */
             pageSize: number;
             /** Format: int64 */
@@ -2626,6 +2745,13 @@ export interface components {
         };
         ChatMessageRequest: {
             content: string;
+        };
+        ClientVersion: {
+            channel: string;
+            clientVersion: components["schemas"]["Version"];
+            device: string;
+            sdkVersion: components["schemas"]["Version"];
+            udid: string;
         };
         ConfigCreateRequest: {
             configKey: string;
@@ -3282,6 +3408,18 @@ export interface components {
             expires: string;
             refreshToken: string;
         };
+        RequestContext: {
+            /** Format: int32 */
+            app_id: number;
+            client_version: components["schemas"]["ClientVersion"];
+            /** Format: int64 */
+            current_uid: number;
+            ip: string;
+            is_official_app: boolean;
+            officialApp: boolean;
+            platform: string;
+            request_id: string;
+        };
         ResponseResultString: {
             /** Format: int32 */
             code: number;
@@ -3425,6 +3563,59 @@ export interface components {
             reasons: string[];
             tableName: string;
         };
+        TaskActionRequest: {
+            /** Format: int64 */
+            id: number;
+        };
+        TaskCreateRequest: {
+            description?: string;
+            title: string;
+            /** Format: int64 */
+            uid?: number;
+        };
+        TaskDeleteRequest: {
+            /** Format: int64 */
+            id: number;
+        };
+        TaskListRequest: {
+            /** Format: int32 */
+            currentPage: number;
+            /** Format: int32 */
+            pageSize: number;
+            status: string;
+            title: string;
+            /** Format: int64 */
+            uid: number;
+        };
+        TaskPageResponseTaskResponse: {
+            /** Format: int32 */
+            currentPage: number;
+            list: components["schemas"]["TaskResponse"][];
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int64 */
+            total: number;
+        };
+        TaskResponse: {
+            /** Format: int64 */
+            createTime: number;
+            description: string;
+            /** Format: int64 */
+            id: number;
+            status: string;
+            statusLabel: string;
+            title: string;
+            /** Format: int64 */
+            uid: number;
+        };
+        TaskUpdateRequest: {
+            description?: string;
+            /** Format: int64 */
+            id: number;
+            title: string;
+            /** Format: int64 */
+            uid?: number;
+        };
         TransitionDTO: {
             enterTransition: string;
             leaveTransition: string;
@@ -3522,6 +3713,16 @@ export interface components {
             /** Format: int32 */
             status?: number;
             username?: string;
+        };
+        Version: {
+            /** Format: int32 */
+            build: number;
+            /** Format: int32 */
+            major: number;
+            /** Format: int32 */
+            minor: number;
+            /** Format: int32 */
+            revision: number;
         };
         WebArticleCreateRequest: {
             /** Format: int64 */
@@ -3869,277 +4070,6 @@ export interface operations {
             "4XX": components["responses"]["Error"];
         };
     };
-    list_2: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["AdminBlogArticleListRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AdminPageResponseAdminBlogArticleResponse"];
-                };
-            };
-            "4XX": components["responses"]["Error"];
-        };
-    };
-    create_2: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["AdminBlogArticleCreateRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": number;
-                };
-            };
-            "4XX": components["responses"]["Error"];
-        };
-    };
-    delete_2: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["IdRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": boolean;
-                };
-            };
-            "4XX": components["responses"]["Error"];
-        };
-    };
-    update_3: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["AdminBlogArticleUpdateRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": boolean;
-                };
-            };
-            "4XX": components["responses"]["Error"];
-        };
-    };
-    offline: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": boolean;
-                };
-            };
-            "4XX": components["responses"]["Error"];
-        };
-    };
-    publish: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": boolean;
-                };
-            };
-            "4XX": components["responses"]["Error"];
-        };
-    };
-    list_1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["AdminBlogCategoryListRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["AdminPageResponseAdminBlogCategoryResponse"];
-                };
-            };
-            "4XX": components["responses"]["Error"];
-        };
-    };
-    create_1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["AdminBlogCategoryCreateRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": number;
-                };
-            };
-            "4XX": components["responses"]["Error"];
-        };
-    };
-    delete_1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["IdRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": boolean;
-                };
-            };
-            "4XX": components["responses"]["Error"];
-        };
-    };
-    update_2: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["AdminBlogCategoryUpdateRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": boolean;
-                };
-            };
-            "4XX": components["responses"]["Error"];
-        };
-    };
-    uploadMarkdownImage: {
-        parameters: {
-            query: {
-                "file[]": string[];
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        [key: string]: Record<string, never>;
-                    };
-                };
-            };
-            "4XX": components["responses"]["Error"];
-        };
-    };
     config: {
         parameters: {
             query?: never;
@@ -4209,7 +4139,7 @@ export interface operations {
             "4XX": components["responses"]["Error"];
         };
     };
-    delete_4: {
+    delete_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -4277,6 +4207,277 @@ export interface operations {
                 };
                 content: {
                     "text/event-stream": components["schemas"]["SseEmitter"];
+                };
+            };
+            "4XX": components["responses"]["Error"];
+        };
+    };
+    list_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminCmsArticleListRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminPageResponseAdminCmsArticleResponse"];
+                };
+            };
+            "4XX": components["responses"]["Error"];
+        };
+    };
+    create_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminCmsArticleCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+            "4XX": components["responses"]["Error"];
+        };
+    };
+    delete_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IdRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            "4XX": components["responses"]["Error"];
+        };
+    };
+    update_4: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminCmsArticleUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            "4XX": components["responses"]["Error"];
+        };
+    };
+    offline: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            "4XX": components["responses"]["Error"];
+        };
+    };
+    publish: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            "4XX": components["responses"]["Error"];
+        };
+    };
+    list_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminCmsCategoryListRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminPageResponseAdminCmsCategoryResponse"];
+                };
+            };
+            "4XX": components["responses"]["Error"];
+        };
+    };
+    create_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminCmsCategoryCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+            "4XX": components["responses"]["Error"];
+        };
+    };
+    delete_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IdRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            "4XX": components["responses"]["Error"];
+        };
+    };
+    update_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminCmsCategoryUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            "4XX": components["responses"]["Error"];
+        };
+    };
+    uploadMarkdownImage: {
+        parameters: {
+            query: {
+                "file[]": string[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: Record<string, never>;
+                    };
                 };
             };
             "4XX": components["responses"]["Error"];
@@ -4877,7 +5078,7 @@ export interface operations {
             "4XX": components["responses"]["Error"];
         };
     };
-    list: {
+    list_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -4902,7 +5103,7 @@ export interface operations {
             "4XX": components["responses"]["Error"];
         };
     };
-    create: {
+    create_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -5019,7 +5220,7 @@ export interface operations {
             "4XX": components["responses"]["Error"];
         };
     };
-    update_1: {
+    update_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -5937,7 +6138,7 @@ export interface operations {
             "4XX": components["responses"]["Error"];
         };
     };
-    list_3: {
+    list_4: {
         parameters: {
             query: {
                 query: components["schemas"]["SchedulerJobListRequest"];
@@ -6071,7 +6272,7 @@ export interface operations {
             "4XX": components["responses"]["Error"];
         };
     };
-    update: {
+    update_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -6121,7 +6322,7 @@ export interface operations {
             "4XX": components["responses"]["Error"];
         };
     };
-    delete_3: {
+    delete_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -6350,6 +6551,185 @@ export interface operations {
             cookie?: never;
         };
         requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            "4XX": components["responses"]["Error"];
+        };
+    };
+    list: {
+        parameters: {
+            query: {
+                rc: components["schemas"]["RequestContext"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TaskListRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TaskPageResponseTaskResponse"];
+                };
+            };
+            "4XX": components["responses"]["Error"];
+        };
+    };
+    cancel: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TaskActionRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            "4XX": components["responses"]["Error"];
+        };
+    };
+    complete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TaskActionRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            "4XX": components["responses"]["Error"];
+        };
+    };
+    create: {
+        parameters: {
+            query: {
+                rc: components["schemas"]["RequestContext"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TaskCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+            "4XX": components["responses"]["Error"];
+        };
+    };
+    delete_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TaskDeleteRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            "4XX": components["responses"]["Error"];
+        };
+    };
+    start: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TaskActionRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+            "4XX": components["responses"]["Error"];
+        };
+    };
+    update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TaskUpdateRequest"];
+            };
+        };
         responses: {
             /** @description OK */
             200: {
