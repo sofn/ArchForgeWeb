@@ -1068,6 +1068,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** Get captcha img */
         get: operations["getCaptchaImg"];
         put?: never;
         post?: never;
@@ -1211,6 +1212,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** List 2 */
         post: operations["list_2"];
         delete?: never;
         options?: never;
@@ -1227,6 +1229,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Create 2 */
         post: operations["create_2"];
         delete?: never;
         options?: never;
@@ -1243,6 +1246,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Delete 2 */
         post: operations["delete_2"];
         delete?: never;
         options?: never;
@@ -1258,6 +1262,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
+        /** Update 2 */
         put: operations["update_2"];
         post?: never;
         delete?: never;
@@ -1275,6 +1280,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Offline */
         post: operations["offline"];
         delete?: never;
         options?: never;
@@ -1291,6 +1297,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Publish */
         post: operations["publish"];
         delete?: never;
         options?: never;
@@ -1307,6 +1314,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** List 1 */
         post: operations["list_1"];
         delete?: never;
         options?: never;
@@ -1323,6 +1331,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Create 1 */
         post: operations["create_1"];
         delete?: never;
         options?: never;
@@ -1339,6 +1348,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Delete 1 */
         post: operations["delete_1"];
         delete?: never;
         options?: never;
@@ -1354,6 +1364,7 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
+        /** Update 1 */
         put: operations["update_1"];
         post?: never;
         delete?: never;
@@ -1371,6 +1382,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Upload markdown image */
         post: operations["uploadMarkdownImage"];
         delete?: never;
         options?: never;
@@ -1470,6 +1482,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** Token */
         get: operations["token"];
         put?: never;
         post?: never;
@@ -1573,14 +1586,15 @@ export interface paths {
         };
         /** 获取元表格详情 */
         get: operations["detail"];
-        /** 更新元表格 */
+        /** 更新元表格（结构变更，columns 必填；仅改元信息用 PATCH） */
         put: operations["update"];
         post?: never;
         /** 删除元表格 */
         delete: operations["delete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** 更新元表格元信息（仅名称/描述/状态，不动表结构） */
+        patch: operations["updateMeta"];
         trace?: never;
     };
     "/meta-table/{id}/copy": {
@@ -1770,6 +1784,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/meta-table/{id}/schema-preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 预览 Schema 变更（diff + 违规行数 + DDL，不执行） */
+        post: operations["schemaPreview"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/monitor/cache-info": {
         parameters: {
             query?: never;
@@ -1856,41 +1887,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/system/dict/type/{dictCode}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** 根据字典编码查询详情及全部项 */
-        get: operations["getTypeByCode"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/system/dict/type/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /** 更新字典类型 */
-        put: operations["updateType"];
-        post?: never;
-        /** 删除字典类型 */
-        delete: operations["deleteType"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/system/dict/type/{typeId}/item": {
         parameters: {
             query?: never;
@@ -1908,6 +1904,25 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/system/dict/type/{typeKey}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 根据字典编码查询详情及全部项 */
+        get: operations["getTypeByCode"];
+        /** 更新字典类型 */
+        put: operations["updateType"];
+        post?: never;
+        /** 删除字典类型 */
+        delete: operations["deleteType"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/web/articles": {
         parameters: {
             query?: never;
@@ -1915,8 +1930,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** Get articles */
         get: operations["getArticles"];
         put?: never;
+        /** Create article */
         post: operations["createArticle"];
         delete?: never;
         options?: never;
@@ -1931,6 +1948,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** Get article */
         get: operations["getArticle"];
         put?: never;
         post?: never;
@@ -1947,6 +1965,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** Get categories */
         get: operations["getCategories"];
         put?: never;
         post?: never;
@@ -1963,6 +1982,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** Web metrics */
         get: operations["webMetrics"];
         put?: never;
         post?: never;
@@ -1981,6 +2001,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Upload */
         post: operations["upload"];
         delete?: never;
         options?: never;
@@ -1995,6 +2016,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** Download */
         get: operations["download"];
         put?: never;
         post?: never;
@@ -2013,6 +2035,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Forgot password */
         post: operations["forgotPassword"];
         delete?: never;
         options?: never;
@@ -2029,6 +2052,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Web login */
         post: operations["webLogin"];
         delete?: never;
         options?: never;
@@ -2045,6 +2069,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Web logout */
         post: operations["webLogout"];
         delete?: never;
         options?: never;
@@ -2059,6 +2084,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** Notices */
         get: operations["notices"];
         put?: never;
         post?: never;
@@ -2075,6 +2101,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** Operation logs */
         get: operations["operationLogs"];
         put?: never;
         post?: never;
@@ -2093,6 +2120,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Web refresh token */
         post: operations["webRefreshToken"];
         delete?: never;
         options?: never;
@@ -2109,6 +2137,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Register */
         post: operations["register"];
         delete?: never;
         options?: never;
@@ -2125,6 +2154,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Reset password */
         post: operations["resetPassword"];
         delete?: never;
         options?: never;
@@ -2139,6 +2169,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** My articles */
         get: operations["myArticles"];
         put?: never;
         post?: never;
@@ -2157,6 +2188,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Change password */
         post: operations["changePassword"];
         delete?: never;
         options?: never;
@@ -2171,6 +2203,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** Profile */
         get: operations["profile"];
         put?: never;
         post?: never;
@@ -2189,6 +2222,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Send verification code */
         post: operations["sendVerificationCode"];
         delete?: never;
         options?: never;
@@ -2961,11 +2995,11 @@ export interface components {
             arrayElementType: string;
             searchType: string;
             dictCode: string;
-            searchableColumn: boolean;
+            nullableColumn: boolean;
             listVisibleColumn: boolean;
+            searchableColumn: boolean;
             uniqueColumn: boolean;
             indexedColumn: boolean;
-            nullableColumn: boolean;
         };
         MetaColumnRequest: {
             /** Format: int64 */
@@ -3207,6 +3241,21 @@ export interface components {
         PermissionUpdateRequest: {
             menuIds: number[];
         };
+        PreviewChange: {
+            type: string;
+            columnCode: string;
+            oldColumnCode: string;
+            oldType: string;
+            newType: string;
+            oldDefault: string;
+            newDefault: string;
+            oldNullable: boolean;
+            newNullable: boolean;
+            /** Format: int64 */
+            violations: number;
+            action: string;
+            ddl: string[];
+        };
         PreviewColumn: {
             columnCode: string;
             comment: string;
@@ -3351,6 +3400,10 @@ export interface components {
             startedAt: string;
             /** Format: date-time */
             finishedAt: string;
+        };
+        SchemaPreview: {
+            changes: components["schemas"]["PreviewChange"][];
+            dangerous: boolean;
         };
         ServerInfoResponse: {
             cpu: Record<string, never>;
@@ -5852,6 +5905,32 @@ export interface operations {
             };
         };
     };
+    updateMeta: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MetaTableUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": boolean;
+                };
+            };
+        };
+    };
     copy: {
         parameters: {
             query?: never;
@@ -6125,6 +6204,32 @@ export interface operations {
             };
         };
     };
+    schemaPreview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MetaTableUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SchemaPreview"];
+                };
+            };
+        };
+    };
     getCacheInfo: {
         parameters: {
             query?: never;
@@ -6265,12 +6370,38 @@ export interface operations {
             };
         };
     };
+    createItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                typeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DictItemRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+        };
+    };
     getTypeByCode: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                dictCode: string;
+                typeKey: string;
             };
             cookie?: never;
         };
@@ -6292,7 +6423,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                id: number;
+                typeKey: number;
             };
             cookie?: never;
         };
@@ -6318,7 +6449,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                id: number;
+                typeKey: number;
             };
             cookie?: never;
         };
@@ -6331,32 +6462,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": boolean;
-                };
-            };
-        };
-    };
-    createItem: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                typeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["DictItemRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": number;
                 };
             };
         };
