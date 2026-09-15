@@ -2237,62 +2237,62 @@ export interface components {
         AdminBlogArticleCreateRequest: {
             /** Format: int64 */
             categoryId: number;
-            title: string;
-            slug: string;
-            summary?: string;
             content: string;
             /** Format: int64 */
             coverImageFileId?: number;
+            slug: string;
             /** Format: int32 */
             status: number;
+            summary?: string;
+            title: string;
         };
         AdminBlogArticleListRequest: {
+            /** Format: int64 */
+            categoryId: number;
             /** Format: int32 */
             currentPage: number;
             /** Format: int32 */
             pageSize: number;
-            /** Format: int64 */
-            categoryId: number;
-            title: string;
             /** Format: int32 */
             status: number;
+            title: string;
         };
         AdminBlogArticleResponse: {
             /** Format: int64 */
-            id: number;
-            /** Format: int64 */
             categoryId: number;
             categoryName: string;
-            title: string;
-            slug: string;
-            summary: string;
             content: string;
             /** Format: int64 */
             coverImageFileId: number;
             coverImageUrl: string;
+            /** Format: date-time */
+            createTime: string;
+            /** Format: int64 */
+            id: number;
+            /** Format: date-time */
+            publishTime: string;
+            slug: string;
             /** Format: int32 */
             status: number;
             statusLabel: string;
-            /** Format: date-time */
-            publishTime: string;
-            /** Format: date-time */
-            createTime: string;
+            summary: string;
+            title: string;
             /** Format: date-time */
             updateTime: string;
         };
         AdminBlogArticleUpdateRequest: {
             /** Format: int64 */
-            id: number;
-            /** Format: int64 */
             categoryId: number;
-            title: string;
-            slug: string;
-            summary?: string;
             content: string;
             /** Format: int64 */
             coverImageFileId?: number;
+            /** Format: int64 */
+            id: number;
+            slug: string;
             /** Format: int32 */
             status: number;
+            summary?: string;
+            title: string;
         };
         AdminBlogCategoryCreateRequest: {
             name: string;
@@ -2305,11 +2305,15 @@ export interface components {
         AdminBlogCategoryListRequest: {
             /** Format: int32 */
             currentPage: number;
+            name: string;
             /** Format: int32 */
             pageSize: number;
-            name: string;
         };
         AdminBlogCategoryResponse: {
+            /** Format: int64 */
+            articleCount: number;
+            /** Format: date-time */
+            createTime: string;
             /** Format: int64 */
             id: number;
             name: string;
@@ -2319,10 +2323,6 @@ export interface components {
             /** Format: int32 */
             status: number;
             statusLabel: string;
-            /** Format: int64 */
-            articleCount: number;
-            /** Format: date-time */
-            createTime: string;
         };
         AdminBlogCategoryUpdateRequest: {
             /** Format: int64 */
@@ -2336,202 +2336,202 @@ export interface components {
         };
         AdminDeptDTO: {
             /** Format: int64 */
+            createTime: number;
+            email: string;
+            /** Format: int64 */
             id: number;
+            name: string;
             /** Format: int64 */
             parentId: number;
-            name: string;
-            principal: string;
             phone: string;
-            email: string;
+            principal: string;
+            remark: string;
             /** Format: int32 */
             sort: number;
             /** Format: int32 */
             status: number;
             /** Format: int32 */
             type: number;
-            remark: string;
-            /** Format: int64 */
-            createTime: number;
         };
         AdminMenuDTO: {
-            /** Format: int64 */
-            parentId: number;
+            activePath: string;
+            auths: string;
+            component: string;
+            enterTransition: string;
+            extraIcon: string;
+            fixedTag: boolean;
+            frameLoading: boolean;
+            frameSrc: string;
+            hiddenTag: boolean;
+            icon: string;
             /** Format: int64 */
             id: number;
+            isButton: boolean;
+            keepAlive: boolean;
+            leaveTransition: string;
             /** Format: int32 */
             menuType: number;
-            isButton: boolean;
-            title: string;
             name: string;
+            /** Format: int64 */
+            parentId: number;
             path: string;
-            component: string;
             /** Format: int32 */
             rank: number;
             redirect: string;
-            icon: string;
-            extraIcon: string;
-            enterTransition: string;
-            leaveTransition: string;
-            activePath: string;
-            auths: string;
-            frameSrc: string;
-            frameLoading: boolean;
-            keepAlive: boolean;
-            hiddenTag: boolean;
-            fixedTag: boolean;
             showLink: boolean;
             showParent: boolean;
+            title: string;
         };
         AdminPageResponseAdminBlogArticleResponse: {
-            list: components["schemas"]["AdminBlogArticleResponse"][];
-            /** Format: int64 */
-            total: number;
-            /** Format: int32 */
-            pageSize: number;
             /** Format: int32 */
             currentPage: number;
+            list: components["schemas"]["AdminBlogArticleResponse"][];
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int64 */
+            total: number;
         };
         AdminPageResponseAdminBlogCategoryResponse: {
-            list: components["schemas"]["AdminBlogCategoryResponse"][];
-            /** Format: int64 */
-            total: number;
-            /** Format: int32 */
-            pageSize: number;
             /** Format: int32 */
             currentPage: number;
+            list: components["schemas"]["AdminBlogCategoryResponse"][];
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int64 */
+            total: number;
         };
         AdminPageResponseAdminRoleDTO: {
-            list: components["schemas"]["AdminRoleDTO"][];
-            /** Format: int64 */
-            total: number;
-            /** Format: int32 */
-            pageSize: number;
             /** Format: int32 */
             currentPage: number;
+            list: components["schemas"]["AdminRoleDTO"][];
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int64 */
+            total: number;
         };
         AdminPageResponseAdminUserDTO: {
-            list: components["schemas"]["AdminUserDTO"][];
-            /** Format: int64 */
-            total: number;
-            /** Format: int32 */
-            pageSize: number;
             /** Format: int32 */
             currentPage: number;
+            list: components["schemas"]["AdminUserDTO"][];
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int64 */
+            total: number;
         };
         AdminPageResponseConfigResponse: {
-            list: components["schemas"]["ConfigResponse"][];
-            /** Format: int64 */
-            total: number;
-            /** Format: int32 */
-            pageSize: number;
             /** Format: int32 */
             currentPage: number;
+            list: components["schemas"]["ConfigResponse"][];
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int64 */
+            total: number;
         };
         AdminPageResponseDictTypeResponse: {
-            list: components["schemas"]["DictTypeResponse"][];
-            /** Format: int64 */
-            total: number;
-            /** Format: int32 */
-            pageSize: number;
             /** Format: int32 */
             currentPage: number;
+            list: components["schemas"]["DictTypeResponse"][];
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int64 */
+            total: number;
         };
         AdminPageResponseFileResponse: {
-            list: components["schemas"]["FileResponse"][];
-            /** Format: int64 */
-            total: number;
-            /** Format: int32 */
-            pageSize: number;
             /** Format: int32 */
             currentPage: number;
+            list: components["schemas"]["FileResponse"][];
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int64 */
+            total: number;
         };
         AdminPageResponseLoginLogResponse: {
-            list: components["schemas"]["LoginLogResponse"][];
-            /** Format: int64 */
-            total: number;
-            /** Format: int32 */
-            pageSize: number;
             /** Format: int32 */
             currentPage: number;
+            list: components["schemas"]["LoginLogResponse"][];
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int64 */
+            total: number;
         };
         AdminPageResponseMapStringObject: {
+            /** Format: int32 */
+            currentPage: number;
             list: {
                 [key: string]: Record<string, never>;
             }[];
-            /** Format: int64 */
-            total: number;
             /** Format: int32 */
             pageSize: number;
-            /** Format: int32 */
-            currentPage: number;
+            /** Format: int64 */
+            total: number;
         };
         AdminPageResponseMetaTableResponse: {
-            list: components["schemas"]["MetaTableResponse"][];
-            /** Format: int64 */
-            total: number;
-            /** Format: int32 */
-            pageSize: number;
             /** Format: int32 */
             currentPage: number;
+            list: components["schemas"]["MetaTableResponse"][];
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int64 */
+            total: number;
         };
         AdminPageResponseNoticeResponse: {
-            list: components["schemas"]["NoticeResponse"][];
-            /** Format: int64 */
-            total: number;
-            /** Format: int32 */
-            pageSize: number;
             /** Format: int32 */
             currentPage: number;
+            list: components["schemas"]["NoticeResponse"][];
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int64 */
+            total: number;
         };
         AdminPageResponseOnlineUserResponse: {
-            list: components["schemas"]["OnlineUserResponse"][];
-            /** Format: int64 */
-            total: number;
-            /** Format: int32 */
-            pageSize: number;
             /** Format: int32 */
             currentPage: number;
+            list: components["schemas"]["OnlineUserResponse"][];
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int64 */
+            total: number;
         };
         AdminPageResponseOperationLogResponse: {
-            list: components["schemas"]["OperationLogResponse"][];
-            /** Format: int64 */
-            total: number;
-            /** Format: int32 */
-            pageSize: number;
             /** Format: int32 */
             currentPage: number;
+            list: components["schemas"]["OperationLogResponse"][];
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int64 */
+            total: number;
         };
         AdminPageResponseSchedulerJobResponse: {
-            list: components["schemas"]["SchedulerJobResponse"][];
-            /** Format: int64 */
-            total: number;
-            /** Format: int32 */
-            pageSize: number;
             /** Format: int32 */
             currentPage: number;
+            list: components["schemas"]["SchedulerJobResponse"][];
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int64 */
+            total: number;
         };
         AdminPageResponseSchedulerLogResponse: {
-            list: components["schemas"]["SchedulerLogResponse"][];
-            /** Format: int64 */
-            total: number;
-            /** Format: int32 */
-            pageSize: number;
             /** Format: int32 */
             currentPage: number;
+            list: components["schemas"]["SchedulerLogResponse"][];
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int64 */
+            total: number;
         };
         AdminRoleDTO: {
+            code: string;
+            /** Format: int64 */
+            createTime: number;
+            customDeptIds: number[];
+            /** Format: int32 */
+            dataScope: number;
             /** Format: int64 */
             id: number;
             name: string;
-            code: string;
+            remark: string;
             /** Format: int32 */
             status: number;
-            /** Format: int32 */
-            dataScope: number;
-            customDeptIds: number[];
-            remark: string;
-            /** Format: int64 */
-            createTime: number;
             /** Format: int64 */
             updateTime: number;
         };
@@ -2540,22 +2540,22 @@ export interface components {
             id: number;
         };
         AdminRoleListRequest: {
-            name: string;
             code: string;
             /** Format: int32 */
-            status: number;
-            /** Format: int32 */
             currentPage: number;
+            name: string;
             /** Format: int32 */
             pageSize: number;
+            /** Format: int32 */
+            status: number;
         };
         AdminRoleMenuDTO: {
-            /** Format: int64 */
-            parentId: number;
             /** Format: int64 */
             id: number;
             /** Format: int32 */
             menuType: number;
+            /** Format: int64 */
+            parentId: number;
             title: string;
         };
         AdminRoleSimpleDTO: {
@@ -2564,42 +2564,42 @@ export interface components {
             name: string;
         };
         AdminUserDTO: {
+            avatar: string;
+            /** Format: int64 */
+            createTime: number;
+            dept: components["schemas"]["DeptInfo"];
+            email: string;
             /** Format: int64 */
             id: number;
-            avatar: string;
-            username: string;
             nickname: string;
             phone: string;
-            email: string;
+            remark: string;
             /** Format: int32 */
             sex: number;
             /** Format: int32 */
             status: number;
-            dept: components["schemas"]["DeptInfo"];
-            remark: string;
-            /** Format: int64 */
-            createTime: number;
+            username: string;
         };
         AdminUserIdRequest: {
             /** Format: int64 */
             userId: number;
         };
         AdminUserListRequest: {
-            username: string;
-            phone: string;
-            email: string;
             blurry: string;
-            status: string;
-            deptId: string;
             createTime: string[];
             /** Format: int32 */
             currentPage: number;
-            /** Format: int32 */
-            pageSize: number;
-            /** Format: int32 */
-            statusAsInt: number;
+            deptId: string;
             /** Format: int64 */
             deptIdAsLong: number;
+            email: string;
+            /** Format: int32 */
+            pageSize: number;
+            phone: string;
+            status: string;
+            /** Format: int32 */
+            statusAsInt: number;
+            username: string;
         };
         BasePageRequest: {
             /** Format: int32 */
@@ -2608,31 +2608,31 @@ export interface components {
             pageSize: number;
         };
         CacheInfoResponse: {
+            connectedClients: string;
             /** Format: int64 */
             dbSize: number;
-            usedMemory: string;
-            usedMemoryHuman: string;
-            connectedClients: string;
+            info: string;
             instantaneousOpsPerSec: string;
-            totalCommandsProcessed: string;
             keyspaceHits: string;
             keyspaceMisses: string;
-            info: string;
+            totalCommandsProcessed: string;
+            usedMemory: string;
+            usedMemoryHuman: string;
         };
         CaptchaResponse: {
-            isCaptchaOn: boolean;
-            captchaCodeKey: string;
             captchaCodeImg: string;
+            captchaCodeKey: string;
+            isCaptchaOn: boolean;
         };
         ChatMessageRequest: {
             content: string;
         };
         ConfigCreateRequest: {
-            configName: string;
             configKey: string;
-            configValue?: string;
+            configName: string;
             /** Format: int32 */
             configType?: number;
+            configValue?: string;
             remark?: string;
         };
         ConfigDeleteRequest: {
@@ -2640,79 +2640,79 @@ export interface components {
             id: number;
         };
         ConfigResponse: {
-            /** Format: int64 */
-            id: number;
-            configName: string;
             configKey: string;
-            configValue: string;
+            configName: string;
             /** Format: int32 */
             configType: number;
-            remark: string;
+            configValue: string;
             /** Format: int64 */
             createTime: number;
-        };
-        ConfigUpdateRequest: {
             /** Format: int64 */
             id: number;
-            configName?: string;
+            remark: string;
+        };
+        ConfigUpdateRequest: {
             configKey?: string;
-            configValue?: string;
+            configName?: string;
             /** Format: int32 */
             configType?: number;
+            configValue?: string;
+            /** Format: int64 */
+            id: number;
             remark?: string;
         };
         CronValidateRequest: {
             cron: string;
         };
         CurrentLoginUserResponse: {
-            userInfo: components["schemas"]["UserResponse"];
-            roleKey: string;
             permissions: string[];
+            roleKey: string;
+            userInfo: components["schemas"]["UserResponse"];
         };
         DashboardActivity: {
-            type: string;
-            title: string;
             time: string;
+            title: string;
+            type: string;
         };
         DashboardMetricsResponse: {
-            /** Format: int64 */
-            userCount: number;
             /** Format: int64 */
             articleCount: number;
             /** Format: int64 */
             metaTableCount: number;
             /** Format: int64 */
             taskCount: number;
+            /** Format: int64 */
+            userCount: number;
         };
         DashboardTodo: {
-            title: string;
             /** Format: int64 */
             count: number;
             href: string;
+            title: string;
         };
         DashboardTrendPoint: {
+            /** Format: int64 */
+            articles: number;
             date: string;
             /** Format: int64 */
             users: number;
-            /** Format: int64 */
-            articles: number;
         };
         DeleteRequest: {
             /** Format: int64 */
             id: number;
         };
         DeptCreateRequest: {
+            email?: string;
+            name: string;
             /** Format: int64 */
             parentId?: number;
-            name: string;
-            principal?: string;
             phone?: string;
-            email?: string;
+            principal?: string;
+            remark?: string;
             /** Format: int32 */
             sort?: number;
             /** Format: int32 */
             status?: number;
-            remark?: string;
         };
         DeptDeleteRequest: {
             /** Format: int64 */
@@ -2724,19 +2724,19 @@ export interface components {
             name: string;
         };
         DeptUpdateRequest: {
+            email?: string;
             /** Format: int64 */
             id: number;
+            name?: string;
             /** Format: int64 */
             parentId?: number;
-            name?: string;
-            principal?: string;
             phone?: string;
-            email?: string;
+            principal?: string;
+            remark?: string;
             /** Format: int32 */
             sort?: number;
             /** Format: int32 */
             status?: number;
-            remark?: string;
         };
         DictItemRequest: {
             /** Format: int64 */
@@ -2750,6 +2750,8 @@ export interface components {
         };
         DictItemResponse: {
             /** Format: int64 */
+            dictTypeId: number;
+            /** Format: int64 */
             id: number;
             itemCode: string;
             itemLabel: string;
@@ -2757,412 +2759,410 @@ export interface components {
             sort: number;
             /** Format: int32 */
             status: number;
-            /** Format: int64 */
-            dictTypeId: number;
         };
         DictTypeCreateRequest: {
+            description?: string;
             dictCode: string;
             dictName: string;
-            description?: string;
-            /** Format: int32 */
-            status?: number;
+            items?: components["schemas"]["DictItemRequest"][];
             /** Format: int32 */
             sort?: number;
-            items?: components["schemas"]["DictItemRequest"][];
+            /** Format: int32 */
+            status?: number;
         };
         DictTypeQueryRequest: {
             /** Format: int32 */
             currentPage: number;
+            keyword: string;
             /** Format: int32 */
             pageSize: number;
-            keyword: string;
         };
         DictTypeResponse: {
-            /** Format: int64 */
-            id: number;
-            dictCode: string;
-            dictName: string;
-            description: string;
-            /** Format: int32 */
-            status: number;
-            /** Format: int32 */
-            sort: number;
             /** Format: date-time */
             createTime: string;
+            description: string;
+            dictCode: string;
+            dictName: string;
+            /** Format: int64 */
+            id: number;
+            items: components["schemas"]["DictItemResponse"][];
+            /** Format: int32 */
+            sort: number;
+            /** Format: int32 */
+            status: number;
             /** Format: date-time */
             updateTime: string;
-            items: components["schemas"]["DictItemResponse"][];
         };
         DictTypeUpdateRequest: {
-            dictName: string;
             description?: string;
-            /** Format: int32 */
-            status?: number;
+            dictName: string;
             /** Format: int32 */
             sort?: number;
+            /** Format: int32 */
+            status?: number;
         };
         DictionaryData: {
+            cssTag: string;
             label: string;
             /** Format: int32 */
             value: number;
-            cssTag: string;
         };
         ExtraIconDTO: {
-            svg: boolean;
             name: string;
+            svg: boolean;
         };
         FileListRequest: {
             /** Format: int32 */
             currentPage: number;
+            originalName: string;
             /** Format: int32 */
             pageSize: number;
-            originalName: string;
             storageType: string;
         };
         FileResponse: {
+            contentType: string;
+            /** Format: int64 */
+            createTime: number;
+            extension: string;
+            /** Format: int64 */
+            fileSize: number;
             /** Format: int64 */
             id: number;
             originalName: string;
             storageName: string;
             storagePath: string;
-            /** Format: int64 */
-            fileSize: number;
-            contentType: string;
-            extension: string;
             storageType: string;
-            /** Format: int64 */
-            createTime: number;
         };
         FileUploadResponse: {
             /** Format: int64 */
             fileId: number;
-            url: string;
             name: string;
+            url: string;
         };
         IdRequest: {
             /** Format: int64 */
             id: number;
         };
         ImportResponse: {
+            errorTruncated: boolean;
+            errors: string[];
             /** Format: int32 */
-            total: number;
+            failed: number;
             /** Format: int32 */
             success: number;
             /** Format: int32 */
-            failed: number;
-            errorTruncated: boolean;
-            errors: string[];
+            total: number;
         };
         ImportableTableInfo: {
-            tableName: string;
-            comment: string;
             /** Format: int32 */
             columnCount: number;
+            comment: string;
+            compatible: boolean;
             /** Format: int64 */
             estimatedRows: number;
-            compatible: boolean;
             reasons: string[];
             registered: boolean;
+            tableName: string;
         };
         LoginConfigResponse: {
-            isCaptchaOn: boolean;
             dictionary: {
                 [key: string]: components["schemas"]["DictionaryData"][];
             };
+            isCaptchaOn: boolean;
         };
         LoginLogResponse: {
+            address: string;
+            behavior: string;
+            browser: string;
             /** Format: int64 */
             id: number;
-            username: string;
             ip: string;
-            address: string;
-            system: string;
-            browser: string;
-            /** Format: int32 */
-            status: number;
-            behavior: string;
             /** Format: int64 */
             loginTime: number;
+            /** Format: int32 */
+            status: number;
+            system: string;
+            username: string;
         };
         /** @description 登录信息 */
         LoginRequest: {
-            username: string;
-            password: string;
             captchaCode?: string;
             captchaCodeKey?: string;
+            password: string;
+            username: string;
         };
         LoginResponse: {
-            avatar: string;
-            username: string;
-            nickname: string;
-            roles: string[];
-            permissions: string[];
             accessToken: string;
-            refreshToken: string;
+            avatar: string;
             expires: string;
+            nickname: string;
+            permissions: string[];
+            refreshToken: string;
+            roles: string[];
+            username: string;
         };
         MenuCreateRequest: {
-            /** Format: int64 */
-            parentId: number;
+            auths: string;
+            frameLoading: boolean;
+            frameSrc: string;
+            hiddenTag: boolean;
+            icon: string;
+            isButton: boolean;
+            keepAlive: boolean;
             /** Format: int32 */
             menuType: number;
-            isButton: boolean;
             name: string;
+            /** Format: int64 */
+            parentId: number;
             path: string;
-            auths: string;
-            /** Format: int32 */
-            status: number;
-            title: string;
-            icon: string;
             /** Format: int32 */
             rank: number;
             showLink: boolean;
             showParent: boolean;
-            keepAlive: boolean;
-            frameSrc: string;
-            frameLoading: boolean;
-            hiddenTag: boolean;
+            /** Format: int32 */
+            status: number;
+            title: string;
         };
         MenuDeleteRequest: {
             /** Format: int64 */
             id: number;
         };
         MenuUpdateRequest: {
+            auths?: string;
+            frameLoading?: boolean;
+            frameSrc?: string;
+            hiddenTag?: boolean;
+            icon?: string;
             /** Format: int64 */
             id: number;
-            /** Format: int64 */
-            parentId?: number;
+            isButton?: boolean;
+            keepAlive?: boolean;
             /** Format: int32 */
             menuType?: number;
-            isButton?: boolean;
             name?: string;
+            /** Format: int64 */
+            parentId?: number;
             path?: string;
-            auths?: string;
-            /** Format: int32 */
-            status?: number;
-            title?: string;
-            icon?: string;
             /** Format: int32 */
             rank?: number;
             showLink?: boolean;
             showParent?: boolean;
-            keepAlive?: boolean;
-            frameSrc?: string;
-            frameLoading?: boolean;
-            hiddenTag?: boolean;
+            /** Format: int32 */
+            status?: number;
+            title?: string;
         };
         MetaColumn: {
-            /** Format: int64 */
-            id: number;
-            /** Format: int64 */
-            creatorId: number;
+            arrayElementType: string;
+            columnCode: string;
+            columnName: string;
             /** Format: date-time */
             createTime: string;
             /** Format: int64 */
-            updaterId: number;
-            /** Format: date-time */
-            updateTime: string;
-            deleted: boolean;
-            /** Format: int64 */
-            tableId: number;
-            columnCode: string;
-            columnName: string;
+            creatorId: number;
             /** @enum {string} */
             dataType: "STRING" | "TEXT" | "INTEGER" | "DECIMAL" | "BOOLEAN" | "DATE" | "DATETIME" | "ENUM" | "JSON" | "FILE" | "IMAGE" | "MULTI_IMAGE" | "UUID" | "TIMESTAMPTZ" | "ARRAY" | "GEO" | "REFERENCE";
+            defaultValue: string;
+            deleted: boolean;
+            dictCode: string;
+            displayExpression: string;
+            /** Format: int64 */
+            id: number;
+            index: boolean;
+            indexGroup: string;
+            indexType: string;
+            indexedColumn: boolean;
             /** Format: int32 */
             length: number;
+            listVisible: boolean;
+            listVisibleColumn: boolean;
+            nullable: boolean;
+            nullableColumn: boolean;
+            options: components["schemas"]["OptionItem"][];
+            ownerColumn: boolean;
             /** Format: int32 */
             precision: number;
+            referenceColumn: string;
+            referenceTable: string;
+            required: boolean;
             /** Format: int32 */
             scale: number;
-            nullable: boolean;
-            defaultValue: string;
-            unique: boolean;
-            required: boolean;
+            searchType: string;
             searchable: boolean;
-            listVisible: boolean;
-            index: boolean;
+            searchableColumn: boolean;
             /** Format: int32 */
             sort: number;
-            options: components["schemas"]["OptionItem"][];
-            referenceTable: string;
-            referenceColumn: string;
-            displayExpression: string;
+            /** Format: int64 */
+            tableId: number;
             tenantColumn: boolean;
-            ownerColumn: boolean;
-            indexType: string;
-            indexGroup: string;
-            arrayElementType: string;
-            searchType: string;
-            dictCode: string;
+            unique: boolean;
             uniqueColumn: boolean;
-            indexedColumn: boolean;
-            nullableColumn: boolean;
-            listVisibleColumn: boolean;
-            searchableColumn: boolean;
+            /** Format: date-time */
+            updateTime: string;
+            /** Format: int64 */
+            updaterId: number;
         };
         MetaColumnRequest: {
-            /** Format: int64 */
-            id?: number;
+            arrayElementType?: string;
             columnCode: string;
             columnName: string;
             dataType: string;
+            defaultValue?: string;
+            dictCode?: string;
+            displayExpression?: string;
+            /** Format: int64 */
+            id?: number;
+            index?: boolean;
+            indexGroup?: string;
+            indexType?: string;
             /** Format: int32 */
             length?: number;
+            listVisible?: boolean;
+            nullable?: boolean;
+            options?: components["schemas"]["OptionItem"][];
+            ownerColumn?: boolean;
             /** Format: int32 */
             precision?: number;
+            referenceColumn?: string;
+            referenceTable?: string;
+            required?: boolean;
             /** Format: int32 */
             scale?: number;
-            nullable?: boolean;
-            defaultValue?: string;
-            unique?: boolean;
-            required?: boolean;
+            searchType?: string;
             searchable?: boolean;
-            listVisible?: boolean;
-            index?: boolean;
-            indexType?: string;
-            indexGroup?: string;
             /** Format: int32 */
             sort?: number;
-            arrayElementType?: string;
-            searchType?: string;
-            dictCode?: string;
-            options?: components["schemas"]["OptionItem"][];
-            referenceTable?: string;
-            referenceColumn?: string;
-            displayExpression?: string;
             tenantColumn?: boolean;
-            ownerColumn?: boolean;
+            unique?: boolean;
         };
         MetaDTO: {
-            title: string;
-            icon: string;
-            showLink: boolean;
-            showParent: boolean;
-            roles: string[];
             auths: string[];
-            frameSrc: string;
-            isFrameSrcInternal: boolean;
-            /** Format: int32 */
-            rank: number;
-            extraIcon: components["schemas"]["ExtraIconDTO"];
-            keepAlive: boolean;
-            frameLoading: boolean;
-            transition: components["schemas"]["TransitionDTO"];
-            hiddenTag: boolean;
             /** Format: int32 */
             dynamicLevel: number;
+            extraIcon: components["schemas"]["ExtraIconDTO"];
+            frameLoading: boolean;
+            frameSrc: string;
+            hiddenTag: boolean;
+            icon: string;
+            isFrameSrcInternal: boolean;
+            keepAlive: boolean;
+            /** Format: int32 */
+            rank: number;
+            roles: string[];
+            showLink: boolean;
+            showParent: boolean;
+            title: string;
+            transition: components["schemas"]["TransitionDTO"];
         };
         MetaDataListRequest: {
+            /** Format: int32 */
+            currentPage: number;
             filters: {
                 [key: string]: Record<string, never>;
             };
-            /** Format: int32 */
-            currentPage: number;
-            /** Format: int32 */
-            pageSize: number;
             orderBy: string;
             orderDir: string;
+            /** Format: int32 */
+            pageSize: number;
             skipCount: boolean;
         };
         MetaTableCreateRequest: {
-            tableCode: string;
-            tableName: string;
+            columns: components["schemas"]["MetaColumnRequest"][];
             description?: string;
-            tablePrefix?: string;
             /** Format: int32 */
             status?: number;
-            columns: components["schemas"]["MetaColumnRequest"][];
+            tableCode: string;
+            tableName: string;
+            tablePrefix?: string;
         };
         MetaTableGenerateRequest: {
             backendDir: string;
-            frontendDir: string;
             basePath: string;
+            frontendDir: string;
             overwrite: boolean;
         };
         MetaTableGenerateResponse: {
             backendDir: string;
-            frontendDir: string;
             /** Format: int32 */
             files: number;
+            frontendDir: string;
         };
         MetaTableImportRequest: {
-            tableName: string;
-            displayName?: string;
             description?: string;
+            displayName?: string;
+            tableName: string;
         };
         MetaTableListRequest: {
-            keyword: string;
             /** Format: int32 */
             currentPage: number;
+            keyword: string;
             /** Format: int32 */
             pageSize: number;
         };
         MetaTableMigration: {
-            /** Format: int64 */
-            id: number;
-            /** Format: int64 */
-            creatorId: number;
+            changeType: string;
+            columnCode: string;
             /** Format: date-time */
             createTime: string;
             /** Format: int64 */
-            updaterId: number;
-            /** Format: date-time */
-            updateTime: string;
-            deleted: boolean;
-            /** Format: int64 */
-            tableId: number;
-            /** Format: int32 */
-            version: number;
-            changeType: string;
-            columnCode: string;
-            oldColumnCode: string;
-            oldType: string;
-            newType: string;
-            oldDefault: string;
-            newDefault: string;
+            creatorId: number;
             ddlSql: string;
-            status: string;
+            deleted: boolean;
             /** Format: date-time */
             executedAt: string;
-        };
-        MetaTableResponse: {
             /** Format: int64 */
             id: number;
-            tableCode: string;
-            tableName: string;
-            description: string;
-            tablePrefix: string;
+            newDefault: string;
+            newType: string;
+            oldColumnCode: string;
+            oldDefault: string;
+            oldType: string;
+            status: string;
+            /** Format: int64 */
+            tableId: number;
+            /** Format: date-time */
+            updateTime: string;
+            /** Format: int64 */
+            updaterId: number;
             /** Format: int32 */
-            status: number;
+            version: number;
+        };
+        MetaTableResponse: {
+            columns: components["schemas"]["MetaColumn"][];
+            /** Format: date-time */
+            createTime: string;
             /** Format: int64 */
             creatorId: number;
             creatorName: string;
+            description: string;
+            /** Format: int64 */
+            id: number;
+            /** Format: int32 */
+            status: number;
+            tableCode: string;
+            tableName: string;
+            tablePrefix: string;
             /** Format: date-time */
-            createTime: string;
+            updateTime: string;
             /** Format: int64 */
             updaterId: number;
             updaterName: string;
-            /** Format: date-time */
-            updateTime: string;
-            columns: components["schemas"]["MetaColumn"][];
         };
         MetaTableUpdateRequest: {
-            tableName: string;
+            columns?: components["schemas"]["MetaColumnRequest"][];
             description?: string;
+            force?: boolean;
             /** Format: int32 */
             status?: number;
-            columns?: components["schemas"]["MetaColumnRequest"][];
-            force?: boolean;
+            tableName: string;
         };
         NoticeCreateRequest: {
+            noticeContent?: string;
             noticeTitle: string;
             /** Format: int32 */
             noticeType?: number;
-            noticeContent?: string;
+            remark?: string;
             /** Format: int32 */
             status?: number;
-            remark?: string;
         };
         NoticeDeleteRequest: {
             /** Format: int64 */
@@ -3170,27 +3170,27 @@ export interface components {
         };
         NoticeResponse: {
             /** Format: int64 */
+            createTime: number;
+            /** Format: int64 */
             id: number;
+            noticeContent: string;
             noticeTitle: string;
             /** Format: int32 */
             noticeType: number;
-            noticeContent: string;
+            remark: string;
             /** Format: int32 */
             status: number;
-            remark: string;
-            /** Format: int64 */
-            createTime: number;
         };
         NoticeUpdateRequest: {
             /** Format: int64 */
             id: number;
+            noticeContent?: string;
             noticeTitle?: string;
             /** Format: int32 */
             noticeType?: number;
-            noticeContent?: string;
+            remark?: string;
             /** Format: int32 */
             status?: number;
-            remark?: string;
         };
         OnlineLogListRequest: {
             /** Format: int32 */
@@ -3200,78 +3200,78 @@ export interface components {
             username: string;
         };
         OnlineUserResponse: {
-            id: string;
-            username: string;
-            ip: string;
             address: string;
-            system: string;
             browser: string;
+            id: string;
+            ip: string;
             /** Format: int64 */
             loginTime: number;
+            system: string;
+            username: string;
         };
         OperationLogResponse: {
+            address: string;
+            browser: string;
             /** Format: int64 */
             id: number;
-            username: string;
-            module: string;
-            summary: string;
             ip: string;
-            address: string;
-            system: string;
-            browser: string;
-            /** Format: int32 */
-            status: number;
+            module: string;
             /** Format: int64 */
             operatingTime: number;
+            /** Format: int32 */
+            status: number;
+            summary: string;
+            system: string;
+            username: string;
         };
         OptionItem: {
             label: string;
             value: Record<string, never>;
         };
         PermissionMenuNode: {
-            /** Format: int64 */
-            id: number;
-            /** Format: int64 */
-            parentId: number;
-            name: string;
-            permission: string;
             button: boolean;
             children: components["schemas"]["PermissionMenuNode"][];
+            /** Format: int64 */
+            id: number;
+            name: string;
+            /** Format: int64 */
+            parentId: number;
+            permission: string;
         };
         PermissionUpdateRequest: {
             menuIds: number[];
         };
         PreviewChange: {
-            type: string;
+            action: string;
             columnCode: string;
-            oldColumnCode: string;
-            oldType: string;
-            newType: string;
-            oldDefault: string;
+            ddl: string[];
             newDefault: string;
-            oldNullable: boolean;
             newNullable: boolean;
+            newType: string;
+            oldColumnCode: string;
+            oldDefault: string;
+            oldNullable: boolean;
+            oldType: string;
+            type: string;
             /** Format: int64 */
             violations: number;
-            action: string;
-            ddl: string[];
         };
         PreviewColumn: {
+            audit: boolean;
             columnCode: string;
             comment: string;
-            audit: boolean;
             dataType: string;
+            indexed: boolean;
             /** Format: int32 */
             length: number;
             /** Format: int32 */
             precision: number;
+            required: boolean;
             /** Format: int32 */
             scale: number;
-            required: boolean;
-            unique: boolean;
-            indexed: boolean;
             /** Format: int32 */
             sort: number;
+            unique: boolean;
             warning: string;
         };
         RefreshTokenRequest: {
@@ -3279,27 +3279,27 @@ export interface components {
         };
         RefreshTokenResponse: {
             accessToken: string;
-            refreshToken: string;
             expires: string;
+            refreshToken: string;
         };
         ResponseResultString: {
             /** Format: int32 */
             code: number;
-            msg: string;
             data: string;
             message: string;
+            msg: string;
         };
         RoleCreateRequest: {
-            name: string;
             code: string;
+            name: string;
             remark?: string;
         };
         RoleDataScopeRequest: {
-            /** Format: int64 */
-            id: number;
             /** Format: int32 */
             dataScope: number;
             deptIds?: number[];
+            /** Format: int64 */
+            id: number;
         };
         RoleDeleteRequest: {
             /** Format: int64 */
@@ -3317,89 +3317,89 @@ export interface components {
             status: number;
         };
         RoleUpdateRequest: {
+            code?: string;
             /** Format: int64 */
             id: number;
             name?: string;
-            code?: string;
             remark?: string;
         };
         RouterDTO: {
+            children: components["schemas"]["RouterDTO"][];
+            meta: components["schemas"]["MetaDTO"];
             name: string;
             path: string;
-            meta: components["schemas"]["MetaDTO"];
-            children: components["schemas"]["RouterDTO"][];
         };
         SchedulerJobListRequest: {
             /** Format: int32 */
             currentPage: number;
+            jobGroup: string;
+            jobName: string;
             /** Format: int32 */
             pageSize: number;
-            jobName: string;
-            jobGroup: string;
             /** Format: int32 */
             status: number;
         };
         SchedulerJobResponse: {
-            /** Format: int64 */
-            id: number;
-            jobName: string;
-            jobGroup: string;
-            description: string;
             beanName: string;
-            methodName: string;
-            methodParams: string;
-            cron: string;
-            /** Format: int32 */
-            misfirePolicy: number;
             concurrent: boolean;
-            /** Format: int32 */
-            status: number;
             /** Format: date-time */
             createTime: string;
+            cron: string;
+            description: string;
+            /** Format: int64 */
+            id: number;
+            jobGroup: string;
+            jobName: string;
+            methodName: string;
+            methodParams: string;
+            /** Format: int32 */
+            misfirePolicy: number;
+            /** Format: int32 */
+            status: number;
             /** Format: date-time */
             updateTime: string;
         };
         SchedulerJobUpsertRequest: {
-            jobName: string;
-            jobGroup: string;
-            description: string;
             beanName: string;
+            concurrent: boolean;
+            cron: string;
+            description: string;
+            jobGroup: string;
+            jobName: string;
             methodName: string;
             methodParams: string;
-            cron: string;
             /** Format: int32 */
             misfirePolicy: number;
-            concurrent: boolean;
             /** Format: int32 */
             status: number;
         };
         SchedulerLogListRequest: {
             /** Format: int32 */
             currentPage: number;
-            /** Format: int32 */
-            pageSize: number;
             /** Format: int64 */
             jobId: number;
+            /** Format: int32 */
+            pageSize: number;
         };
         SchedulerLogResponse: {
+            beanName: string;
+            /** Format: int64 */
+            durationMs: number;
+            errorMessage: string;
+            /** Format: date-time */
+            finishedAt: string;
             /** Format: int64 */
             id: number;
+            jobGroup: string;
             /** Format: int64 */
             jobId: number;
             jobName: string;
-            jobGroup: string;
-            beanName: string;
             methodName: string;
             methodParams: string;
-            /** Format: int32 */
-            status: number;
-            errorMessage: string;
-            /** Format: int64 */
-            durationMs: number;
             /** Format: date-time */
             startedAt: string;
-            /** Format: date-time */
-            finishedAt: string;
+            /** Format: int32 */
+            status: number;
         };
         SchemaPreview: {
             changes: components["schemas"]["PreviewChange"][];
@@ -3407,51 +3407,51 @@ export interface components {
         };
         ServerInfoResponse: {
             cpu: Record<string, never>;
-            memory: Record<string, never>;
-            jvm: Record<string, never>;
-            os: Record<string, never>;
             disks: Record<string, never>;
             error: string;
+            jvm: Record<string, never>;
+            memory: Record<string, never>;
+            os: Record<string, never>;
         };
         SseEmitter: {
             /** Format: int64 */
             timeout: number;
         };
         TableImportPreview: {
-            tableName: string;
+            columns: components["schemas"]["PreviewColumn"][];
             comment: string;
             compatible: boolean;
-            reasons: string[];
-            columns: components["schemas"]["PreviewColumn"][];
             compositeIndexes: string[];
+            reasons: string[];
+            tableName: string;
         };
         TransitionDTO: {
-            name: string;
             enterTransition: string;
             leaveTransition: string;
+            name: string;
         };
         UploadFileResponse: {
             /** Format: int64 */
             fileId: number;
-            originalName: string;
-            url: string;
             /** Format: int64 */
             fileSize: number;
+            originalName: string;
+            url: string;
         };
         UserCreateRequest: {
-            username: string;
-            nickname: string;
-            phone?: string;
             /** Format: email */
             email?: string;
+            nickname: string;
+            /** Format: int64 */
+            parentId?: number;
+            password: string;
+            phone?: string;
+            remark?: string;
             /** Format: int32 */
             sex?: number;
             /** Format: int32 */
             status: number;
-            remark?: string;
-            /** Format: int64 */
-            parentId?: number;
-            password: string;
+            username: string;
         };
         UserDeleteRequest: {
             /** Format: int64 */
@@ -3463,39 +3463,39 @@ export interface components {
             newPwd: string;
         };
         UserResponse: {
-            /** Format: int64 */
-            userId: number;
-            /** Format: int64 */
-            roleId: number;
-            roleName: string;
-            /** Format: int64 */
-            deptId: number;
-            deptName: string;
-            username: string;
-            nickname: string;
-            /** Format: int32 */
-            userType: number;
-            email: string;
-            phoneNumber: string;
-            /** Format: int32 */
-            sex: number;
             avatar: string;
-            /** Format: int32 */
-            status: number;
-            loginIp: string;
-            /** Format: date-time */
-            loginDate: string;
-            /** Format: int64 */
-            creatorId: number;
-            creatorName: string;
             /** Format: date-time */
             createTime: string;
             /** Format: int64 */
-            updaterId: number;
-            updaterName: string;
+            creatorId: number;
+            creatorName: string;
+            /** Format: int64 */
+            deptId: number;
+            deptName: string;
+            email: string;
+            /** Format: date-time */
+            loginDate: string;
+            loginIp: string;
+            nickname: string;
+            phoneNumber: string;
+            remark: string;
+            /** Format: int64 */
+            roleId: number;
+            roleName: string;
+            /** Format: int32 */
+            sex: number;
+            /** Format: int32 */
+            status: number;
             /** Format: date-time */
             updateTime: string;
-            remark: string;
+            /** Format: int64 */
+            updaterId: number;
+            updaterName: string;
+            /** Format: int64 */
+            userId: number;
+            /** Format: int32 */
+            userType: number;
+            username: string;
         };
         UserRoleRequest: {
             /** Format: int64 */
@@ -3509,148 +3509,148 @@ export interface components {
             status: number;
         };
         UserUpdateRequest: {
+            email?: string;
             /** Format: int64 */
             id: number;
-            username?: string;
             nickname?: string;
+            /** Format: int64 */
+            parentId?: number;
             phone?: string;
-            email?: string;
+            remark?: string;
             /** Format: int32 */
             sex?: number;
             /** Format: int32 */
             status?: number;
-            remark?: string;
-            /** Format: int64 */
-            parentId?: number;
+            username?: string;
         };
         WebArticleCreateRequest: {
             /** Format: int64 */
             categoryId: number;
-            title: string;
-            summary?: string;
             content: string;
             /** Format: int64 */
             coverImageFileId?: number;
+            summary?: string;
+            title: string;
         };
         WebArticleDetailResponse: {
-            /** Format: int64 */
-            id: number;
-            title: string;
-            slug: string;
-            summary: string;
-            content: string;
-            /** Format: int64 */
-            coverImageFileId: number;
-            coverImageUrl: string;
             /** Format: int64 */
             categoryId: number;
             categoryName: string;
             categorySlug: string;
-            /** Format: date-time */
-            publishTime: string;
-            /** Format: date-time */
-            createTime: string;
-        };
-        WebArticleSummaryResponse: {
-            /** Format: int64 */
-            id: number;
-            title: string;
-            slug: string;
-            summary: string;
+            content: string;
             /** Format: int64 */
             coverImageFileId: number;
             coverImageUrl: string;
-            categoryName: string;
+            /** Format: date-time */
+            createTime: string;
+            /** Format: int64 */
+            id: number;
             /** Format: date-time */
             publishTime: string;
+            slug: string;
+            summary: string;
+            title: string;
+        };
+        WebArticleSummaryResponse: {
+            categoryName: string;
+            /** Format: int64 */
+            coverImageFileId: number;
+            coverImageUrl: string;
+            /** Format: int64 */
+            id: number;
+            /** Format: date-time */
+            publishTime: string;
+            slug: string;
+            summary: string;
+            title: string;
         };
         WebCategoryResponse: {
+            /** Format: int64 */
+            articleCount: number;
             /** Format: int64 */
             id: number;
             name: string;
             slug: string;
             /** Format: int32 */
             sortOrder: number;
-            /** Format: int64 */
-            articleCount: number;
         };
         WebChangePasswordRequest: {
-            oldPassword: string;
-            newPassword: string;
             confirmPassword: string;
+            newPassword: string;
+            oldPassword: string;
         };
         WebDashboardMetricsResponse: {
-            /** Format: int64 */
-            userTotal: number;
             /** Format: int64 */
             onlineNow: number;
             /** Format: int64 */
             todayLogin: number;
             /** Format: int64 */
             todayOperation: number;
+            /** Format: int64 */
+            userTotal: number;
         };
         WebLoginRequest: {
-            username: string;
             password: string;
+            username: string;
         };
         WebLoginResponse: {
+            accessToken: string;
+            avatar: string;
+            expires: string;
+            nickname: string;
+            refreshToken: string;
+            tokenName: string;
             /** Format: int64 */
             userId: number;
             username: string;
-            nickname: string;
-            avatar: string;
-            accessToken: string;
-            tokenName: string;
-            refreshToken: string;
-            expires: string;
         };
         WebLogoutRequest: {
             refreshToken: string;
         };
         WebNoticeResponse: {
-            /** Format: int64 */
-            id: number;
-            title: string;
             content: string;
-            /** Format: int32 */
-            noticeType: number;
             /** Format: date-time */
             createTime: string;
+            /** Format: int64 */
+            id: number;
+            /** Format: int32 */
+            noticeType: number;
+            title: string;
         };
         WebOperationLogResponse: {
             /** Format: int64 */
             id: number;
-            username: string;
             module: string;
-            summary: string;
             /** Format: date-time */
             operatingTime: string;
+            summary: string;
+            username: string;
         };
         WebPageResponseWebArticleSummaryResponse: {
-            list: components["schemas"]["WebArticleSummaryResponse"][];
-            /** Format: int64 */
-            total: number;
-            /** Format: int32 */
-            pageSize: number;
             /** Format: int32 */
             currentPage: number;
+            list: components["schemas"]["WebArticleSummaryResponse"][];
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int64 */
+            total: number;
         };
         WebRefreshTokenRequest: {
             refreshToken: string;
         };
         WebRegisterRequest: {
+            code: string;
+            confirmPassword: string;
             /** Format: email */
             email: string;
             password: string;
-            confirmPassword: string;
-            code: string;
         };
         WebResetPasswordRequest: {
+            code: string;
+            confirmPassword: string;
             /** Format: email */
             email: string;
-            code: string;
             newPassword: string;
-            confirmPassword: string;
         };
         WebSendVerificationCodeRequest: {
             /** Format: email */
@@ -3658,11 +3658,11 @@ export interface components {
             purpose: string;
         };
         WebUserProfileResponse: {
+            avatar: string;
+            nickname: string;
             /** Format: int64 */
             userId: number;
             username: string;
-            nickname: string;
-            avatar: string;
         };
     };
     responses: {
@@ -3673,11 +3673,11 @@ export interface components {
             };
             content: {
                 "application/json": {
-                    type: string;
-                    title: string;
-                    status: number;
                     detail: string;
                     instance: string;
+                    status: number;
+                    title: string;
+                    type: string;
                 };
             };
         };
