@@ -43,15 +43,15 @@ export const MenuTypeEnumLabel: Record<number, string> = {
   4: "外链跳转",
 };
 
-export const BlogArticleStatus = {
+export const CmsArticleStatus = {
   DRAFT: 0,
   PUBLISHED: 1,
   OFFLINE: 2,
 } as const;
 
-export type BlogArticleStatus = (typeof BlogArticleStatus)[keyof typeof BlogArticleStatus];
+export type CmsArticleStatus = (typeof CmsArticleStatus)[keyof typeof CmsArticleStatus];
 
-export const BlogArticleStatusLabel: Record<number, string> = {
+export const CmsArticleStatusLabel: Record<number, string> = {
   0: "草稿",
   1: "已发布",
   2: "已下线",
