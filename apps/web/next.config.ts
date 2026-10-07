@@ -41,13 +41,14 @@ const nextConfig: NextConfig = {
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
         ],
       },
-      // Pages get their nonce-based CSP from middleware.ts — a second, permissive policy here (unsafe-inline +
-      // unsafe-eval) used to ride along on every response. Routes the middleware skips are API/BFF endpoints
-      // that never render HTML, so they get the strictest policy.
-      {
-        source: "/api/:path*",
+      // Pages get their nonce-based CSP from middleware.ts. The middleware skips API routes, Next internals,
+      // static files and the robots / sitemap / RSS routes: none of them renders HTML, so the documents among them
+      // get the strictest policy (an XML feed is a document a browser can render). Never list a page route here —
+      // its nonce policy and this one would intersect and block its scripts.
+      ...["/api/:path*", "/robots.txt", "/sitemap.xml", "/rss.xml"].map((source) => ({
+        source,
         headers: [{ key: "Content-Security-Policy", value: "default-src 'none'; frame-ancestors 'none'" }],
-      },
+      })),
     ];
   },
 };

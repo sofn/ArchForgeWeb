@@ -75,5 +75,9 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|rss.xml|.*\\..*).*)"],
+  // Skip API routes, Next internals and static files — by extension. Skipping every path with a dot (as before)
+  // also skipped pages such as /en/articles/v1.2-release, which were then served with no CSP at all.
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|rss.xml|.*\\.(?:ico|png|jpe?g|gif|webp|avif|svg|txt|xml|json|webmanifest|js|css|map|woff2?|ttf)$).*)",
+  ],
 };
