@@ -5316,7 +5316,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": number;
+                    "application/json": string;
                 };
             };
             "4XX": components["responses"]["Error"];
