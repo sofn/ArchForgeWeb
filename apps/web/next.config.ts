@@ -39,12 +39,14 @@ const nextConfig: NextConfig = {
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "X-Frame-Options", value: "DENY" },
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
-          {
-            key: "Content-Security-Policy",
-            value:
-              "default-src 'self'; img-src 'self' data: blob: http: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self' http: https:; font-src 'self' data:;",
-          },
         ],
+      },
+      // Pages get their nonce-based CSP from middleware.ts — a second, permissive policy here (unsafe-inline +
+      // unsafe-eval) used to ride along on every response. Routes the middleware skips are API/BFF endpoints
+      // that never render HTML, so they get the strictest policy.
+      {
+        source: "/api/:path*",
+        headers: [{ key: "Content-Security-Policy", value: "default-src 'none'; frame-ancestors 'none'" }],
       },
     ];
   },
