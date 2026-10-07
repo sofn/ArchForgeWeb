@@ -8,3 +8,16 @@ allowBuilds:
   core-js-pure: true
   esbuild: true
   sharp: false
+
+# Security overrides for transitive dependencies flagged by `pnpm audit` (high/critical). Each pins a patched
+# release that is at least a week old; drop an entry once the parent package ships the fix itself.
+overrides:
+  "sharp@<0.35.5": 0.35.5 # via next (image optimisation, optional dependency)
+  "nanoid@>=3.0.0 <3.3.18": 3.3.19 # via postcss
+  "undici@>=8.0.0 <8.10.2": 8.11.2 # via jsdom (unit tests)
+  "brace-expansion@<1.1.20": 1.1.21 # eslint toolchain
+  "brace-expansion@>=2.0.0 <2.1.6": 2.1.7
+  "brace-expansion@>=4.0.0 <5.0.11": 5.0.12
+  "dot-prop@>=5.0.0 <5.1.1": 5.3.0 # via commitlint
+  "fast-uri@>=3.0.0 <3.1.7": 3.1.8 # via commitlint (ajv)
+  "js-yaml@>=4.0.0 <4.3.2": 4.3.2 # via commitlint (cosmiconfig)
