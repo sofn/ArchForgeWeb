@@ -21,3 +21,15 @@ overrides:
   "dot-prop@>=5.0.0 <5.1.1": 5.3.0 # via commitlint
   "fast-uri@>=3.0.0 <3.1.7": 3.1.8 # via commitlint (ajv)
   "js-yaml@>=4.0.0 <4.3.2": 4.3.2 # via commitlint (cosmiconfig)
+  # 1.2.2 was 6 days old when pinned (below the one-week rule) — accepted explicitly: sole long-time maintainer,
+  # build-time only (postcss / tailwind source maps).
+  "source-map-js@<1.2.2": 1.2.2
+
+# Audit exceptions. Each entry needs a reason and a review date; never add one to silence a fixable finding.
+auditConfig:
+  ignoreGhsas:
+    # braces <= 3.0.3: stack-exhaustion DoS on deeply nested patterns. No patched release exists yet (3.0.3 is
+    # the latest). Reached only through the ESLint toolchain (eslint-config-next -> fast-glob -> micromatch), never
+    # shipped. Review by 2026-11-07, or as soon as braces > 3.0.3 is published: then pin it under overrides and
+    # delete this entry.
+    - GHSA-vfj7-8cjw-p6xm
